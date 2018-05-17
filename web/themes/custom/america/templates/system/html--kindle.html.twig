@@ -1,0 +1,15 @@
+{% if node_title == "Manifest" %}
+  {{ page }}
+{% else %}
+<html>
+  <head>
+    <title>{{ node_title }}</title>
+    <meta name="description" content="{{ node_summary }}"/>
+    <meta name="author" content="{{ node_author }}">
+    <meta name="dc.date.issued" content="{{ america_date }}">  
+  </head>
+  <body>
+    {{ page }}
+  </body>
+</html>
+{% endif %}

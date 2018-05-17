@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - am_registration
+    - block_class
+    - user
+  theme:
+    - america
+third_party_settings:
+  block_class:
+    classes: one-time-login
+id: emaillogin_2
+theme: america
+region: Modal_login
+weight: -69
+provider: null
+plugin: registration_form_block
+settings:
+  id: registration_form_block
+  label: 'Email Login'
+  provider: am_registration
+  label_display: '0'
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      anonymous: anonymous
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

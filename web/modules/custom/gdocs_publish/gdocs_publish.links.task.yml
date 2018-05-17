@@ -1,0 +1,8 @@
+gdocs_publish.admin:
+  title: "GDocs Publish Settings"
+  route_name: gdocs_publish.admin
+  base_route: gdocs_publish.admin
+gdocs_publish.admin.list:
+  title: "View Published Documents"
+  route_name: gdocs_publish.list
+  base_route: gdocs_publish.admin

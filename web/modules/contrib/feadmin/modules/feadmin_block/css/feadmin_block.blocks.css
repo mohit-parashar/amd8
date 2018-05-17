@@ -1,0 +1,74 @@
+/* TOOLBAR STYLING */
+
+#feadmin-tool-feadmin_block .feadmin_block-block {
+  background: #f6f6f2 url(../misc/move.svg) no-repeat 3px center;
+  /*background-color: rgba(0, 0, 0, 0.105);
+  background-repeat: no-repeat;
+  background-position: 3px center;*/
+  cursor: pointer;
+  padding: 5px 5px 5px 25px;
+  margin: 5px 5px;
+  position: relative;
+  outline-width: 0;
+  border: 1px solid #0071b3;
+  border-radius: 5px;
+}
+#feadmin-tool-feadmin_block .feadmin_block-block a {
+  line-height: 20px;
+  color: #0071b3;
+}
+/*#feadmin-tool-feadmin_block .feadmin_block-block:nth-child(odd) {
+  background-color: rgba(0, 0, 0, 0.105);
+}
+#feadmin-tool-feadmin_block .feadmin_block-block:nth-child(even) {
+  background-color: rgba(0, 0, 0, 0.063);
+}
+#feadmin-tool-feadmin_block .feadmin_block-block:first-child {
+  border-top-width: 1px;
+}*/
+#feadmin-tool-feadmin_block input {
+  width: 95%;
+}
+
+/* In content block styling */
+.block-placeholder {
+  height: 3.5em;
+  line-height: 3.5em;
+  border: 2px dotted #B24926;
+  border-radius: 3px;
+  margin: 0.5em 0;
+  text-align: center;
+  color: #B24926;
+}
+div[data-block].draggable:hover,
+nav[data-block].draggable:hover {
+  border: 2px dotted #bbbbbb;
+  cursor: move;
+}
+[data-region] .empty-block {
+  background: #ffff66;
+  border: 1px dotted #9f9e00;
+  color: #000;
+  font: 90% "Lucida Grande", "Lucida Sans Unicode", sans-serif;
+  text-align: center;
+  text-shadow: none;
+}
+
+/* Custom configuration links */
+[data-block] .feadmin_block-links {
+  position: absolute;
+  right: 0;
+  top: 6px;
+  z-index: 500;
+}
+[data-block] .feadmin_block-links li {
+  background-image: url(../../images/core/icons/bebebe/pencil.svg);
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: 16px 16px;
+  height: 26px !important;
+  width: 26px !important;
+  text-indent: -9999px;
+  background-color: red;
+  display: inline-block;
+}

@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - am_registration
+    - block_class
+    - user
+  theme:
+    - america
+third_party_settings:
+  block_class:
+    classes: create-account
+id: createaccount
+theme: america
+region: Modal_login
+weight: -66
+provider: null
+plugin: create_account_form
+settings:
+  id: create_account_form
+  label: 'Create Account'
+  provider: am_registration
+  label_display: '0'
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      anonymous: anonymous
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

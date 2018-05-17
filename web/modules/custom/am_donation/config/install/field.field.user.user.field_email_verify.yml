@@ -1,0 +1,20 @@
+uuid: 4ec7ff44-8465-4fd0-9d2f-1209f749a0b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_email_verify
+  module:
+    - user
+id: user.user.field_email_verify
+field_name: field_email_verify
+entity_type: user
+bundle: user
+label: 'Email Verify'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

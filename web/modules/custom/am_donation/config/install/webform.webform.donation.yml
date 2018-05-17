@@ -1,0 +1,126 @@
+uuid: f6497dda-f738-4978-a63c-24c13357b85f
+langcode: en
+status: open
+dependencies:
+  enforced:
+    module:
+      - webform_templates
+_core:
+  default_config_hash: 3VKXolT2I7BZ0WXvvfwWf_lDDY76G0sNZVjtZ5OZ11g
+open: null
+close: null
+uid: null
+template: false
+id: donation
+title: Donation
+description: ''
+elements: "'#attributes':\n  class:\n    - form-info-wrap\nchoose_a_gift_type:\n  '#type': fieldset\n  '#title': 'Choose a Gift Type'\n  '#attributes':\n    class:\n      - 'gift-information-wrap sub-content-wrap'\n  payment_type:\n    '#type': radios\n    '#title': 'Payment type'\n    '#default_value': one-time\n    '#title_display': invisible\n    '#options':\n      one-time: One-time\n      monthly: Monthly\n    '#options_display': two_columns\nchoose_an_amount:\n  '#type': fieldset\n  '#title': 'Choose an Amount'\n  '#attributes':\n    class:\n      - 'gift-information-wrap sub-content-wrap'\n  amount:\n    '#type': webform_buttons\n    '#title': ''\n    '#default_value': '300'\n    '#attributes':\n      class:\n        - fixed-amount\n    '#options':\n      200: $200\n      300: $300\n      500: $500\n      1000: $1000\n  other_amount:\n    '#type': number\n    '#title': 'Other Amount'\n    '#title_display': invisible\n    '#placeholder': '$ Other Amount'\n    '#autocomplete': 'off'\n    '#wrapper_attributes':\n      class:\n        - variable-amount\n    '#format_items': comma\ncheckbox_region:\n  '#type': fieldset\n  '#title': ''\n  '#title_display': invisible\n  '#attributes':\n    class:\n      - designate-gift-textbox\n  gift_anonymous:\n    '#type': checkbox\n    '#title': 'Gift anonymous'\n    '#title_display': invisible\n    '#field_suffix': 'I prefer to make this gift anonymous'\n  designate_gift:\n    '#type': checkbox\n    '#title': 'Designate gift'\n    '#title_display': invisible\n    '#field_suffix': 'I want to designate this gift to'\n  choose_designation:\n    '#type': select\n    '#title': 'Choose designation'\n    '#title_display': invisible\n    '#options':\n      'America Films Project': 'America Films Project'\n      'Annual Associates Appeal': 'Annual Associates Appeal'\n      'Ignatian Spirituality': 'Ignatian Spirituality'\n      Other: Other\n    '#empty_option': 'Choose designation'\n    '#empty_value': 'null'\n  other_designation:\n    '#type': textfield\n    '#title': 'Other designation'\n    '#title_display': invisible\n    '#placeholder': 'Designation*'\n    '#wrapper_attributes':\n      class:\n        - clearfix\n    '#states':\n      visible:\n        ':input[name=\"choose_designation\"]':\n          value: Other\n      invisible:\n        '':\n          '': ''\n      required:\n        ':input[name=\"choose_designation\"]':\n          value: Other\n      optional:\n        '':\n          '': ''\n  comments:\n    '#type': textarea\n    '#title': Comments\n    '#title_display': invisible\n    '#rows': '7'\n    '#placeholder': 'Comments (optional)'\npersonal_information:\n  '#type': fieldset\n  '#title': 'Personal Information'\n  name:\n    '#type': webform_name\n    '#title': ''\n    '#required': true\n    '#title__access': false\n    '#first__title': ''\n    '#first__placeholder': 'Firstname*'\n    '#first__required': true\n    '#middle__access': false\n    '#last__title': ''\n    '#last__placeholder': 'Lastname*'\n    '#last__required': true\n    '#suffix__access': false\n    '#degree__access': false\n    '#flexbox': '0'\n    '#prefix': '<div class=\"row two-column\">'\n    '#suffix': '</div>'\n  phone:\n    '#type': phone\n    '#title': Phone\n  donor_email:\n    '#type': email\n    '#title': Email\n    '#title_display': invisible\n    '#placeholder': 'Email address*'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-8 col-sm-8 col-xs-12'\n    '#required': true\n    '#prefix': '<div class=\"row two-column\">'\n  donor_phone:\n    '#type': tel\n    '#title': phone\n    '#title_display': invisible\n    '#placeholder': 'Phone number'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-4 col-sm-4 col-xs-12'\n    '#suffix': '</div>'\n  print_subscription_number:\n    '#type': textfield\n    '#title': ''\n    '#placeholder': 'Print Subscription number'\nmailing_information:\n  '#type': fieldset\n  '#title': 'Mailing Address'\n  '#description': 'Because you&rsquo;ve chosen to donate $200 or more per year, you will receive a free subscription to our print magazine (or have your existing subscription automatically renewed).'\n  mailing_country:\n    '#type': select\n    '#title': 'Mailing country'\n    '#title_display': invisible\n    '#wrapper_attributes':\n      class:\n        - 'col-md-6 col-sm-6 col-xs-12'\n    '#options': country_codes\n    '#empty_option': 'Country*'\n    '#empty_value': none\n    '#required': true\n    '#prefix': '<div class=\"row\">'\n  mailing_address_1:\n    '#type': textfield\n    '#title': 'Mailing Address 1'\n    '#title_display': invisible\n    '#placeholder': 'Address Line 1*'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-12 col-sm-12 col-xs-12'\n    '#required': true\n  mailing_address_2:\n    '#type': textfield\n    '#title': 'Mailing Address 2'\n    '#title_display': invisible\n    '#placeholder': 'Address Line 2'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-12 col-sm-12 col-xs-12'\n    '#required': true\n    '#suffix': '</div>'\n  mailing_city:\n    '#type': textfield\n    '#title': 'Mailing city'\n    '#title_display': invisible\n    '#placeholder': 'City*'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-7 col-sm-7 col-xs-12'\n    '#required': true\n    '#prefix': '<div class=\"row three-column\">'\n  mailing_state:\n    '#type': select\n    '#title': 'Mailing state'\n    '#title_display': invisible\n    '#prefix': '<div class=\"col-md-5 col-sm-5 col-xs-12\">'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-6 col-sm-6 col-xs-12'\n    '#options': state_province_codes\n    '#empty_option': 'State*'\n    '#empty_value': none\n    '#states':\n      required:\n        ':input[name=\"mailing_country\"]':\n          value: 'United States'\n      optional:\n        '':\n          '': ''\n  mailing_province:\n    '#type': select\n    '#title': 'Mailing province'\n    '#title_display': invisible\n    '#wrapper_attributes':\n      class:\n        - 'col-md-6 col-sm-6 col-xs-12'\n    '#options': province_canada\n    '#empty_option': 'Province*'\n    '#empty_value': none\n    '#states':\n      required:\n        ':input[name=\"mailing_country\"]':\n          value: Canada\n      optional:\n        '':\n          '': ''\n  mailing_state_province:\n    '#type': textfield\n    '#title': 'Mailing state/province'\n    '#title_display': invisible\n    '#placeholder': 'State/Province*'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-6 col-sm-6 col-xs-12'\n    '#states':\n      optional:\n        ':input[name=\"mailing_country\"]':\n          value: Canada\n  mailing_postal_code:\n    '#type': textfield\n    '#title': 'Mailing postal code'\n    '#title_display': invisible\n    '#placeholder': 'Zip*'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-6 col-sm-6 col-xs-12'\n    '#required': true\n    '#suffix': '</div></div>'\npayment:\n  '#title': 'Payment Information'\n  '#type': fieldset\n  credit_card:\n    '#type': webform_creditcard\n    '#title': ''\n    '#required': true\n    '#warning__access': false\n    '#name__title': ''\n    '#name__placeholder': 'Name on Card*'\n    '#name__required': true\n    '#type__access': false\n    '#number__title': ''\n    '#number__placeholder': 'Credit Card Number*'\n    '#number__required': true\n    '#civ__title': ''\n    '#civ__placeholder': CSV\n    '#civ__required': true\n    '#expiration_month__title': ''\n    '#expiration_month__placeholder': 'Exp. month*'\n    '#expiration_month__required': true\n    '#expiration_year__title': ''\n    '#expiration_year__placeholder': 'Exp. year*'\n    '#expiration_year__required': true\n    '#flexbox': '0'\n  subscribers_automatic_renewable_program:\n    '#type': processed_text\n    '#text': \"<p><label>We will charge your credit card and enroll you in the Subscriber's Automatic Renewable Program described below.</label></p>\\n\"\n    '#format': full_html\n  different_billing_address:\n    '#type': checkbox\n    '#title': 'Different billing address'\n    '#title_display': invisible\n    '#description_display': after\n    '#field_suffix': '<span>My billing address is different than my mailing address.</span>'\nbilling:\n  '#type': fieldset\n  '#title': 'Billing Address'\n  '#states':\n    invisible:\n      ':input[name=\"different_billing_address\"]':\n        unchecked: true\n    visible:\n      ':input[name=\"different_billing_address\"]':\n        checked: true\n  billing_country:\n    '#type': select\n    '#title': 'Billing country'\n    '#title_display': invisible\n    '#wrapper_attributes':\n      class:\n        - 'col-md-6 col-sm-6 col-xs-12'\n    '#options': country_codes\n    '#empty_option': 'Country*'\n    '#empty_value': none\n    '#states':\n      required:\n        ':input[name=\"different_billing_address\"]':\n          checked: true\n      optional:\n        ':input[name=\"different_billing_address\"]':\n          unchecked: true\n    '#prefix': '<div class=\"row\">'\n  billing_address_1:\n    '#type': textfield\n    '#title': 'Billing Address 1'\n    '#title_display': invisible\n    '#placeholder': 'Address Line 1*'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-12 col-sm-12 col-xs-12'\n    '#states':\n      required:\n        ':input[name=\"different_billing_address\"]':\n          checked: true\n      optional:\n        ':input[name=\"different_billing_address\"]':\n          unchecked: true\n  billing_address_2:\n    '#type': textfield\n    '#title': 'Billing Address 2'\n    '#title_display': invisible\n    '#placeholder': 'Address Line 2'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-12 col-sm-12 col-xs-12'\n    '#suffix': '</div>'\n    '#states':\n      required:\n        ':input[name=\"different_billing_address\"]':\n          checked: true\n      optional:\n        ':input[name=\"different_billing_address\"]':\n          unchecked: true\n  billing_city:\n    '#type': textfield\n    '#title': 'Billing city'\n    '#title_display': invisible\n    '#placeholder': 'City*'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-7 col-sm-7 col-xs-12'\n    '#prefix': '<div class=\"row three-column\">'\n    '#states':\n      required:\n        ':input[name=\"different_billing_address\"]':\n          checked: true\n      optional:\n        ':input[name=\"different_billing_address\"]':\n          unchecked: true\n  billing_state:\n    '#type': select\n    '#title': 'Billing state'\n    '#title_display': invisible\n    '#wrapper_attributes':\n      class:\n        - 'col-md-6 col-sm-6 col-xs-12'\n    '#options': state_province_codes\n    '#empty_option': 'State*'\n    '#empty_value': none\n    '#states':\n      required:\n        ':input[name=\"different_billing_address\"]':\n          checked: true\n      optional:\n        ':input[name=\"different_billing_address\"]':\n          unchecked: true\n    '#prefix': '<div class=\"col-md-5 col-sm-5 col-xs-12\">'\n  billing_province:\n    '#type': select\n    '#title': 'Billing province'\n    '#title_display': invisible\n    '#wrapper_attributes':\n      class:\n        - 'col-md-6 col-sm-6 col-xs-12'\n    '#options': province_canada\n    '#empty_option': 'Province*'\n    '#empty_value': none\n    '#states':\n      required:\n        ':input[name=\"different_billing_address\"]':\n          checked: true\n      optional:\n        ':input[name=\"different_billing_address\"]':\n          unchecked: true\n  billing_state_province:\n    '#type': textfield\n    '#title': 'Billing state/province'\n    '#title_display': invisible\n    '#placeholder': 'State/Province*'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-6 col-sm-6 col-xs-12'\n    '#states':\n      required:\n        ':input[name=\"different_billing_address\"]':\n          checked: true\n      optional:\n        ':input[name=\"different_billing_address\"]':\n          unchecked: true\n  billing_postal_code:\n    '#type': textfield\n    '#title': 'Billing postal code'\n    '#title_display': invisible\n    '#placeholder': 'Zip*'\n    '#wrapper_attributes':\n      class:\n        - 'col-md-6 col-sm-6 col-xs-12'\n    '#suffix': '</div></div>'\n    '#states':\n      required:\n        ':input[name=\"different_billing_address\"]':\n          checked: true\n      optional:\n        ':input[name=\"different_billing_address\"]':\n          unchecked: true\ntotal:\n  '#type': processed_text\n  '#text': \"<div class=\\\"total-value onetime\\\">\\r\\n<h4>Total:$<span>100.00</span></h4>\\r\\n</div>\\r\\n\"\n  '#format': full_html\ntotal_monthly:\n  '#type': processed_text\n  '#text': \"<div class=\\\"total-value monthly\\\">\\r\\n<h4>Today you will be charged: $<span>100.00</span></h4>\\r\\n</div>\\r\\n\"\n  '#format': full_html\ntransaction_fee:\n  '#type': checkbox\n  '#title': 'Transaction fee'\n  '#title_display': invisible\n  '#field_suffix': 'I''d like to help cover the transaction fee on my gift'\ndonate_button:\n  '#type': processed_text\n  '#text': \"<div class=\\\"cornerButtenWrapper btn-subscribe-submit\\\">\\r\\n<div class=\\\"buttenWrapperInner redBg\\\"><input class=\\\"webform-button--submit button button--primary js-form-submit form-submit btn-primary btn\\\" data-drupal-selector=\\\"edit-submit\\\" id=\\\"process-donation\\\" name=\\\"op\\\" type=\\\"button\\\" value=\\\"Donate now\\\" /></div>\\r\\n</div>\\r\\n\\r\\n<p class=\\\"inline-block\\\"><span class=\\\"safe-checkout-link\\\"><img alt=\\\"\\\" height=\\\"20\\\" src=\\\"/themes/america/images/lock.png\\\" width=\\\"16\\\" />Guaranteed Safe Checkout</span></p>\\r\\n\"\n  '#format': full_html\nbsd_response:\n  '#type': textfield\n  '#title': 'BSD Response'\n  '#wrapper_attributes':\n    class:\n      - hidden\nbsd_error:\n  '#type': textfield\n  '#title': 'BSD Error'\n  '#wrapper_attributes':\n    class:\n      - hidden\nis_free_subscription_entitled:\n  '#type': textfield\n  '#title': 'is free subscription entitled'\n  '#default_value': '0'\n  '#wrapper_attributes':\n    class:\n      - hidden\nis_create_subscription:\n  '#type': textfield\n  '#title': 'is create subscription'\n  '#default_value': '0'\n  '#wrapper_attributes':\n    class:\n      - hidden\nis_renew_subscription:\n  '#type': textfield\n  '#title': 'is renew subscription'\n  '#default_value': '0'\n  '#wrapper_attributes':\n    class:\n      - hidden\nis_processed_via_cron:\n  '#type': textfield\n  '#title': 'is processed via cron'\n  '#default_value': '0'\n  '#wrapper_attributes':\n    class:\n      - hidden\nis_donation_success:\n  '#type': textfield\n  '#title': 'is donation success'\n  '#default_value': '0'\n  '#wrapper_attributes':\n    class:\n      - hidden\nsfs_create_response:\n  '#type': textfield\n  '#title': 'sfs create response'\n  '#wrapper_attributes':\n    class:\n      - hidden\nsfs_renew_response:\n  '#type': textfield\n  '#title': 'sfs renew response'\n  '#wrapper_attributes':\n    class:\n      - hidden\nis_sfs_address_updated:\n  '#type': textfield\n  '#title': 'is sfs address updated'\n  '#default_value': '0'\n  '#wrapper_attributes':\n    class:\n      - hidden\nsfs_address_update_response:\n  '#type': textfield\n  '#title': 'sfs address update response'\n  '#wrapper_attributes':\n    class:\n      - hidden\nmonthly_total_description:\n  '#type': processed_text\n  '#text': \"<div class=\\\"total-value monthly-total-message\\\">\\r\\n<p>You are signing up to be charged $<span>30</span> automatically each month. In the future if you would like to make changes to this gift, you can do through your account page.</p>\\r\\n</div>\\r\\n\"\n  '#format': full_html\nis_sfs_create_success:\n  '#type': textfield\n  '#title': 'is sfs create success'\n  '#default_value': '0'\n  '#wrapper_attributes':\n    class:\n      - hidden\nis_sfs_renew_success:\n  '#type': textfield\n  '#title': 'is sfs renew success'\n  '#default_value': '0'\n  '#wrapper_attributes':\n    class:\n      - hidden\nis_sfs_address_update_success:\n  '#type': textfield\n  '#title': 'is sfs address update success'\n  '#default_value': '0'\n  '#wrapper_attributes':\n    class:\n      - hidden\nsfs_order_id:\n  '#type': textfield\n  '#title': 'sfs order id'\n  '#wrapper_attributes':\n    class:\n      - hidden\nis_recurring_acknowledge:\n  '#type': textfield\n  '#title': 'is recurring acknowledge'\n  '#wrapper_attributes':\n    class:\n      - hidden\n"
+css: ''
+javascript: ''
+settings:
+  page: true
+  page_submit_path: ''
+  page_confirm_path: ''
+  form_submit_label: 'Donate now'
+  form_submit_once: false
+  form_submit_attributes: {  }
+  form_exception_message: ''
+  form_closed_message: ''
+  form_previous_submissions: true
+  form_confidential: false
+  form_confidential_message: ''
+  form_prepopulate: false
+  form_prepopulate_source_entity: false
+  form_disable_autocomplete: false
+  form_novalidate: true
+  form_unsaved: false
+  form_disable_back: false
+  form_autofocus: false
+  form_details_toggle: false
+  wizard_progress_bar: true
+  wizard_progress_pages: false
+  wizard_progress_percentage: false
+  wizard_next_button_label: ''
+  wizard_next_button_attributes: {  }
+  wizard_prev_button_label: ''
+  wizard_prev_button_attributes: {  }
+  wizard_start_label: ''
+  wizard_complete: true
+  wizard_complete_label: ''
+  preview: 0
+  preview_next_button_label: ''
+  preview_next_button_attributes: {  }
+  preview_prev_button_label: ''
+  preview_prev_button_attributes: {  }
+  preview_message: ''
+  draft: false
+  draft_auto_save: false
+  draft_button_label: ''
+  draft_button_attributes: {  }
+  draft_saved_message: ''
+  draft_loaded_message: ''
+  confirmation_type: page
+  confirmation_title: ''
+  confirmation_message: "<h2>Thank you!!!</h2>\r\n\r\n<p>Your donation was processed successfully!</p>"
+  confirmation_url: ''
+  confirmation_attributes: {  }
+  confirmation_back: true
+  confirmation_back_label: ''
+  confirmation_back_attributes: {  }
+  limit_total: null
+  limit_total_message: ''
+  limit_user: null
+  limit_user_message: ''
+  purge: none
+  purge_days: null
+  entity_limit_total: null
+  entity_limit_user: null
+  results_disabled: false
+  results_disabled_ignore: false
+  token_update: false
+access:
+  create:
+    roles:
+      - anonymous
+      - authenticated
+    users: {  }
+  view_any:
+    roles: {  }
+    users: {  }
+  update_any:
+    roles: {  }
+    users: {  }
+  delete_any:
+    roles: {  }
+    users: {  }
+  purge_any:
+    roles: {  }
+    users: {  }
+  view_own:
+    roles: {  }
+    users: {  }
+  update_own:
+    roles: {  }
+    users: {  }
+  delete_own:
+    roles: {  }
+    users: {  }
+handlers:
+  email_notification:
+    id: email
+    label: 'Email Notification'
+    handler_id: email_notification
+    status: false
+    weight: 1
+    settings:
+      to_mail: gaurav.agrawal@diaspark.com
+      cc_mail: ''
+      bcc_mail: ''
+      from_mail: '[webform_submission:values:email:raw]'
+      from_name: '[webform_submission:values:first_name] [webform_submission:values:last_name]'
+      subject: default
+      body: default
+      excluded_elements: {  }
+      html: true
+      attachments: false
+      debug: false

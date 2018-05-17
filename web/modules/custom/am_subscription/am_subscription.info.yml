@@ -1,0 +1,5 @@
+name: AM Subscription
+description: Manages user subscribtions and gift subscriptions from SFS.
+core: 8.x
+package: Custom
+type: module

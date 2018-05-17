@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function am_metered_paywall_statistics_schema() {
+
+$schema = array();
+
+$schema['am_paywall_statistics'] = array(
+  'description' => 'Subscription records.',
+  'fields' => array(
+    'id'       => array('type' => 'serial', 'not null' => TRUE),
+    'nid'       => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+    'registration'       => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+    'abandon'       => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+    'registration_contribute'       => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+    'abandon_contribute'       => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+    'created'   => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+  ),
+
+  'primary key' => array('id'),
+
+);
+
+return $schema;
+
+}

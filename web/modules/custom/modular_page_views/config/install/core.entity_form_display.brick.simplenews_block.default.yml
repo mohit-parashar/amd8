@@ -1,0 +1,29 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.simplenews_block
+    - field.field.brick.simplenews_block.field_simplenews
+id: brick.simplenews_block.default
+targetEntityType: brick
+bundle: simplenews_block
+mode: default
+content:
+  field_simplenews:
+    weight: 3
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+    type: entity_reference_autocomplete
+    region: content
+  title:
+    type: string_textfield
+    weight: -5
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+hidden: {  }

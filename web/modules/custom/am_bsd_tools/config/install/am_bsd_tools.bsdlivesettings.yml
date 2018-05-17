@@ -1,0 +1,28 @@
+bsd_api_key_value: '4df504193ddee06d5c1e744e641deafd629823f6'
+
+get_constituents_by_id: 'http://americamedia.cp.bsd.net/page/api/cons/get_constituents_by_id'
+get_constituents_by_email: 'http://americamedia.cp.bsd.net/page/api/cons/get_constituents_by_email'
+merge_constituents_by_email: 'http://americamedia.cp.bsd.net/page/api/cons/merge_constituents_by_email'
+set_constituent_data: 'http://americamedia.cp.bsd.net/page/api/cons/set_constituent_data'
+
+list_constituent_groups: 'http://americamedia.cp.bsd.net/page/api/cons_group/list_constituent_groups'
+remove_cons_ids_from_group: 'http://americamedia.cp.bsd.net/page/api/cons_group/remove_cons_ids_from_group'
+
+get_deferred_results: 'http://americamedia.cp.bsd.net/page/api/get_deferred_results'
+loe: 'https://americamedia.bsd.net/page/graph/loe'
+
+email_register: 'http://americamedia.cp.bsd.net/page/api/cons/email_register'
+email_delete: 'http://americamedia.cp.bsd.net/page/api/cons/email_delete'
+send_triggered_email: 'http://americamedia.cp.bsd.net/page/api/mailer/send_triggered_email'
+
+Charge: 'https://americamedia.cp.bsd.net/page/cde/Api/Charge/v1'
+get_by_token: 'https://americamedia.cp.bsd.net /page/api/contribution_recurring/get_by_token'
+
+donation_email: 'Ug'
+one_time_login_link: 'Vg'
+email_address_update: 'Uw'
+newslatter_subscribe: 'UA'
+contact_form_message: 'UQ'
+donation_error: 'VlAB'
+
+donation_error_email: 'webmaster@americamedia.org'

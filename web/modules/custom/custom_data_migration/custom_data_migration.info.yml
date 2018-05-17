@@ -1,0 +1,5 @@
+name: Custom Data Migration
+type: module
+description: This is a custom module for Data migration. Developed by Diaspark
+package: Custom
+core: 8.x

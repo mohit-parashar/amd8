@@ -1,0 +1,9 @@
+uuid: 30618d89-c271-448c-bde5-5d0d2b7b4b58
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.brick
+name: 'Contact form Reference'
+type: contact_form_reference
+description: ''

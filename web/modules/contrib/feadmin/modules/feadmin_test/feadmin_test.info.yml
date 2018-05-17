@@ -1,0 +1,13 @@
+name: Front-End Administration - Testing
+type: module
+description: 'This module defines a dummy tool, only needed for testing purpose of Front-End Administration.'
+package: Testing
+# core: 8.x
+dependencies:
+  - feadmin
+configure: 'feadmin.settings'
+# Information added by Drupal.org packaging script on 2016-03-11
+version: '8.x-1.0-rc5'
+core: '8.x'
+project: 'feadmin'
+datestamp: 1457680445

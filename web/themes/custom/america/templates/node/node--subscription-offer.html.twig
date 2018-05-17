@@ -1,0 +1,46 @@
+<div class="membership-page subscribing-member-page">
+	<div class="commonHeader bgColor padbot175">
+		<div class="page-header">
+			<div class="container">
+				<div class="row innerPageHeading">
+					<div class="col-md-12">
+						<h1 class="pageTitle">{{ label }}</h1>
+					</div>
+					<div class="subscribePage-right-img">
+						{% if is_image_exist %}
+							{{ content.field_image }}
+						{% else %}
+							{{ drupal_view('kindle_cover_image', 'block_1') }}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="commonHeaderDetail">
+			<div class="container">
+				<div class="row">
+					<div class="col-md-8 col-sm-8">
+						<div class="commonHeaderDesc">{{ content.body }}</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12 container-left">
+			<div class="col-md-8">
+				<div class="subscribe-m"> </div>
+				{% if node.field_subscription_offer_type.value == 'https://sfsdata.com/Amer/giftbogo.html' %}
+					{% set class_var = 'sfs-custom-iframe-wrapper' %}
+				{% else %}
+					{% set class_var = '' %}
+				{% endif %}
+					<div class="intrinsic-container-1 {{ class_var }}">
+					<iframe frameborder="0" height="100%" scrolling="yes" src="{{ node.field_subscription_offer_type.value }}?KEY={{ node.field_promo_key.value }}" width="100%" ></iframe>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,12 @@
+am_bsd_tools.bsdlivesettings_form:
+  title: 'BSD Live API'
+  route_name: am_bsd_tools.bsdlivesettings_form
+  description: 'BSD Live API Settings'
+  parent: system.admin_config_system
+  weight: 91
+am_bsd_tools.bsdtestsettings_form:
+  title: 'BSD Test API'
+  route_name: am_bsd_tools.bsdtestsettings_form
+  description: 'BSD Test API Settings'
+  parent: system.admin_config_system
+  weight: 99

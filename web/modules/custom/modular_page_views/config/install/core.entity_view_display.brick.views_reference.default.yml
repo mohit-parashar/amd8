@@ -1,0 +1,26 @@
+uuid: 3298ff02-16fd-45ec-aea0-4febbde66d18
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.views_reference
+    - field.field.brick.views_reference.field_views
+  module:
+    - viewfield
+id: brick.views_reference.default
+targetEntityType: brick
+bundle: views_reference
+mode: default
+content:
+  field_views:
+    weight: 0
+    label: hidden
+    settings:
+      view_title: hidden
+      always_build_output: '1'
+      empty_view_title: inline
+    third_party_settings: {  }
+    type: viewfield_default
+    region: content
+hidden:
+  title: true

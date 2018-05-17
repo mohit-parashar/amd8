@@ -1,0 +1,6 @@
+name: SFS Subscription API
+type: module
+description: Use SFS api to subscribe user and set user information in SFS system from drupal.
+package: BSD Tools
+version: '8.x-1.x'
+core: '8.x'

@@ -1,0 +1,11 @@
+<?php
+/**
+* @file
+* AM Newsletter integration
+*/
+/**
+ * Implements hook_page_attachments().
+ */
+/*function am_newsletter_page_attachments(array &$attachments) {
+  $attachments['#attached']['library'][] = 'am_my_account/email_preference';
+}*/

@@ -1,0 +1,23 @@
+uuid: ca9f3f2f-d126-4b32-946f-36bb15223590
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.contact_form_reference
+    - field.field.brick.contact_form_reference.field_contact_form
+id: brick.contact_form_reference.default
+targetEntityType: brick
+bundle: contact_form_reference
+mode: default
+content:
+  field_contact_form:
+    weight: 0
+    label: hidden
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden:
+  title: true

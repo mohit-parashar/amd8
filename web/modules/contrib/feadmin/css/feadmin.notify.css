@@ -1,0 +1,8 @@
+/** NOTIFICATIONS */
+.notifyjs-bootstrap-base.notifyjs-bootstrap-wait {
+  color: #3A87AD;
+  background-color: #D9EDF7;
+  border-color: #BCE8F1;
+  background-image: url('../misc/sablier.png');
+  background-position: 3px 9px;
+}

@@ -1,0 +1,23 @@
+uuid: 6f1b98a9-c38b-4f47-9c8f-b3d921a60377
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.full_html
+    - field.field.brick.full_html.field_html
+  module:
+    - text
+id: brick.full_html.default
+targetEntityType: brick
+bundle: full_html
+mode: default
+content:
+  field_html:
+    weight: 0
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    type: text_default
+    region: content
+hidden:
+  title: true

@@ -1,0 +1,8 @@
+<iframe{{ attributes }}{% if url is not empty %} src="{{ url }}{% if query is not empty %}?{{ query | url_encode }}{% endif %}"{% endif %} name="dataframe" id="iframeId"></iframe>
+<script type="text/javascript">
+	var url= '{{ url }}';
+	//window.frames['dataframe'].window.location.replace('https://google.com/');
+	document.getElementById('iframeId').contentWindow.location.reload();			
+</script>
+
+

@@ -1,0 +1,6 @@
+name: 'America Legacy'
+description: 'Maintains old ColdFusion URLs'
+package: 'Custom'
+core: 8.x
+version: 8.x-1.0
+type: module

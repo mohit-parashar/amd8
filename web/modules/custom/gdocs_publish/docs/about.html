@@ -1,0 +1,20 @@
+<h1 id="publishing-google-documents-to-drupal">Publishing Google Documents to Drupal</h1>
+<p>You can now publish Google Documents directly to Drupal, using the Drupal Publish add-on, available as a <a href="https://chrome.google.com/webstore/detail/drupalpublish/hgmlneddbkcoopmibclacpfkobaepobj">Google Docs add-on</a>.</p>
+<p>To use it, first install the add-on. Then, under the Add-ons menu, choose <code>DrupalPublish -&gt; Publish...</code>. This will bring up a dialog box:</p>
+<div class="figure">
+<img src="/sites/default/modules/gdocs_publish/docs/dialog.png" alt="Publish to Drupal dialog" height="174" width="500" style="height:174px"/>
+<p class="caption">Publish to Drupal dialog</p>
+</div>
+<p>The headline field will default to the title of your document; edit it if you want, but make sure not to use any HTML tags. Below that, select whether you are publishing an article or a blog post, and then click the Publish button.</p>
+<h2 id="drupal-hostname">Drupal Hostname</h2>
+<p>If you get a message that you must set the Drupal host name, choose <code>DrupalPublish -&gt; Set Drupal Host Name</code>, and in the dialog, enter <code>http://www.americamagazine.org/</code>.</p>
+<h2 id="html-testing">HTML testing</h2>
+<p>To test HTML conversion separately from Drupal publishing, use the <strong>Convert to HTML</strong> menu item. This will run the same HTML conversion routine used for Drupal publishing, but show the results in a popup window rather than publishing them. This function also activates logging to the script log.</p>
+<h2 id="drupal-tracking">Drupal tracking</h2>
+<p>Every publish action is logged, and visible on the <strong>Recent Log Messages</strong> page (<code>admin/reports/dblog</code>). The log message includes the node ID and headline as well as the title and ID of the Google Document, and the email of the user who published it. Filter the log messages for <code>gdocs_publish</code> to find them more easily.</p>
+<hr />
+<ul>
+<li><strong>Version</strong>: 5</li>
+<li><strong>Date</strong>: 20 December 2016</li>
+<li><strong>Author</strong>: <a href="ken@harmoni.ca">Ken Ficara</a></li>
+</ul>

@@ -1,0 +1,6 @@
+name: AM Metered Paywall
+description: A user may view only x number of pieces of `metered` content.
+core: 8.x
+package: Custom
+type: module
+configure: am_metered_paywall.settings_form

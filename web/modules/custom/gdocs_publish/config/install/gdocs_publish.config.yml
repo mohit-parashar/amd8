@@ -1,0 +1,7 @@
+gdocs_publish:
+  logging: true
+  display_errors: true
+  format: full_html
+  items_per_page: 25
+  default_author: 212611
+

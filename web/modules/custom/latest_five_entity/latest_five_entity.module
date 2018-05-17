@@ -1,0 +1,304 @@
+<?php
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\node\Entity\Node;
+use Drupal\field\FieldConfigInterface;
+use Drupal\latest_five_entity\Controller\articleExistController;
+// use Drupal\latest_five_entity\Controller\articleInsertController;
+// use Drupal\latest_five_entity\Controller\articleGetInsertDeltaController;
+// use Drupal\latest_five_entity\Controller\articleDeleteController;
+
+/** 
+ * @author Vishal Sirsodiya <vishal.sirsodiya@diaspark.com>
+ * @method hook latest_five_entity_entity_insert(object $entity) latest five entity insert for front page.
+ * @param object $entity entity object.
+ * @version 1.0
+ */
+function latest_five_entity_entity_postinsert(Drupal\Core\Entity\EntityInterface $entity) {
+		  return true; 
+		 // Insert the new entity into a fictional table of all entities.
+	    if ( 
+	          ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'article') ||
+	          ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'book_review') ||     
+	          ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'word') ||
+	          ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'video') ||
+	          ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'podcast')
+	       ){
+	       		// Check if Node is published
+	       		$is_published = $entity->isPublished();
+				
+				// Check field_exclude_from_latest boolean
+				$is_excluded = $entity->get('field_exclude_from_latest')->getValue();
+				$is_excluded = $is_excluded[0]['value'];
+				
+				// Node is published and not excluded from Latest From America Module.
+				if ($is_published == 1 && $is_excluded == 0 && $entity->id()){
+					// Get the channel term 
+					$channel = $entity->get('field_channel')->getValue();
+					// Get the paragraph Id based on Channel term
+					$modular_page_paragraph_id = getParaId($channel[0]['target_id']);
+					// Loop twice to update LFA for Homepage and Channel Page, here 24 is paragraph Id for Homepage					
+					$ids = array('24', $modular_page_paragraph_id);
+
+                    // Check if node exist in paragraphs
+                    $articleExistController = new articleExistController;
+					
+					foreach ($ids as $id) {
+
+                        $status = $articleExistController->exists($entity->id(),$id);
+                            if($status == FALSE){
+                            // If article is not in the paragraph 
+        			        // get module page pragraph data.
+        			        $paraData = getModulePageParagraphData($id);
+							// echo "<pre>";print_r($paraData);
+							// echo "count";print_r(count($paraData));die();
+        				        if(count($paraData)>0){
+        				          $first_record = $paraData[0];
+        				          $first_record['field_lfa_title_target_id'] = $entity->id();
+        				          $first_record['delta'] = '-1';
+        				          array_unshift($paraData, $first_record);
+        				          // call action method.
+        				          actionModulePageParagraphData($paraData);
+        				          // drupal_flush_all_caches();
+        				          pageCacheClear(); 
+        						}else{
+        				          // $articleGetInsertDeltaController = new articleGetInsertDeltaController;
+                      //             $articleGetInsertDeltaController->getDelta($id);
+        				          // // drupal_flush_all_caches();
+        				          // pageCacheClear();
+        						}
+        					}
+                    }//Foreach Ends
+						
+			        } 
+	    }
+ 
+}
+
+/** 
+ * @author Vishal Sirsodiya <vishal.sirsodiya@diaspark.com>
+ * @method hook latest_five_entity_entity_insert(object $entity) latest five entity insert for front page.
+ * @param object $entity entity object.
+ * @version 1.0
+ */
+function latest_five_entity_entity_postupdate(Drupal\Core\Entity\EntityInterface $entity) {
+			 return true; 
+		 // Insert the new entity into a fictional table of all entities.
+	    if ( 
+	          ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'article') ||
+	          ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'book_review') ||     
+	          ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'word') ||
+	          ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'video') ||
+	          ($entity->getEntityTypeId() === 'node' && $entity->bundle() === 'podcast')
+	       ){
+	       		// Check if Node is published
+	       		$is_published = $entity->isPublished();
+				
+				// Check field_exclude_from_latest boolean
+				$is_excluded = $entity->get('field_exclude_from_latest')->getValue();
+				$is_excluded = $is_excluded[0]['value'];
+				
+				// Node is published and not excluded from Latest From America Module.
+				if ($is_published == 1 && $is_excluded == 0 && $entity->id()){
+					// Get the channel term 
+					$channel = $entity->get('field_channel')->getValue();
+					// Get the paragraph Id based on Channel term
+					$modular_page_paragraph_id = getParaId($channel[0]['target_id']);
+					// Loop twice to update LFA for Homepage and Channel Page, here 24 is paragraph Id for Homepage					
+					$ids = array('24', $modular_page_paragraph_id);
+
+                    // Check if node exist in paragraphs
+                    $articleExistController = new articleExistController;
+					
+					foreach ($ids as $id) {
+
+                        $status = $articleExistController->exists($entity->id(),$id);
+                            if($status == FALSE){
+                            // If article is not in the paragraph 
+        			        // get module page pragraph data.
+        			        $paraData = getModulePageParagraphData($id);
+        				        if(count($paraData)>0){
+        				          $first_record = $paraData[0];
+        				          $first_record['field_lfa_title_target_id'] = $entity->id();
+        				          $first_record['delta'] = '-1';
+        				          array_unshift($paraData, $first_record);
+        				          // call action method.
+        				          actionModulePageParagraphData($paraData);
+        				          // drupal_flush_all_caches();
+        				          pageCacheClear(); 
+        						}
+        					}
+                    }//Foreach Ends
+						
+			        }elseif ($is_published == 0 || $is_excluded == 1 && $entity->id()) {
+						// $articleDeleteController = new articleDeleteController;
+      					// $articleDeleteController->delete($entity->id());
+						// // drupal_flush_all_caches();
+        				// pageCacheClear();
+					} 
+	    }
+ 
+}
+
+/**
+ * 
+ */
+function pageCacheClear(){
+    $db = \Drupal::database();
+    $db->delete('cache_data')->execute();
+    $db->delete('cache_default')->execute();
+    $db->delete('cache_dynamic_page_cache')->execute();
+    $db->delete('cache_entity')->execute();
+    $db->delete('cache_render')->execute();
+}
+
+/**
+ * @author Vishal Sirsodiya <vishal.sirsodiya@diaspark.com>
+ * @method function getModulePageParagraphData() Get module page paragraph data.
+ * @version 1.0
+ */
+function getModulePageParagraphData($modular_page_paragraph_id){
+     return true; // to avoid unpublished data to push 
+    // $modular_page_id = 1;
+    // $modular_page_paragraph_id = 24; 
+    $para_data = array();
+    $db = \Drupal::database();
+    $data = $db->select('paragraph__field_lfa_title','t')->fields('t')->condition('t.entity_id', $modular_page_paragraph_id)->execute();
+    while($rows = $data->fetchAssoc()){
+        $para_data[] = $rows;   
+    }
+    return  $para_data;
+}
+/**
+ * @author Vishal Sirsodiya <vishal.sirsodiya@diaspark.com>
+ * @method function actionModulePageParagraphData() Perform action like update or insert.
+ * @param array $paraData node rows array.
+ * @version 1.0
+ */
+function actionModulePageParagraphData($paraData){
+	return true;
+    if(count($paraData)>0){
+        foreach($paraData AS $key=>$value){
+          updateModulePageParagraphData($value);
+        }
+    }
+}
+/**
+ * @author Vishal Sirsodiya <vishal.sirsodiya@diaspark.com>
+ * @method function checkModulePageParagraphData() Check entity records.
+ * @param array $data node rows array.
+ * @return bool true/false.
+ * @version 1.0
+ */
+function checkModulePageParagraphData($data){
+    return true;
+	$db = \Drupal::database();
+    $data = $db->select('paragraph__field_lfa_title','t')
+            ->fields('t')
+            ->condition('t.entity_id', $data['entity_id'])
+            ->condition('t.field_lfa_title_target_id', $data['field_lfa_title_target_id'])
+            ->execute();
+    $insert = true;
+    while($rows = $data->fetchAssoc()){
+        $insert = false;
+    }
+    return $insert;
+}
+
+/**
+ * @author Vishal Sirsodiya <vishal.sirsodiya@diaspark.com>
+ * @method function updateModulePageParagraphData() Update entity records.
+ * @param array $data node rows array.
+ * @version 1.0
+ */
+function updateModulePageParagraphData($data){
+	return true;
+    $db = \Drupal::database();
+    $bundle = $data['bundle'];
+    $deleted = $data['deleted'];
+    $entity_id = $data['entity_id'];
+    $revision_id = $data['revision_id'];
+    $langcode = $data['langcode'];
+    $delta = $data['delta']+1;
+    $field_lfa_title_target_id = $data['field_lfa_title_target_id'];
+    
+    /***********************************************************/
+    $query = \Drupal::database()->update('paragraph__field_lfa_title');
+    $query->fields([
+      'field_lfa_title_target_id' => $field_lfa_title_target_id
+    ]);
+    $query->condition('entity_id', $entity_id);
+    $query->condition('delta', $delta);
+    $query->execute();
+    
+    /***********************************************************/
+    // for revision table.
+    $query_rev = \Drupal::database()->update('paragraph_revision__field_lfa_title');
+    $query_rev->fields([
+      'field_lfa_title_target_id' => $field_lfa_title_target_id
+    ]);
+    $query_rev->condition('entity_id', $entity_id);
+    $query_rev->condition('delta', $delta);
+    $query_rev->execute();
+    /***********************************************************/
+}
+/**
+ * @author Vishal Sirsodiya <vishal.sirsodiya@diaspark.com>
+ * @method function insertModulePageParagraphData() Insert entity records.
+ * @param array $data node rows array.
+ * @version 1.0
+ * @uses False Currently this function not use.
+ */
+function insertModulePageParagraphData($data){
+	return true;
+    $db = \Drupal::database();
+    $bundle = $data['bundle'];
+    $deleted = $data['deleted'];
+    $entity_id = $data['entity_id'];
+    $revision_id = $data['revision_id'];
+    $langcode = $data['langcode'];
+    $delta = $data['delta']+1; // increase delta.
+    $field_lfa_title_target_id = $data['field_lfa_title_target_id'];
+    
+    $query = \Drupal::database()->insert('paragraph__field_lfa_title');
+    $query->fields(['bundle','deleted', 'entity_id', 'revision_id', 'langcode', 'delta', 'field_lfa_title_target_id']);
+    $query->values(['$bundle',$deleted, $entity_id, $revision_id, '$langcode', $delta, $field_lfa_title_target_id]);
+    $query->execute();    
+}
+/**
+ * @author Vishal Sirsodiya <vishal.sirsodiya@diaspark.com>
+ * @method function deleteModulePageParagraphData() Insert entity records.
+ * @param array $data node rows array.
+ * @version 1.0
+ * @uses False Currently this function not use.
+ */
+function deleteModulePageParagraphData($data){
+    
+}
+
+/**
+ * @author Gaurav Agrawal <gaurav.agrawal@diaspark.com>
+ * @method function getParaId() get paragraph id based on channel id.
+ * @param $channel_id -> Taxonomy Id/ Channel Id
+ * @version 1.0
+ * @uses False Currently this function not use.
+ */
+ function getParaId($channel_id){
+ 		return true;
+    	switch ($channel_id) {
+						case '1108':
+							$modular_page_paragraph_id = 241; //Politics & Society Live
+							break;
+						case '1109':
+							$modular_page_paragraph_id = 245; //Faith Live
+							break;
+						case '1110':
+							$modular_page_paragraph_id = 244; //Arts & Culture Live
+							break;
+						default:
+							$modular_page_paragraph_id = 24;
+							break;
+					}
+		
+		return $modular_page_paragraph_id;
+}
+ 

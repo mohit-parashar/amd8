@@ -1,0 +1,6 @@
+am_subscription.record_subscription:
+  path: '/subscription/record-subscription/ajax'
+  defaults:
+    _controller: '\Drupal\am_subscription\Controller\SubscriptionController::record_subscription'
+  requirements:
+    _permission: 'access content'

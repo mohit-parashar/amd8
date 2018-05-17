@@ -1,0 +1,7 @@
+name: AM Metered Paywall Statistics
+description: Paywall registration statistics
+core: 8.x
+package: Custom
+type: module
+dependencies:
+  - am_metered_paywall

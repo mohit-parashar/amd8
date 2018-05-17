@@ -1,0 +1,29 @@
+{% if content %}
+{% set id = random() %}
+<div {{ attributes }}>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs mb-3 mytabs">
+  {% for region in layout.getRegionNames if content[region] %}
+    <li class="{{ loop.first ? 'active' }}">
+      <a class="nav-item nav-link " data-toggle="tab" href="#tab-{{ id }}-{{ region }}">
+        {{ content[region]['#label'] }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+  {% for region in layout.getRegionNames if content[region] %}
+  <div class="tab-pane {{ loop.first ? 'active' }}" id="tab-{{ id }}-{{ region }}">
+    {{ content[region] }}
+  </div>
+  {% endfor %}
+</div>
+
+</div>
+{% endif %}
+
+
+

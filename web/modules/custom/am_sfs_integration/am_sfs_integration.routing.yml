@@ -1,0 +1,45 @@
+am_sfs_integration.sfssettings_form:
+  path: '/admin/config/sfssettings'
+  defaults:
+    _form: '\Drupal\am_sfs_integration\Form\SFS\SFSSettingsForm'
+    _title: 'SFS API Settings'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+am_sfs_integration.set_subscription_data:
+  path: '/am_sfs_integration/set_subscription_data'
+  defaults:
+    _controller: '\Drupal\am_sfs_integration\Controller\amSfsIntegrationController::setSubscriptionData'
+  requirements:
+    _permission: 'access content'
+am_sfs_integration.verify_customer_data:
+  path: '/am_sfs_integration/verify_customer_data'
+  defaults:
+    _controller: '\Drupal\am_sfs_integration\Controller\amSfsIntegrationController::verifyCustomerData'
+  requirements:
+    _permission: 'access content'
+am_sfs_integration.verify_customer_number:
+  path: '/am_sfs_integration/verify_customer_number'
+  defaults:
+    _controller: '\Drupal\am_sfs_integration\Controller\amSfsIntegrationController::verifyCustomerNumber'
+  requirements:
+    _permission: 'access content'
+am_sfs_integration.renew_subscription:
+  path: '/am_sfs_integration/renew_subscription'
+  defaults:
+    _controller: '\Drupal\am_sfs_integration\Controller\amSfsIntegrationController::renewSubscription'
+  requirements:
+    _permission: 'access content'
+am_sfs_integration.update_address:
+  path: '/am_sfs_integration/update_address'
+  defaults:
+    _controller: '\Drupal\am_sfs_integration\Controller\amSfsIntegrationController::updateAddress'
+  requirements:
+    _permission: 'access content'
+am_sfs_integration.get_cust_by_orderno:
+  path: '/am_sfs_integration/get_cust_by_order_no'
+  defaults:
+    _controller: '\Drupal\am_sfs_integration\Controller\amSfsIntegrationController::getCustByOrderNo'
+  requirements:
+    _permission: 'access content'

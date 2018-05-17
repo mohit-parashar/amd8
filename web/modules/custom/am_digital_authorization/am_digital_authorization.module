@@ -1,0 +1,125 @@
+<?php
+/**
+ * @file.
+ * Module file for digital authorization.
+ */
+
+use Drupal\am_digital_authorization\Controller\DigitalAuthorization;
+use Drupal\am_registration\Controller\SFS\VerifyUserSubscriptionNumber;
+
+
+/**
+ * template_preprocess_views_view_table().
+ */
+function am_digital_authorization_preprocess_views_view_table(&$variables) {
+  $view = $variables['view'];
+
+  if ($view->id() == 'magazine' && ($view->current_display == 'block_5' || $view->current_display == 'block_3' )) {
+    // Cache::invalidateTags($view->getCacheTags());
+    \Drupal::service('cache_tags.invalidator')->invalidateTags($view->getCacheTags());
+
+    $uid = \Drupal::currentUser()->id();
+    $current_user_roles = \Drupal::currentUser()->getRoles();
+    $user = \Drupal\user\Entity\User::load($uid);
+    $pns = $user->field_print_subscription_number->value;
+    $sfs_order_id = $user->field_sfs_order_id->value;
+
+    $variables['is_subscriber'] = FALSE;
+    if (in_array('administrator', $current_user_roles) || in_array('subscriber', $current_user_roles) || isset($pns) || isset($sfs_order_id)) {
+
+      $connection = \Drupal::service('database');
+      $query = $connection->query("SELECT hash, created FROM {am_digital_authorization} WHERE uid = :uid", array(':uid' => $uid));
+      $result = $query->fetchObject();
+      $hash = $result->hash;
+      
+      if ($result) {
+        if (strtotime("+7 day", $result->created) < time())  {
+
+          $hash = $hash = createHash();
+
+          $connection->update('am_digital_authorization')
+            ->fields([
+              'hash' => $hash,
+              'created' => time(),
+            ])
+            ->condition('uid', $uid, '=')
+            ->execute();
+        }
+      }
+      else {
+        $hash = createHash();
+        $values = 
+          [
+            'uid' => $uid,
+            'hash' => $hash,
+            'created' => time(),
+          ];
+        // Insert hash to database.
+        $query = $connection->insert('am_digital_authorization')->fields(['uid', 'hash', 'created']);
+        $query->values($values);
+        $query->execute();
+      }
+
+      $variables['is_subscriber'] = TRUE;
+      $variables['auth_hash'] = $hash;
+      $variables['auth_id'] = $uid;
+    }
+    elseif ($uid) {
+      $variables['auth_id'] = $uid;
+    }
+    
+    $config = \Drupal::config('digitedition.settings');
+    $variables['publisher_id'] = $config->get('publisher_id');
+    $variables['publication_id'] =$config->get('publication_id');
+    $help_text = $config->get('dp_help_text');
+    $variables['help_text'] = isset($help_text['value']) ? $help_text['value'] : '';
+
+    if ($view->current_display == 'block_3') {
+      $nid = isset($view->args[0]) ? $view->args[0] : '';
+      $node = \Drupal\node\Entity\Node::load($nid);
+      $variables['pagepro_digital_edition_id'] = $node->get('field_pagepro_digital_edition_id')->value;
+    }
+  }
+}
+
+/**
+ * Helper function to create user hash.
+ */
+function createHash() {
+  $hash_options = [
+    'cost' => 11,
+  ];
+  $hash = password_hash("americamagazine", PASSWORD_BCRYPT, $hash_options);
+
+  return $hash;
+}
+
+/**
+ * Implements hook_entity_view().
+
+function am_digital_authorization_entity_view(array &$build, \Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display, $view_mode) {
+ 
+  if (\Drupal::service('path.current')->getPath() == '/sections/current-issue') {
+  	$current_user = \Drupal::currentUser();
+		$user = \Drupal\user\Entity\User::load($current_user->id());
+		$psn = $user->get('field_print_subscription_number')->value;
+
+		if ($psn) {
+	  	$sfs = new	VerifyUserSubscriptionNumber;
+	  	$response = $sfs->verifyPsnAndCustData();
+
+			if ($response['valid']) {
+				$cid = 'am_digital_authorization_sfs_' . $current_user->id() . ':' . \Drupal::languageManager()->getCurrentLanguage()->getId();
+				$data = NULL;
+				if ($cache = \Drupal::cache()->get($cid)) {
+				  $data = $cache->data;
+				}
+				else {
+				  $data = $response;
+				  \Drupal::cache()->set($cid, $data);
+				}
+			}
+		}
+  }
+}
+ */

@@ -1,0 +1,19 @@
+<?php
+/**
+* @file
+* BSD API integration
+*/
+/*namespace vendor;
+
+use Blue\Tools\Api\Client;
+use vendor\phpunit\phpunit\PHPUnit\Framework;
+use GuzzleHttp\Message\Response;
+use GuzzleHttp\Stream\Stream;
+use GuzzleHttp\Subscriber\Mock;
+use InvalidArgumentException;
+use PHPUnit_Framework_TestCase;
+use RuntimeException;
+
+function am_bsd_tools_preprocess_page(){
+die('hhhh');
+}*/

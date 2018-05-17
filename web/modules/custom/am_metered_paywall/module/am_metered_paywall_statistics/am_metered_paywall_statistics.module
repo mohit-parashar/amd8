@@ -1,0 +1,116 @@
+<?php
+
+/**
+ * Implements hook_views_data().
+ */
+function am_metered_paywall_statistics_views_data() {
+  $data = [];
+  // Base data.
+  $data['am_paywall_statistics']['table']['group'] = t('Paywall statistics');
+  $data['am_paywall_statistics']['table']['base'] = [
+    'title' => t('Paywall statistics'),
+    'help' => t('Paywall statistics.'),
+  ];
+
+  // Fields.
+  $data['am_paywall_statistics']['id'] = [
+    'title' => t('Id'),
+    'help' => t('Auto incretemnt id.'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['am_paywall_statistics']['nid'] = [
+    'title' => t('Node id'),
+    'help' => t('Pawyall node id.'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['am_paywall_statistics']['registration'] = [
+    'title' => t('Paywall registration'),
+    'help' => t('Paywall registration.'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+
+  ];
+
+  $data['am_paywall_statistics']['abandon'] = [
+    'title' => t('Paywall abandon'),
+    'help' => t('Paywall abandon.'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['am_paywall_statistics']['registration_contribute'] = [
+    'title' => t('Registration contribute'),
+    'help' => t('Paywall registration contribute.'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['am_paywall_statistics']['abandon_contribute'] = [
+    'title' => t('Abandon contribute'),
+    'help' => t('Paywall abandon contribute.'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['am_paywall_statistics']['created'] = [
+    'title' => t('Created date'),
+    'help' => t('Created date'),
+    'field' => [
+      'id' => 'date',
+    ],
+    'sort' => [
+      'id' => 'date',
+    ], 
+    'filter' => [
+      'id' => 'date',
+    ],
+  ];
+
+  return $data;
+}

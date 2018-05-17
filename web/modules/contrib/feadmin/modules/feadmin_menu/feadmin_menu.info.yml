@@ -1,0 +1,13 @@
+name: Front-End Administration - Menu
+type: module
+description: 'Activates Front-End Administration capacities for menus.'
+package: Experimental
+# core: 8.x
+dependencies:
+  - feadmin
+configure: 'feadmin.settings'
+# Information added by Drupal.org packaging script on 2016-03-11
+version: '8.x-1.0-rc5'
+core: '8.x'
+project: 'feadmin'
+datestamp: 1457680445

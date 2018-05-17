@@ -1,0 +1,389 @@
+<?php
+
+/**
+ * @file
+ * Alter forms using the Forms API.
+ */
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\ChangedCommand;
+use Drupal\Core\Ajax\CssCommand;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\Core\Entity;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Render\Element;
+use Drupal\views\ViewExecutable;
+/**
+ * Implements hook_form_alter().
+ */
+function article_custom_form_alter(array &$form, FormStateInterface $form_state, $form_id) { 
+
+  if ($form_id == 'views_exposed_form' && $form['#id'] == 'views-exposed-form-magazine-page-1') {
+     $year = (int) date("Y");
+     $year1 = $year + 1;
+     $startYear = 2000;
+     $yearArray = array();
+     for ($i=$startYear; $i <= $year; $i++) { 
+       $yearArray[$i] = $i;
+     }
+     // Change date plain text field into year select box.
+     unset($form['field_iss_date_value']['#title']);
+     unset($form['field_iss_date_value']['#size']);
+     $form['field_iss_date_value']['#type'] = 'select';
+     $form['field_iss_date_value']['#options'] = $yearArray;
+     $form['field_iss_date_value']['#default_value'] = $year;
+     $form['field_iss_date_value']['#attributes']['class'][] = 'selectpicker';
+  }
+  // Search page.
+  if ($form_id == 'views_exposed_form' && $form['#id'] == 'views-exposed-form-search-term-page-1') {
+    $form['#submit'][] = 'search_page_exposed_form_submit';
+  }
+  // Taxonomy page.
+  if ($form_id == 'views_exposed_form' && $form['#id'] == 'views-exposed-form-category-list-page-page-1') {
+    $form['#submit'][] = 'category_page_exposed_form_submit';
+  }
+}
+
+/**
+ * Remove date parameter from query string on category page.
+ * @author avk
+ * @method category_page_exposed_form_submit()
+ * @param $form
+ *   The form object.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The $form_state contains submitted data of form.
+ * @return Filtered output for category page.
+ *   It will remove date parameter from the query if user select
+ *   America Special Topic, Profile or Issue content type.
+ */
+function category_page_exposed_form_submit($form, \Drupal\Core\Form\FormStateInterface $form_state) {
+  // Get current path.
+  $current_path = \Drupal::service('path.current')->getPath();
+  $path_alias = \Drupal::service('path.alias_manager')->getAliasByPath($current_path, 'en');
+  $path = $path_alias.'?';
+  $type = $form_state->getValue('type');
+  $field_start_date = $form_state->getValue('field_start_date');
+  $field_end_date = $form_state->getValue('field_end_date');
+
+  foreach ($type as $key => $value) {
+      if ($value != '0') {
+        $path .= '&type['.$value.']='.$value;
+      }
+  }
+
+  if (in_array("america_special_topics", $type, TRUE) || in_array("issue", $type, TRUE) || in_array("profile", $type, TRUE)) {
+
+      // now check if start date and end date is present, if present then go ahead else break it.
+      if($field_start_date != '' || $field_end_date != '') {
+        $response = new RedirectResponse($path);
+        $response->send();
+        exit;
+      }
+  }
+
+}
+
+/**
+ * Remove date parameter from query string on search page.
+ * @author avk
+ * @method search_page_exposed_form_submit()
+ * @param $form
+ *   The form object.
+ * @param \Drupal\Core\Form\FormStateInterface $form_state
+ *   The $form_state contains submitted data of form.
+ * @return Filtered output for search page.
+ *   It will remove date parameter from the query if user select
+ *   America Special Topic, Profile or Issue content type.
+ */
+function search_page_exposed_form_submit($form, \Drupal\Core\Form\FormStateInterface $form_state) {
+
+  $path = "/search?";
+  $type = $form_state->getValue('type');
+  $search_api_fulltext = $form_state->getValue('search_api_fulltext');
+  $sort_by = $form_state->getValue('sort_by');
+  $field_start_date = $form_state->getValue('field_start_date');
+  $field_end_date = $form_state->getValue('field_end_date');
+  $sort_order = $form_state->getValue('sort_order');
+
+  $path .= 'search_api_fulltext='.$search_api_fulltext;
+  foreach ($type as $key => $value) {
+      if ($value != '0') {
+        $path .= '&type['.$value.']='.$value;
+      }
+  }
+
+  $path .= '&sort_by='.$sort_by;
+  $path .= '&sort_order='.$sort_order;
+  if (in_array("america_special_topics", $type, TRUE) || in_array("issue", $type, TRUE) || in_array("profile", $type, TRUE)) {
+
+      // now check if start date and end date is present, if present then go ahead else break it.
+      if($field_start_date != '' || $field_end_date != '') {
+        $response = new RedirectResponse($path);
+        $response->send();
+        exit;
+      }
+  }
+}
+
+
+/**
+ * Implements hook_page_attachments().
+ */
+function article_custom_page_attachments(array &$attachments) {
+  $attachments['#attached']['library'][] = 'article_custom/global-js';
+}
+
+/**
+ * Implements hook_views_query_alter().
+ */
+function article_custom_views_query_alter(\Drupal\views\ViewExecutable $view, \Drupal\views\Plugin\views\query\QueryPluginBase $query) {
+    if($view->id() == 'magazine' && $view->current_display == 'page_1'){
+      // Change query on db for date field.
+      $year = (int) date("Y");
+      $temp = "node__field_iss_date.field_iss_date_value like '%".$year."%'";
+      if($view->exposed_raw_input['field_iss_date_value'] != ''){
+        if(!isset($_GET['field_iss_date_value'])){
+          $temp = "node__field_iss_date.field_iss_date_value like '%".$year."%'";
+        } else {
+        $temp = "node__field_iss_date.field_iss_date_value like '%".$view->exposed_raw_input['field_iss_date_value']."%'";
+        }
+      } else {
+        $temp = "node__field_iss_date.field_iss_date_value like '%".$year."%'";
+      }
+      $query->where[1]['conditions'][2]['field'] =  $temp;
+    }
+}
+
+/**
+ * Implements hook_menu_local_tasks_alter().
+ */
+function article_custom_menu_local_tasks_alter(&$data, $route_name) {
+  if($route_name == 'simplenews.newsletter_subscriptions_user' || $route_name == 'entity.user.edit_form') {
+      $data['tabs'][0]['simplenews.newsletter_subscriptions_user']['#weight'] = 99;
+      unset($data['tabs'][0]['shortcut.set_switch']);
+      unset($data['tabs'][0]['entity.user.canonical']);
+  }
+}
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function article_custom_page_attachments_alter(&$page) {
+
+  $page['#attached']['drupalSettings']['article_custom']['article_type'] = 'null';
+
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    $content_type = $node->bundle();
+    $nid = $node->id();
+    if ($nid) {
+      if ($node->hasField('field_article_type')) {
+        $article_type = $node->get('field_article_type')->getValue();
+        $page['#attached']['drupalSettings']['article_custom']['article_type'] = $article_type[0]['value']; 
+      }
+    }
+  }
+
+}
+
+/**
+ * Implements hook_entity_view_alter().
+ */
+function article_custom_entity_view_alter(array &$build, Drupal\Core\Entity\EntityInterface $entity, \Drupal\Core\Entity\Display\EntityViewDisplayInterface $display) {
+
+  $type = $entity->bundle();
+
+  $entity_type = array(
+    "article", 
+    "book_review", 
+    "podcast", 
+    "the_word", 
+    "video",
+  );
+
+  if (in_array($type, $entity_type)) {
+    // Added post render call back to bypass html formating for ads.
+    $build['#post_render'][] = 'add_paragraph_post_render';
+  }
+
+  return $build;
+}
+
+/**
+ * Implements post render callback.
+ */
+function add_paragraph_post_render($html) {
+
+  $block = \Drupal\block\Entity\Block::load('dfptagarticlemobile300x2501');
+  $block_output = \Drupal::entityTypeManager()
+    ->getViewBuilder('block')
+    ->view($block);
+
+  $block_content = render($block_output);
+
+  $html = _add_insert_after_paragraph($block_content, 2, $html);
+
+  $block = \Drupal\block\Entity\Block::load('dfptagarticlemobile300x2502');
+  $block_output = \Drupal::entityTypeManager()
+    ->getViewBuilder('block')
+    ->view($block);
+
+  $block_content = render($block_output);
+  $html = _add_insert_after_paragraph($block_content, 'last', $html);
+
+  preg_match_all('/block:simplenewssubscription==[0-9]+/', $html, $matches, PREG_OFFSET_CAPTURE);
+  
+  foreach ($matches[0] as $block_token) {
+    $delta = 'simplenewssubscription_'. end(explode("==", $block_token[0]));
+    $replacedelta = $block_token[0];
+
+    $block_output = '';
+    $block = \Drupal\block\Entity\Block::load($delta);
+    if ($block)  {
+      $block_output = \Drupal::entityTypeManager()
+        ->getViewBuilder('block')
+        ->view($block);
+      $block_content = '<div class="inner-content-newssubscription">' . render($block_output) . '</div>';
+      $html = str_replace('['.$replacedelta.']', $block_content, $html);
+    }
+    else{
+      $block_content = '';
+      $html = str_replace('['.$replacedelta.']', $block_content, $html);
+    }
+  }
+
+  return $html;
+}
+
+/**
+ * Helper function to insert ad in paragraph.
+ */
+function _add_insert_after_paragraph( $insertion, $paragraph_id, $content ) {
+    $closing_p = '</p>';
+    $paragraphs = explode( $closing_p, $content );
+    foreach ($paragraphs as $index => $paragraph) {
+ 
+        if (trim($paragraph)) {
+            $paragraphs[$index] .= $closing_p;
+        }
+ 
+    if ($paragraph_id == 'last') {
+      $paragraph_id = count($paragraphs) - 1;
+    }
+
+        if ($paragraph_id == $index + 1) {
+            $paragraphs[$index] .= '<div class="ca-mad-text-center">Advertisement</div>' . $insertion;
+        }
+    }
+    return implode('', $paragraphs );
+}
+
+/**
+ * Implement hook_entity_presave()
+ * Set publication date automatically from current date 
+ * when node status changed from unpublish to publish.
+ * Also it will set publication date to current date when first time node is published.
+ */
+function article_custom_entity_presave(Drupal\Core\Entity\EntityInterface $entity) {
+
+  $type = $entity->bundle();
+
+  $entity_type = array(
+      "article", 
+      "book_review", 
+      "podcast", 
+      "the_word", 
+      "video",
+    );
+  
+  if (in_array($type, $entity_type)) {
+    // Check if entity has publication date field.
+    if($entity->hasField('field_publication_date')) {
+
+      $cur_date = \Drupal::service('date.formatter')->format(time(), 'custom', 'Y-m-d\TH:i:s', 'UTC');
+      // Get original entity object.
+      $entity_original = $entity->original;
+      // Get updated node status.
+      $new_status = $entity->isPublished();
+      // Check if node is new.
+      if(!$entity->isNew()) {
+        // Get previous node status.
+        $old_status = $entity_original->isPublished();
+        if ($old_status != 1 && $new_status == 1) {
+          // Set the publication date field value with current date.
+          $entity->set('field_publication_date', $cur_date);
+        }
+      }
+      // New pusblished node.
+      elseif ($new_status == 1) {
+        // Set the publication date field value with current date.
+        $entity->set('field_publication_date', $cur_date);
+      }
+    }
+  }
+}
+
+/**
+ * Implement hook_views_pre_view()
+ * Filter result for module page views.
+ */
+function article_custom_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+
+  if (($view->id() == 'paragraph_ref_bricks' && $display_id == 'block_1') || ($view->id() == 'homepage_views')) {
+    $node = \Drupal::routeMatch()->getParameter('node');
+    if ($node->hasField('field_bricks_ref')) {
+        $nids = $node->get('field_bricks_ref')->getValue();
+
+        $arg_val = '';
+        foreach ($nids as $key => $value) {
+          $brick_load = \Drupal::entityManager()->getStorage('brick')->load($value['target_id']);
+          $brick_type = $brick_load->bundle();
+          if ($brick_type == 'paragraph_reference') {
+            $arg_val .= $value['target_id'].'+';
+          }
+        }
+
+        $arg_val = rtrim($arg_val, '+');
+        $args[0] = $arg_val;
+    }
+    if ($node->hasField('field_body')) {
+        $nids = $node->get('field_body')->getValue();
+        $arg_val = '';
+        foreach ($nids as $key => $value) {
+          $arg_val .= $value['target_id'].'+';
+        }
+        $arg_val = rtrim($arg_val, '+');
+        $args[0] = $arg_val;
+    }
+  }
+}
+
+/**
+ * Implements hook_views_pre_render().
+ * Make sure marketplace views does not contains
+ * Duplicate category.
+ */
+function article_custom_views_pre_render(ViewExecutable $view) {
+  if ($view->id() == 'america_magazine_marketplace' && $view->current_display == 'block_1') {
+    $result = $view->result;
+    $view->result = [];
+    $elements = [];
+    $common_array = [];
+    foreach ($result as $key => $views) {
+      if (!in_array($views->text_3[0], $elements)) {
+        $elements[] = $views->text_3[0];
+        $view->result[$key] = $views;
+      }
+      else {
+        $common_array[$key] = $views;
+      }
+    }
+    $view->result = $view->result + $common_array;
+    $view->result = array_slice($view->result, 0, 5, true);
+  }
+}

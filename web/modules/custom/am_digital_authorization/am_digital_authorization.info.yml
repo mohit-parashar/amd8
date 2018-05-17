@@ -1,0 +1,5 @@
+name: AM Digital Authorization
+description: 'Use to authorize user on digital edition'
+package: custom
+core: 8.x
+type: module

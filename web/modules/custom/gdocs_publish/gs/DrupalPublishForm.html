@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<!--
+  -- DrupalPublishForm.html
+  --
+  -- This source code is maintained alongside the DrupalPublish module code.
+  -- Any modifications must be manually copied to the module's gs subdirectory.
+  -->
+
+<html>
+  <head>
+    <base target="_top">
+  </head>
+  <body>
+    <form action="<?= endpoint ?>" method="POST" name="Publish To Drupal" id="publish-form">
+        <p>
+        <label for="headline">Enter headline:</label>
+        <input type="text" size="50" name="title" value="<?= title ?>" /><br />
+        </p>
+
+        <p>
+        <label for="content-type">Select content type:</label>
+        <select name="content-type" id="content-type">
+          <option value="article">Article</option>
+          <option value="book_review">Book Review</option>
+          <option value="the_word">The Word</option>
+        </select>
+        </p>
+
+        <input type="hidden" name="gdocs_user" value="<?= user ?>">
+        <input type="hidden" name="gdocs_id" value="<?= id ?>">
+        <input type="hidden" name="gdocs_name" value="<?= title ?>">
+
+        <textarea name="body-text" id="body-text" style="display:none;">
+        <? var content = createHTML(); ?>
+        <?!= content ?>
+        </textarea>
+        <button name="Publish" type="submit" value="publish" id="publish-button">Publish</button>
+        <p style="color:#999; font-family:sans-serif; font-size:75%" ><i>Drupal host: <?= host ?></i></p>
+    </form>
+  </body>
+</html>
+
+

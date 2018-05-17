@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - block_class
+    - user
+  theme:
+    - america
+third_party_settings:
+  block_class:
+    classes: user-login
+id: userlogin_2
+theme: america
+region: Modal_login
+weight: -67
+provider: null
+plugin: user_login_block
+settings:
+  id: user_login_block
+  label: 'User login'
+  provider: user
+  label_display: '0'
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      anonymous: anonymous
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

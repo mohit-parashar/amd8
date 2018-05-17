@@ -1,0 +1,88 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.paragraph_reference
+    - field.storage.brick.field_paragraph
+  module:
+    - entity_reference_revisions
+id: brick.paragraph_reference.field_paragraph
+field_name: field_paragraph
+entity_type: brick
+bundle: paragraph_reference
+label: Paragraph
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:paragraph'
+  handler_settings:
+    negate: 0
+    target_bundles: null
+    target_bundles_drag_drop:
+      america_special_topic_module:
+        weight: 22
+        enabled: false
+      ca_module:
+        weight: 23
+        enabled: false
+      ca_with_2_up_module:
+        weight: 24
+        enabled: false
+      ca_with_4_up_module:
+        weight: 25
+        enabled: false
+      ch_module:
+        weight: 26
+        enabled: false
+      cv_module:
+        weight: 27
+        enabled: false
+      c_module:
+        weight: 28
+        enabled: false
+      fc_module:
+        weight: 29
+        enabled: false
+      fp_module:
+        weight: 30
+        enabled: false
+      fv_module:
+        weight: 31
+        enabled: false
+      hc_module:
+        weight: 32
+        enabled: false
+      hhim_module:
+        weight: 33
+        enabled: false
+      issue_module:
+        weight: 34
+        enabled: false
+      lfa_title_:
+        weight: 35
+        enabled: false
+      ov_module:
+        weight: 36
+        enabled: false
+      pc_module:
+        weight: 37
+        enabled: false
+      photo_gallery:
+        weight: 38
+        enabled: false
+      sc_2up_module:
+        weight: 39
+        enabled: false
+      sc_module:
+        weight: 40
+        enabled: false
+      sfa_module:
+        weight: 41
+        enabled: false
+      tc_module:
+        weight: 42
+        enabled: false
+field_type: entity_reference_revisions

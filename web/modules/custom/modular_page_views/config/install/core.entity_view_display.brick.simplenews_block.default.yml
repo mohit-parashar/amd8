@@ -1,0 +1,28 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.simplenews_block
+    - field.field.brick.simplenews_block.field_simplenews
+id: brick.simplenews_block.default
+targetEntityType: brick
+bundle: simplenews_block
+mode: default
+content:
+  field_simplenews:
+    weight: 1
+    label: hidden
+    settings:
+      link: true
+    third_party_settings: {  }
+    type: entity_reference_label
+    region: content
+  title:
+    type: string
+    weight: 0
+    region: content
+    label: hidden
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+hidden: {  }

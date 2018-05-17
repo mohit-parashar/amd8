@@ -1,0 +1,113 @@
+<?php
+
+/**
+ * @file
+ * Module to allow publishing of Google Document content
+ *
+ * @author Ken Ficara <ken@harmoni.ca>
+ * @copyright Copyright (c) 2012 Harmonica LLC
+ *
+ */
+
+
+/**
+ * Form handler to view imported GDocs content
+ */
+function gdocs_publish_list($form, &$form_state) {
+
+  $header = array (
+    'node'  =>  t('Drupal Node'),
+    'gdoc'  =>  t('Google Document'),
+    'type'  => t('Content type'),
+    'success'=> t('Successfully Imported'),
+    'published' => t('Published'),
+    'gd_user'  =>  t('Google User'),
+    'import_date'  =>  t('Import Date'),
+  );
+
+  $form['files'] = array (
+    '#type' => 'tableselect',
+    '#header' => $header,
+    '#options' => gdocs_publish_list_nodes(),
+//     '#multiple' => TRUE,
+  );
+
+  return $form;
+}
+
+/**
+ * Retrieve node data from database
+ */
+function gdocs_publish_list_nodes() {
+  try {
+    $query = db_select('gdocs_publish', 'g')->orderBy('import_date', 'DESC')->fields('g')->execute();
+  }
+  catch (Exception $e) {
+    $msg = $e->getMessage();
+    \Drupal::logger('gdocs_publish')->notice("DB exception: %m", array('%m' => $msg));
+    drupal_set_message(t("Database exception: $msg."), 'error');
+  }
+
+  $list = array();
+  if (empty ($query) || $query->rowCount() < 1) {
+    return false;
+  }
+  while ($row = $query->fetchAssoc()) {
+    $item = array();
+    try {
+      $node_query = db_select('node', 'n')
+        ->fields('n', array('title', 'status', 'type'))
+        ->condition('nid', $row['nid'])
+        ->execute();
+      if ($node_query->rowCount() > 0) {
+        $node_fields = $node_query->fetchAssoc();
+      }
+      else {
+        $node_fields = array (
+          'title'     => '',
+          'status'  => 0,
+          'type'    => 'N/A'
+        );
+      }
+    }
+    catch (Exception $e) {
+      $msg = $e->getMessage();
+      \Drupal::logger('gdocs_publish')->notice("DB exception in node query: %m", array('%m' => $msg));
+      drupal_set_message(t('DB exception in node query: %m.', ['%m'=>$msg]), 'error');
+    }
+
+    if ($node_fields['title']) {
+      $item['node'] = sprintf('<a href="/node/%s">%s</a>', $row['nid'], $node_fields['title']);
+    }
+    else {
+      $item['node'] = 'DELETED';
+    }
+    $item['gdoc'] = sprintf('<a href="https://docs.google.com/document/d/%s" target="_blank">%s</a>', $row['gd_id'], $row['gd_title']);
+    $item['gd_user'] = $row['gd_user'];
+    $item['import_date'] = format_date($row['import_date'], 'short');
+    $item['success'] = $row['success'] ? 'YES' : 'NO';
+    $item['published'] = $node_fields['status'] ? 'YES' : 'NO';
+    $item['type'] = $node_fields['type'];
+
+    $list[$row['nid']] = $item;
+  }
+
+  return $list;
+}
+
+/**
+ * Insert a row into our DB table
+ */
+function _db_insert($fields) {
+  try {
+    $insert = db_insert('gdocs_publish')->fields($fields);
+//    watchdog ('gdocs_publish', 'DB insert query: %q', array('%q'=>$insert->__toString()));
+    $insert->execute();
+  }
+  catch (Exception $e) {
+    $msg = $e->getMessage();
+    \Drupal::logger('gdocs_publish')->notice('DB insert error: %message', array('%message'=>$msg));
+    return false;
+  }
+}
+

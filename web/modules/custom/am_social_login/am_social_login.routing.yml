@@ -1,0 +1,7 @@
+am_social_login.core:
+  path: /am_social_login/callback
+  defaults:
+    _title: 'OneAll AM Social Login Callback'
+    _controller: '\Drupal\am_social_login\Controller\AMSocialLoginCore::callbackHandler'
+  requirements:
+    _access: 'TRUE'

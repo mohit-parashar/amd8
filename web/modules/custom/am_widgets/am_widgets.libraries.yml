@@ -1,0 +1,11 @@
+am_widgets:
+  version: 1
+  css:
+    theme:
+      css/am_widget.css: {preprocess: true, minified: true}
+  js:
+    js/am_widget_1.js: {preprocess: true, minified: true}
+  dependencies:
+    - core/jquery
+    - core/jquery.once
+    - core/drupal

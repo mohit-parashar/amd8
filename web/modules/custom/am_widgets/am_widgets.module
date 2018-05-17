@@ -1,0 +1,161 @@
+<?php
+
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Form\FormStateInterface;
+
+/**
+ * Implements hook_page_attachments().
+ */
+function am_widgets_page_attachments(array &$attachments) {
+  $attachments['#attached']['library'][] = 'am_widgets/am_widgets';
+}
+
+function am_widgets_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  $ajax_array = array(
+        'callback' => '_am_widgets_form_submit_handler',
+        'event' => 'click',
+        'progress' => array(
+          'type' => 'throbber',
+          'message' => 'Processing...',
+        ),
+      );
+
+  if($form_id == 'create_account_form'){
+    $form['#prefix']  = '<div class="login-message"></div>';
+    $form['reg_info']['actions']['create_submit']['#ajax'] = $ajax_array;
+  }
+
+  if($form_id == 'registration_form'){
+    $form['#prefix']  = $form['#prefix'].'<div class="login-message"></div>';
+    $form['reg_info']['actions']['submit']['#ajax'] = $ajax_array;
+    $form['reg_info']['actions']['submit1']['#ajax'] = $ajax_array;
+  }
+}
+
+function _am_widgets_form_submit_handler(&$form, FormStateInterface $form_state, $form_id) {
+  $ajax_response = new AjaxResponse();
+  // Has password status
+  $has_password = $form_state->getValue('has_password');
+  $is_print_subscriber = $form_state->getValue('is_print_subscriber');
+  $first_name = $form_state->getValue('first_name');
+  $last_name = $form_state->getValue('last_name');
+
+  $is_login_form = $form_state->getValue('form_ty');
+
+  $user_email = $form_state->getValue('candidate_mail');
+  $users = \Drupal::entityTypeManager()->getStorage('user')
+  ->loadByProperties(['mail' => $user_email]);
+  $user = reset($users);
+  $has_user = FALSE;
+  if ($user) {
+    $uid = $user->id();
+    $has_user = TRUE;
+  }
+
+    if ($form_state->getErrors()) {
+      $errors = $form_state->getErrors();
+
+\Drupal::logger('am_widgets')->error(json_encode($errors));
+
+      if(isset($errors['print_subscription_number'])){
+
+        $error = '<div class="alert alert-danger alert-dismissible" role="alert"><a href="" role="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></a>';
+        $error.= '<ul class="item-list--messages">';
+        $error .= '<li class="item item--message">'.$errors['print_subscription_number'] .'</li>';
+        $error.= '</ul> </div>';
+
+        unset($_SESSION['messages']['error']);
+        $ajax_response->addCommand(new HtmlCommand('.login-message', $error));
+        return $ajax_response;
+      }
+
+      if ($first_name != '' && $first_name != NULL && $has_user) {
+        // $success = '<div class="login-sent-text"><h2>Thanks for confirming the email address '.trim($form_state->getValue('candidate_mail')).'</h2></div>';
+        // $ajax_response->addCommand(new HtmlCommand('.modal-body', $success));
+        // check if metered value cookie is set
+        // $ajax_response->addCommand(new InvokeCommand('.close', 'show'));
+        // Paywall Email Cookie
+        unset($_SESSION['messages']['error']);
+        $msg = 'Thank you for confirming your email address '.trim($form_state->getValue('candidate_mail')).'. Enjoy reading <strong>America</strong> magazine.';
+        drupal_set_message(t($msg), 'error');
+        $ajax_response->addCommand(new InvokeCommand(NULL, 'byPassPayWall'));
+        $ajax_response->addCommand(new InvokeCommand('.close-modal', 'click'));
+      }
+      else {
+        // Check if there is any error on the form.
+        $errors = $form_state->getErrors();
+        $error = '<div class="alert alert-danger alert-dismissible" role="alert"><a href="" role="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></a>';
+        $error.= '<ul class="item-list--messages">';
+
+        if(isset($errors['name'])){
+          $error.= '<li class="item item--message">'.$errors['name'] .'</li>';
+        }
+        if($errors['pass']){
+          $error.= '<li class="item item--message">'.$errors['pass'].'</li>';
+        }
+        $error.= '</ul> </div>';
+        unset($_SESSION['messages']['error']);
+        $ajax_response->addCommand(new HtmlCommand('.login-message', $error));
+      }
+    }
+    elseif($first_name == '' || $first_name == NULL) {
+      // Some sought of login section.
+      if ($has_password != 1) {
+        if ($has_user && $user->isActive()) {
+          // Paywall Email Cookie
+          //make a ajax call pass email id and check it is exist in database if it is then set authcookie else do nothing and return from here.
+          //$success = '<div class="login-sent-text"><h2>A login link has been sent to '.trim($form_state->getValue('candidate_mail')).'</h2><h5>Check your email for a message from <i>America</i> Magazine.</h5></div>';
+          //$ajax_response->addCommand(new HtmlCommand('.modal-body', $success));
+
+          // check if metered value cookie is set
+          //$ajax_response->addCommand(new InvokeCommand('.close', 'show'));
+
+          $success = '<h5>A login link has been sent to '.trim($form_state->getValue('candidate_mail')).' Check your email for a message from <strong>America</strong> Magazine.</h5>';
+          if ($is_login_form) {
+            $success = 'Thank you for confirming your email address '.trim($user_email).'. Enjoy reading <strong>America</strong> magazine.';
+          }
+
+          drupal_set_message(t($success), 'error');
+          $ajax_response->addCommand(new InvokeCommand(NULL, 'byPassPayWall'));
+
+          $ajax_response->addCommand(new InvokeCommand(NULL, 'activeUserOnBsd', [$user_email]));
+
+          $ajax_response->addCommand(new InvokeCommand('.close-modal', 'click'));
+        }
+        else {
+          // Display a success message for one time login link.
+          $success = '<div class="login-sent-text"><h2>A login link has been sent to '.trim($form_state->getValue('candidate_mail')).'</h2><h5>Check your email for a message from <i>America</i> Magazine.</h5></div>';
+
+          $ajax_response->addCommand(new HtmlCommand('.modal-body', $success));
+
+          // check if metered value cookie is set
+          $ajax_response->addCommand(new InvokeCommand('.close', 'show'));
+
+          // Paywall Email Cookie
+          $ajax_response->addCommand(new InvokeCommand(NULL, 'createEmailProvideCookie'));
+        }
+      }
+      else {
+        $ajax_response->addCommand(new InvokeCommand('.close-modal', 'click'));
+      }
+
+    }
+    elseif ($first_name != '' && $first_name != NULL) {
+      // Display a success message for one time login link.
+      $success = '<div class="login-sent-text"><h2>A new confirmation link has been sent to '.trim($form_state->getValue('candidate_mail')).'</h2><h5>Check your email for a message from <i>America</i> Magazine.</h5></div>';
+      $ajax_response->addCommand(new HtmlCommand('.modal-body', $success));
+      $ajax_response->addCommand(new InvokeCommand('.close', 'show'));
+      // Paywall Email Cookie
+      $ajax_response->addCommand(new InvokeCommand(NULL, 'createEmailProvideCookie'));
+    }
+    else{
+      $ajax_response->addCommand(new InvokeCommand('.close-modal', 'click'));
+    }
+
+    return $ajax_response;
+
+}
+

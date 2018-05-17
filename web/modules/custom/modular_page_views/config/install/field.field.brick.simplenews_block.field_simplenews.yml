@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.simplenews_block
+    - field.storage.brick.field_simplenews
+id: brick.simplenews_block.field_simplenews
+field_name: field_simplenews
+entity_type: brick
+bundle: simplenews_block
+label: Simplenews
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:simplenews_newsletter'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

@@ -1,0 +1,20 @@
+uuid: e17157e5-0151-4eb5-9e98-957df4704a01
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_cons_id
+  module:
+    - user
+id: user.user.field_cons_id
+field_name: field_cons_id
+entity_type: user
+bundle: user
+label: 'Cons Id'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,9 @@
+name: My Account
+type: module
+description: Integrate BSD and SFS api to my account page.
+package: My Account
+version: '8.x-1.x'
+core: '8.x'
+dependencies:
+  - am_sfs_integration
+  - am_bsd_tools

@@ -1,0 +1,21 @@
+uuid: 7c3db9cf-198c-4a49-a310-ed12b00456a1
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.full_html
+    - field.storage.brick.field_html
+  module:
+    - text
+id: brick.full_html.field_html
+field_name: field_html
+entity_type: brick
+bundle: full_html
+label: HTML
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

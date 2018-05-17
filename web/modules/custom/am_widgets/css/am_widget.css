@@ -1,0 +1,63 @@
+.video-widget-big .video-embed-field-responsive-video{
+	display:none;
+}
+
+.video-widget-big .video-widget-big-img img{
+	cursor:pointer;
+}
+/*
+.video-widget-big .video-widget-big-img:after {
+    content: "";
+    position: absolute;
+    top: 125;
+    width: 517px;
+    height: 120px;
+    z-index: 100;
+    background: transparent url(../images/play.png) no-repeat center;
+    pointer-events: none;
+}
+*/
+.view-video-widget .view-footer .view-content .video-widget-small:first-child {
+    display:none;
+}
+
+.view-audio-widget .view-footer .view-content .audio-widget-small:first-child, .view-audio-widget .view-footer .view-content .audio-widget-small .audio-widget-small-desc {
+    display:none;
+}
+
+.audio-widget-big .audio-widget-big-player audio{
+	display:block !important;
+}
+
+/* Popup */
+/*
+.AMloginBlock#block-userlogin ul{
+	display: block !important;
+}
+*/
+
+#loginModal .modal-body > ul, .path-registration .pageContent .container .row .col-md-12 > ul{
+	display:none;
+}
+
+.ajax-progress-throbber {
+  display: none;
+}
+
+#loginModal .forgot-password, #loginModal .user-login{
+	display:none;
+}
+
+#loginModal .close-button{
+    width: 10px;
+    height: 10px;
+    position: absolute;
+    right: 10px;
+}
+
+#access-digital-edition-popup .close-button{
+   width: 10px;
+   height: 10px;
+   position: absolute;
+   right: 10px;
+}

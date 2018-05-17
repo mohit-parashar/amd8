@@ -1,0 +1,31 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - am_registration
+    - block_class
+    - user
+  theme:
+    - america
+third_party_settings:
+  block_class:
+    classes: ''
+id: sociallogin
+theme: america
+region: Modal_login
+weight: -65
+provider: null
+plugin: social_login_block_form
+settings:
+  id: social_login_block_form
+  label: 'Social Login'
+  provider: am_registration
+  label_display: '0'
+visibility:
+  user_role:
+    id: user_role
+    roles:
+      anonymous: anonymous
+    negate: false
+    context_mapping:
+      user: '@user.current_user_context:current_user'

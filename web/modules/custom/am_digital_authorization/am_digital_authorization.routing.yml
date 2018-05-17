@@ -1,0 +1,17 @@
+am_digital_authorization.authorization:
+  path: '/digital-authorization'
+  defaults:
+    _controller: '\Drupal\am_digital_authorization\Controller\DigitalAuthorization::authorization'
+    _title: 'Digital Authorization'
+  requirements:
+    _permission: 'access content'
+
+am_digital_authorization.configuration:
+  path: '/admin/config/digitalhashsettings'
+  defaults:
+    _form: '\Drupal\am_digital_authorization\Form\DigitalAuthorizationForm'
+    _title: 'Digital Authorization'
+  requirements:
+    _permission: 'administer site configuration'
+  options:
+    _admin_route: TRUE

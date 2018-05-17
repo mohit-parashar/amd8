@@ -1,0 +1,55 @@
+am_donation.save_donor_info:
+  path: '/donation/donorinfo/ajax'
+  defaults:
+    _controller: '\Drupal\am_donation\Controller\SaveDonorInfoController::saveDonorInfo'
+  requirements:
+    _permission: 'access content'
+
+am_donation.update_bsd_error:
+  path: '/donation/donorinfo/ubsde/ajax'
+  defaults:
+    _controller: '\Drupal\am_donation\Controller\SaveDonorInfoController::update_bsd_error'
+  requirements:
+    _permission: 'access content'
+
+am_donation.update_bsd_response:
+  path: '/donation/donorinfo/ubsdr/ajax'
+  defaults:
+    _controller: '\Drupal\am_donation\Controller\SaveDonorInfoController::update_bsd_response'
+  requirements:
+    _permission: 'access content'
+
+am_donation.is_free_subscription:
+  path: '/donation/donorinfo/sifs/ajax'
+  defaults:
+    _controller: '\Drupal\am_donation\Controller\SaveDonorInfoController::set_is_free_subscription'
+  requirements:
+    _permission: 'access content'
+
+am_donation.is_create_subscription:
+  path: '/donation/donorinfo/sics/ajax'
+  defaults:
+    _controller: '\Drupal\am_donation\Controller\SaveDonorInfoController::set_is_create_subscription'
+  requirements:
+    _permission: 'access content'
+
+am_donation.is_renew_subscription:
+  path: '/donation/donorinfo/sirs/ajax'
+  defaults:
+    _controller: '\Drupal\am_donation\Controller\SaveDonorInfoController::set_is_renew_subscription'
+  requirements:
+    _permission: 'access content'
+
+am_donation.subscription_cron:
+  path: '/donation/subscription/cron'
+  defaults:
+    _controller: '\Drupal\am_donation\Controller\CronController::donation_subscription_cron'
+  requirements:
+    _permission: 'access content'
+
+am_donation.register_donor_ajax:
+  path: '/donation/register/donor/ajax'
+  defaults:
+    _controller: '\Drupal\am_donation\Controller\CreateUserController::registerDonorAjax'
+  requirements:
+    _permission: 'access content'

@@ -1,0 +1,12 @@
+name: Custom View Argument
+type: module
+description: 'A custom module to alter behavior of View Argument in node add/edit form.'
+package: Custom modules
+# core: 8.x
+#dependencies:
+#  - examples
+
+# Information added by Drupal.org packaging script on 2015-12-29
+version: '8.x-1.x'
+core: '8.x'
+project: 'custom_view_argument'

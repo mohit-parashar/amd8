@@ -1,0 +1,28 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ */
+function am_subscription_schema() {
+
+$schema = array();
+
+$schema['am_subscription'] = array(
+  'description' => 'Subscription records.',
+  'fields' => array(
+    'id'       => array('type' => 'serial', 'not null' => TRUE),
+    'uid'       => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+    'custid'   => array('type' => 'varchar', 'length' => 25, 'default' => ''),
+    'email'     => array('type' => 'varchar','length' => 255,'not null' => TRUE, 'default' => ''),
+    'orderid'   => array('type' => 'varchar', 'length' => 255, 'not null' => TRUE, 'default' => ''),
+    'sfs_response' => array('type' => 'varchar','length' => 255,'not null' => TRUE, 'default' => ''),
+    'created'   => array('type' => 'int', 'not null' => TRUE, 'default' => 0),
+  ),
+
+  'primary key' => array('id'),
+
+);
+
+return $schema;
+
+}

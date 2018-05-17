@@ -1,0 +1,9 @@
+uuid: ca61e93e-9cf2-42bc-b7b5-cd18ea8b8b60
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.brick
+name: 'Views Reference'
+type: views_reference
+description: ''

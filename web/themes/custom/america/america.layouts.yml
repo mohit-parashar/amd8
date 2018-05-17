@@ -1,0 +1,14 @@
+bs_columns_8_4:
+  label: 8/4 columns
+  category: Bootstrap
+  template: templates/layout/bs-columns-8-4
+  regions:
+    col1: { label: Grid 8 }
+    col2: { label: Grid 4 }
+bs_columns_4_8:
+  label: 4/8 columns
+  category: Bootstrap
+  template: templates/layout/bs-columns-4-8
+  regions:
+    col1: { label: Grid 4 }
+    col2: { label: Grid 8 }

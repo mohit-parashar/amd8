@@ -1,0 +1,24 @@
+donation_form:
+  version: 1.x
+  js:
+    js/jquery.base64.min.js: {preprocess: true, minified: true}
+    js/am_donation_1.js: {preprocess: true, minified: true}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+tuesday_donation:
+  version: 1.x
+  js:
+    js/jquery.base64.min.js: {preprocess: true, minified: true}
+    js/am_donation_2.js: {preprocess: true, minified: true}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+anniversary_challenge:
+  version: 1.x
+  js:
+    js/jquery.base64.min.js: {preprocess: true, minified: true}
+    js/am_anniversary_challenge.js: {preprocess: true, minified: true}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

@@ -1,0 +1,6 @@
+am_sfs_integration.sfssettings_form:
+  title: 'SFS API'
+  route_name: am_sfs_integration.sfssettings_form
+  description: 'SFS API Settings'
+  parent: system.admin_config_system
+  weight: 99

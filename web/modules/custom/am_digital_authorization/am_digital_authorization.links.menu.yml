@@ -1,0 +1,6 @@
+am_digital_authorization.configuration:
+  title: 'Digital Authorization'
+  route_name: am_digital_authorization.configuration
+  description: 'Settings for Digital Edition Access Toke'
+  parent: system.admin_config_system
+  weight: 99

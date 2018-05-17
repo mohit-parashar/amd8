@@ -1,0 +1,7 @@
+name: Menu item visibility
+description: 'Controls the visibility of the menus for user roles.'
+core: 8.x
+type: module
+
+dependencies:
+  - menu_ui

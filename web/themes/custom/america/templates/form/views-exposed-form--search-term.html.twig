@@ -1,0 +1,62 @@
+{#
+/**
+ * @file
+ * Default theme implementation of a views exposed form.
+ *
+ * Available variables:
+ * - form: A render element representing the form.
+ *
+ * @ingroup templates
+ *
+ * @see template_preprocess_views_exposed_form()
+ */
+#}
+{% if q is not empty %}
+  {#
+    This ensures that, if clean URLs are off, the 'q' is added first,
+    as a hidden form element, so that it shows up first in the POST URL.
+  #}
+  {{ q }}
+{% endif %}
+
+ <div class="row">
+   <div class="col-xs-8 col-md-10">
+     {{ form.search_api_fulltext }} 
+   </div>
+   <div class="col-xs-4 col-md-2">
+     <button class="btn search-form-submit pull-right">Search</button> 
+   </div>
+ </div>
+<div class="filterBlock">
+
+  <div class="searchTabs">
+    <div id="featured_article1" class="btn {{ mostRecentActiveClass }}" onclick="mostRecentClick()">Most recent </div>
+    <div id="alphabetical_article1" class="btn {{ mostReleventActiveClass }}" onclick="mostReleventClick()">Most relevant</div>
+    </div>
+    <div class="date-filter-wrap">
+      {% if startDate == 'Jan 01, 1900' %} 
+        {% set startDate = 'Start Date' %}
+      {% endif %}      
+      <input type="text" class="start_date" value="{{ startDate }}">
+      <input type="text" class="end_date" value="{{ endDate }}">
+    </div>
+    
+
+    <div class="btn filterBtn collapsed" data-target="#filtersList" data-toggle="collapse" aria-expanded="false">Show filters</div>
+
+    <div class="clearFilter"><a href="javaScript:clearSearchFilter()">Clear filter</a></div>
+
+    <div class="filtersListWrapper collapse" id="filtersList" aria-expanded="false">
+        <div class="filtersList">
+      {{ form.type }}
+      <div style="display:none">
+      	{{ form.sort_by }}
+        {{ form.field_start_date }} 
+        {{ form.field_end_date }}
+      </div>
+      	{{ form.sort_order }}
+      
+    </div>
+  </div>
+
+</div>

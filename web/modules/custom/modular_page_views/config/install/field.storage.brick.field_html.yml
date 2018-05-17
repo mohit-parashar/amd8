@@ -1,0 +1,19 @@
+uuid: e81b196c-c7d2-4e6e-9491-4efc1f7d9bb5
+langcode: en
+status: true
+dependencies:
+  module:
+    - eck
+    - text
+id: brick.field_html
+field_name: field_html
+entity_type: brick
+type: text_long
+settings: {  }
+module: text
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

@@ -1,0 +1,25 @@
+feadmin_block.basics:
+  css:
+    theme:
+      css/feadmin_block.basics.css: {}
+
+feadmin_block.tool:
+  js:
+    js/feadmin_block.blocks.js: {}
+    js/feadmin_block.filter.js: {}
+    # Behavior
+    #js/feadmin_block-contextual.block.js: {}
+    # Views.
+    #js/block/views/ContextualVisualView.js: {}
+    js/block/views/BodyVisualView.js: {}
+  css:
+    theme:
+      css/feadmin_block.blocks.css: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/backbone
+    - core/jquery.ui.sortable
+    - core/jquery.ui.draggable
+    - core/drupal.debounce
+    - feadmin/feadmin_admintools

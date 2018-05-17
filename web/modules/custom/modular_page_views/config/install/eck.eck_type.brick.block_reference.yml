@@ -1,0 +1,9 @@
+uuid: a15d66d4-e469-4dc3-9c64-cef61920d4a0
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.brick
+name: 'Block Reference'
+type: block_reference
+description: ''

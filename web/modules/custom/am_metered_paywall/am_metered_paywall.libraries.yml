@@ -1,0 +1,8 @@
+am_paywall:
+  version: 1.x
+  js:
+    js/paywall.js: {preprocess: true, minified: true}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings
+    - core/jquery.cookie

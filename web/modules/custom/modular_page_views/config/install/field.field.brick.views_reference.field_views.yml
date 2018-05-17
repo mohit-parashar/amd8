@@ -1,0 +1,151 @@
+uuid: feac765b-7610-4dde-97d5-030b426a4c87
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.views_reference
+    - field.storage.brick.field_views
+  module:
+    - viewfield
+id: brick.views_reference.field_views
+field_name: field_views
+entity_type: brick
+bundle: views_reference
+label: Views
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  force_default: 0
+  allowed_views:
+    america_special_topic_header: 0
+    america_special_topic_module: 0
+    america_special_topic_ref_article_block: 0
+    article_author_with_bio_summary: 0
+    article_header: 0
+    article_header_special: 0
+    article_image: 0
+    article_print_headline: 0
+    articles_list_page: 0
+    articles_page_views: 0
+    articles_published_today: 0
+    article_topics_block: 0
+    news_update_json: 0
+    audio_prayer_json: 0
+    auhtor_article_header_left: 0
+    book_in_review: 0
+    category_list_page: 0
+    _channel_hero_module: 0
+    channel_hero_listing: 0
+    comment: 0
+    comments_count: 0
+    community_module: 0
+    contact_messages: 0
+    content: 0
+    content_feeds: 0
+    content_kindle: 0
+    curated_article_2_up_module: 0
+    curated_article_module: 0
+    curated_article_module_4_up: 0
+    curated_verticle_module: 0
+    block_content: 0
+    donation_dashboard: 0
+    donation_submission_data: 0
+    failed_address_update: 0
+    failed_create_subscriptions: 0
+    failed_donations: 0
+    failed_renew_subscriptions: 0
+    featured_comment: 0
+    featured_comment_cid: 0
+    featured_comment_details: 0
+    featured_comment_excerpt: 0
+    featured_comment_module: 0
+    featured_comments_listing_by_nid: 0
+    audio_widget: 0
+    video_widget: 0
+    files: 0
+    flag_bookmark: 0
+    frontpage: 0
+    hhim_listing: 0
+    highlight_comment_module: 0
+    homepage_hero_image_module: 0
+    issue_module: 0
+    issue_reference: 0
+    json_feed_test: 0
+    kindle_cover_image: 0
+    latest_article_from_voice: 0
+    latest_from_america_by_publication_date: 0
+    latest_from_america_module: 0
+    listing_image: 0
+    magazine: 0
+    more_by_author: 0
+    most_popular: 0
+    most_popular_and_recent_article: 0
+    simplenews_newsletters: 0
+    our_voices_module: 0
+    our_voices_page: 0
+    paywall_statistics: 0
+    paywall_statistics_summary: 0
+    paywall_stats: 0
+    pc_listing: 0
+    pc_listing2: 0
+    user_admin_people: 0
+    podcast: 0
+    point_counterpoint_module: 0
+    profile: 0
+    profile_details_page: 0
+    comments_recent: 0
+    content_recent: 0
+    recurring_donations: 0
+    redirect: 0
+    related_content: 0
+    related_content_migrated: 0
+    related_podcast: 0
+    related_podcast_nid: 0
+    related_sponsorship: 0
+    related_video: 0
+    related_video_nid: 0
+    related_word: 0
+    reopen_comment: 0
+    scripture_for_next_week: 0
+    sclisting: 0
+    scripture_module: 0
+    search_page_latest_issues_for_rows: 0
+    search_term: 0
+    special_coverage_module: 0
+    special_coverage_with_2up_summary_module: 0
+    _special_featured_article_module: 0
+    statistics_dashborad: 0
+    simplenews_subscribers: 0
+    subscription_statistics: 0
+    success_address_update: 0
+    success_create_subscriptions: 0
+    success_donations: 0
+    success_renew_subscriptions: 0
+    taxonomy_chooser_module: 0
+    taxonomy_term: 0
+    the_latest_from_america: 0
+    the_latest_from_america_book_review_: 0
+    the_latest_from_america_podcast_: 0
+    the_latest_from_america_the_word_: 0
+    the_latest_from_america_video_: 0
+    users_registered_today: 0
+    video: 0
+    videopage: 0
+    watchdog: 0
+    who_s_new: 0
+    who_s_online: 0
+    word: 0
+  allowed_display_types:
+    block: block
+    entity_reference: entity_reference
+    default: default
+    page: page
+    attachment: 0
+    feed: 0
+    rest_export: 0
+  handler: 'default:view'
+  handler_settings: {  }
+field_type: viewfield

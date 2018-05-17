@@ -1,0 +1,30 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.node.modular_page_bricks.field_bricks_ref
+    - node.type.modular_page_bricks
+  module:
+    - bricks
+    - user
+id: node.modular_page_bricks.default
+targetEntityType: node
+bundle: modular_page_bricks
+mode: default
+content:
+  field_bricks_ref:
+    weight: 102
+    label: hidden
+    settings:
+      view_mode: default
+      link: false
+    third_party_settings: {  }
+    type: bricks_nested
+    region: content
+  links:
+    weight: 100
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden:
+  addtoany: true

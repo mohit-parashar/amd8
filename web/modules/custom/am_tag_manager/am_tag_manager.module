@@ -1,0 +1,73 @@
+<?php
+/**
+ * @file
+ * Module file am tag manager.
+ */
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Implements hook_preprocess_html().
+ */
+function am_tag_manager_preprocess_html(&$variables) {
+ 
+  $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+  $userRoles = $user->getRoles();
+  //Anonymous or authenticated
+  $variables['#attached']['drupalSettings']['user']['roles'] = $userRoles;
+
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    $content_type = $node->bundle();
+    $nid  = $node->id();
+    $variables['#attached']['drupalSettings']['node']['contentType'] = $content_type;
+
+    $channel = [];
+    if ($node->hasField('field_channel')) {
+      foreach ($node->get('field_channel')->getValue() as $unfetch_term) {
+        if (isset($unfetch_term['target_id']) && !empty($unfetch_term['target_id'])) {
+          $term = Term::load($unfetch_term['target_id']);
+          if ($term) {
+            $channel[] = $term->getName();
+          }
+        }
+      }
+    }
+
+    $section = [];
+    if ($node->hasField('field_section')) {
+      foreach ($node->get('field_section')->getValue() as $unfetch_term) {
+        if (isset($unfetch_term['target_id']) && !empty($unfetch_term['target_id'])) {
+          $term = Term::load($unfetch_term['target_id']);
+          if ($term) {
+            $section[] = $term->getName();
+          }
+        }
+      }
+    }
+
+    $topics = [];
+    if ($node->hasField('field_topics')) {
+      foreach ($node->get('field_topics')->getValue() as $unfetch_term) {
+        if (isset($unfetch_term['target_id']) && !empty($unfetch_term['target_id'])) {
+          $term = Term::load($unfetch_term['target_id']);
+          if ($term) {
+            $topics[] = $term->getName();
+          }
+        }
+      }
+    }
+
+    $publication = '';
+    if ($node->hasField('field_publication_date')) {
+      $publications = $node->get('field_publication_date')->getValue();
+      $publication = $publications[0]['value'];
+    }
+    // Channel.
+    $variables['#attached']['drupalSettings']['node']['channel'] = $channel;
+    // Section.
+    $variables['#attached']['drupalSettings']['node']['section'] = $section;
+    // Topics.
+    $variables['#attached']['drupalSettings']['node']['topics'] = $topics;
+    // Publication date.
+    $variables['#attached']['drupalSettings']['node']['publicationDate'] = $publication;
+  }
+}

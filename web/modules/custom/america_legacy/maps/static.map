@@ -1,0 +1,32 @@
+membership/_subscriptionredirect.cfm	america-subscription
+content/articles/martin-opusdei.cfm	opus-dei
+content/catholic-book-club.cfm	cbc
+content/column.cfm?articleTypeID=23	sections/many-things
+poetry.cfm	sections/poem
+content/privacy.cfm	content/privacy-policy
+membership/jobs/postnotice.cfm	classified/389
+editorial.cfm	sections/editorials
+content/support.cfm	content/make-donation
+content/search.cfm	search/node
+membership/changenewsletter.cfm	newsletters/subscriptions
+content/jobs/job-listings.cfm	classified/389
+membership/jobs/postchoice.cfm	classified/389
+content/jobs/job-listing-detail.cfm	classified/389
+content/staff.cfm	about/editors-and-staff
+advertising/religious-advertising.cfm	content/advertising
+content/about-us.cfm	about/editors-and-staff
+gettext.cfm
+content/contact-us.cfm	contact
+membership/join.cfm	user
+content/signs-archive.cfm	sections/signs-times
+membership/memberhome.cfm	user
+content/featurelist.cfm	content/these-pages
+content/issue-archives.cfm	sections/archives
+SundayScripture.cfm
+index.cfm
+content/podcast/podcast-index.cfm	podcast
+membership/login.cfm	user
+content/current-issue.cfm	sections/current-issue
+BookReview.cfm	sections/books
+content/faq.cfm	content/frequently-asked-questions
+content/culture-archive.cfm	culture

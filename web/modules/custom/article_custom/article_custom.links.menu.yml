@@ -1,0 +1,4 @@
+article_custom.author_bio:
+  title: Get Author bio
+  route_name: page_example_description
+  expanded: TRUE

@@ -1,0 +1,39 @@
+{#
+/**
+ * @file
+ * Default theme implementation of a views exposed form.
+ *
+ * Available variables:
+ * - form: A render element representing the form.
+ *
+ * @ingroup templates
+ *
+ * @see template_preprocess_views_exposed_form()
+ */
+#}
+{% if q is not empty %}
+  {#
+    This ensures that, if clean URLs are off, the 'q' is added first,
+    as a hidden form element, so that it shows up first in the POST URL.
+  #}
+  {{ q }}
+{% endif %}
+<div class="filterBlock">
+  {% if our_voice_page == 'our-voices' %}
+  <div class="searchTabs">
+    <div id="featured_article" class="btn {{ isFeaturedActiveClass }}" onclick="featuredClick()">Featured </div>
+    <div id="alphabetical_article" class="btn {{ sortOrderActiveClass }}" onclick="alphabeticalClick()">Alphabetical</div>
+    </div>
+    {% endif %}
+
+  {% if magazine == 'magazine' %}
+    {{ form }}
+  {% else %}
+    <div class="btn filterBtn collapsed" data-target="#filtersList" data-toggle="collapse" aria-expanded="false">Show filters</div>
+    <div class="filtersListWrapper collapse" id="filtersList" aria-expanded="false">
+        <div class="filtersList">
+      {{ form }}
+    </div>
+  </div>
+{% endif %}
+</div>

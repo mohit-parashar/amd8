@@ -1,0 +1,138 @@
+<?php
+
+/**
+ * @file
+ * Install file for gdocs_publish module
+ *
+ * @author Ken Ficara <ken@harmoni.ca>
+ * @copyright Copyright (c) 2016 Harmonica LLC
+ *
+ */
+
+use Drupal\Core\Database\Database;
+
+/**
+ * Implements hook_schema
+ */
+function gdocs_publish_schema () {
+  $schema = array ();
+
+  $schema['gdocs_publish'] = array(
+    'description' => 'Records every node created from a Google Document',
+    'fields' => array(
+      'nid' => array(
+        'description' => 'NID of imported node',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'gd_id' => array(
+        'description' => 'ID of the Google Doc',
+        'type' => 'varchar',
+        'length' => '128',
+        'not null' => FALSE,
+      ),
+      'gd_title' => array(
+        'description' => 'Title of the document in Google',
+        'type' => 'varchar',
+        'length' => '255',
+        'not null' => FALSE,
+      ),
+      'gd_user' => array(
+        'description' => 'Email of Google user who did the import',
+        'type' => 'varchar',
+        'length' => '128',
+        'not null' => FALSE,
+      ),
+      'content_type' => array(
+        'description' => 'Machine name of Drupal content type',
+        'type' => 'varchar',
+        'length' => '128',
+        'not null' => FALSE,
+      ),
+      'uid' => array(
+        'description' => 'User who performed the import',
+        'type' => 'int',
+        'not null' => FALSE,
+      ),
+      'import_date' => array(
+        'description' => 'Date of import',
+        'type' => 'int',
+        'not null' => FALSE,
+      ),
+      'success' => array(
+        'description' => 'Was node created succesfully',
+        'type' => 'int',
+        'size' => 'tiny',
+        'not null' => FALSE,
+      ),
+    ),
+    'primary key' => array('nid'),
+  );
+
+  return ($schema);
+}
+
+/**
+ * Populate new content_type column and correct bug that
+ * didn't properly set UIDs for new nodes.
+ */
+function gdocs_publish_update_8101 (&$sandbox) {
+  if (empty($sandbox['total'])) {
+    // On first run, add the new column and set sandbox values
+    $col = array(
+      'description' => 'Machine name of Drupal content type',
+      'type' => 'varchar',
+      'length' => '128',
+      'not null' => FALSE,
+    );
+
+    $schema = Database::getConnection()->schema();
+    $schema->addField('gdocs_publish', 'content_type', $col);
+    $sandbox['total'] = db_query("SELECT COUNT(`nid`) FROM {gdocs_publish}")->fetchField();
+    $sandbox['current'] = 0;
+  }
+
+  // Set defaults
+  $default_author = \Drupal::config('gdocs_publish.config')->get('default_author') ?: 212611;
+  $nodes_per_pass = 10;
+
+  // Retrieve and process the next batch of nodes
+  $result = db_query_range("SELECT `nid` FROM {gdocs_publish}", $sandbox['current'], $nodes_per_pass);
+  $remaining = $sandbox['total'] - $sandbox['current'];
+    drupal_set_message(t('@r remaining GDP nodes to process out of @t', [
+      '@r' => $remaining,
+      '@t' => $sandbox['total']
+    ]));
+
+  while ($nid = $result->fetchField()) {
+    drupal_set_message(t('Processed node @nid', ['@nid' => $nid]));
+
+    $node = \Drupal\node\Entity\Node::load($nid);
+    if ($node) {
+      $type = $node->getType();
+      $node->setOwnerId($default_author);
+      $node->save();
+    }
+    else {
+      // Since nodes may have been deleted since creation.
+      $type = 'INVALID OR DELETED';
+    }
+
+    $query = \Drupal::database()->update('gdocs_publish');
+    $query->fields([
+      'content_type' => $type,
+      'uid' => $default_author
+    ]);
+    $query->condition('nid',$nid);
+    $query->execute();
+
+    $sandbox['current']++;
+  }
+
+  $sandbox['#finished'] = ($sandbox['current'] / $sandbox['total']);
+  if ($sandbox['#finished'] === 1) {
+    drupal_set_message(t('Finished. Processed @c GDP nodes', ['@c' => $sandbox['total']]));
+  }
+}
+

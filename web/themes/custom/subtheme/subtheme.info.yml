@@ -1,0 +1,30 @@
+name: Subtheme
+type: theme
+description: "Subtheme of Bootstrap"
+core: 8.x
+version: 8.x-0.1
+base theme: bootstrap
+
+regions:
+  topNavigation: 'Header Top Left'
+  topNavigationright: 'Header Top Right'
+  headermain: 'Main Header'
+  articleHeader: 'Article Header'
+  articleHeaderLarge: 'Article Header Large'
+  authorBlockLeft: 'Author Header Left'
+  authorBlockRight: 'Author Header Right'
+  searchbox: 'Search Box'
+  newsletterbox: 'Newsletter Box'
+  content: 'Main content'
+  sidebar_first: 'Sidebar First'
+  latestFromAmericaBox: 'Latest From America'
+  footerone: 'footer One'
+  footertwo: 'footer Two'
+  footerthree: 'footer Three'
+  footerfour: 'footer four'
+  footerfive: 'Footer Five'
+  Copyright: 'Copyright'
+
+libraries:
+  - subtheme/global-styling
+  - subtheme/bootstrap

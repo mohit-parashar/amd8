@@ -1,0 +1,15 @@
+<?php
+
+use Drupal\views\ViewExecutable;
+
+function custom_view_argument_views_pre_view(ViewExecutable $view, $display_id, array &$args) {
+  $calling_abs_path = \Drupal::request()->server->get('HTTP_REFERER');
+  
+  $calling_abs_path_array = explode("/",$calling_abs_path);  
+  //$nid = $calling_abs_path_array[5];
+   $nid = $calling_abs_path_array[4];
+  //\Drupal::logger('custom_view_argument')->error($nid);
+  if ($view->id() == 'featured_comments_listing_by_nid' && $display_id == 'entity_reference_1' && is_numeric($nid)) {
+    $args[0] = $nid;
+  }
+}

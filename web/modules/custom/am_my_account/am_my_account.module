@@ -1,0 +1,624 @@
+<?php
+
+use \Drupal\am_bsd_tools\Controller\amBSDToolsController;
+use \Drupal\am_sfs_integration\Controller\amSfsIntegrationController;
+use Drupal\user\Entity\User;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\CssCommand;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\am_registration\Controller\CreateLoginLinkController;
+use Drupal\node\Entity\Node;
+
+/**
+* @file
+ * Add various api to my account page.
+ */
+function getStartAndEndDate($week, $year) {
+
+    $time = strtotime("1 January $year", time());
+    $day = date('w', $time);
+    $time += ((7*$week)+1-$day)*24*3600;
+    $return[0] = date('M d,Y', $time);
+    $time += 6*24*3600;
+    $return[1] = date('M d,Y', $time);
+    return $return;
+}
+
+/**
+* Implement hook_form_alter()
+*/
+function am_my_account_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  if($form_id == 'user_form') {
+
+      // Check current user roles.
+      $user_roles = \Drupal::currentUser()->getRoles();
+      if (in_array('authenticated', $user_roles) || in_array('donor', $user_roles) || in_array('member', $user_roles) || in_array('subscriber', $user_roles)) {
+      if (!in_array('administrator', $user_roles)) {
+
+          $renewalDate = '';
+          // Attach javascript library to form.
+          $form['#attached']['library'][] = 'am_my_account/email_preference';
+          $bsdClient = new amBSDToolsController();
+          $sfsObject = new amSfsIntegrationController();
+          $sfsdetails = array();
+          $currentUser = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+          $consID = $currentUser->get('field_cons_id')->value;
+          $order_no = $currentUser->get('field_sfs_order_id')->value;
+          $subscription_no = $currentUser->get('field_print_subscription_number')->value;
+          // Check cons id exist in the drupal or not.
+          if($consID == '') {
+            $field_cons_id = $bsdClient->getConstituentsByEmail($currentUser->get('mail')->value);     
+            $query = \Drupal::database()->select('user__field_email_verify', 'u');
+            $query->addField('u', 'field_email_verify_value');
+            $query->condition('u.field_email_verify_value', $currentUser->get('mail')->value);
+            $query->range(0, 1);
+            $email_id = $query->execute()->fetchField();
+            if($email_id) {
+              $currentUser->set("field_email_verify", "");
+              // Delete the email address from other user account Email verify field.
+              $query = \Drupal::database()->delete('user__field_email_verify');
+              $query->condition('field_email_verify_value', $currentUser->get('mail')->value);
+              $result = $query->execute();
+
+              $bsdClient->emailDelete($field_cons_id, $currentUser->get('mail')->value);
+              $field_cons_id = 0;
+            }
+            if($field_cons_id == 0 || $field_cons_id == '0') {
+                  $field_cons_id = $bsdClient->emailRegister($currentUser->get('mail')->value);
+                  $currentUser->set("field_cons_id", $field_cons_id);
+                  $userss = $currentUser->save();
+                  $response = new RedirectResponse('/user/'.$currentUser->id().'/edit');
+                  $response->send();
+                  exit;       
+            } else {
+                  // Set cons id in drupal.
+                  $currentUser->set("field_cons_id", $field_cons_id);
+                  $userss = $currentUser->save();
+                  $response = new RedirectResponse('/user/'.$currentUser->id().'/edit');
+                  $response->send();
+                  exit;       
+            }
+
+          } else {
+                  // Get last contribution details from BSD system.
+                  $json = $bsdClient->getLastContribution($consID);
+                  $obj = json_decode($json);
+                  if($obj->last_donation != '') {
+                      $last_donation = date('M d, Y',strtotime($obj->last_donation));
+                      $last_contribution = $obj->highest_previous_contribution;
+
+                      $form['last_donation_date'] = array(
+                        '#markup' => 'Last Gift: '.$last_donation. '  <br>Amount: $'.$last_contribution.'<br><a target="_blank" href="https://americamedia.bsd.net/page/recurring/find">Manage monthly payment</a><br><a target="_blank" href="/donation">Make another gift</a>',
+                      );
+                }
+          }
+          
+        //   $subscription_no = '10261754';
+        //   // Check if subscription number does not exist in the drupal.
+          if($subscription_no != '') {
+              $sfsdetails = $sfsObject->getCustomerData($subscription_no);
+              $WeekCount = ($sfsdetails['ExpireIssue'] - round($sfsdetails['ExpireIssue']/14)) * 2;
+              $var = getStartAndEndDate($WeekCount, $sfsdetails['ExpireYear']);
+              $renewalDate = $var[1];
+
+              $form['sfs_address_details1'] = array(
+                    '#markup' => '<span id="sfs_add">'.$sfsdetails['Address1'].' '.$sfsdetails['Address2'].'<br>'.$sfsdetails['City'].' '.$sfsdetails['State'].' '.$sfsdetails['Zip'].'<br>'.$sfsdetails['Country'].'</span>',
+              );
+
+              if($renewalDate) {
+                    $form['sfs_subscrption_level'] = array(
+                      '#markup' => '<h4>Subscribing Member</h4>Learn about all the great benefits of <a href="/membership">Supporting Member</a>',
+                    );
+              } else {
+                    $form['sfs_subscrption_level'] = array(
+                      '#markup' => '<h4>Not a member</h4><br>Learn about all the great benefits of 
+                      <a href="subscribe">Becoming a Member</a> and <a href="subscribe">Subscribing to Magazine</a>',
+                    );
+              }
+              $renew = '';
+              // Show renewal date if auto renew flag in on.
+              if($sfsdetails['AutoRenew']) {
+                $renew = 'Renews on ' . $renewalDate;
+              } else {
+                $renew = 'Expire on ' . $renewalDate;
+              }
+              // Show gift count.
+              $count_gift = count($sfsdetails['GiftSubs']);
+              if($count_gift > 0){
+                $form['sfs_subscrption_gifts'] = array(
+                      '#markup' => count($sfsdetails['GiftSubs']),
+                );
+              }
+              $form['sfs_subscrption_no'] = array(
+                    '#markup' => 'Number: '.$subscription_no . '<br>' . $renew,
+              );
+          // SFS Address field
+          $countries = \Drupal\Core\Locale\CountryManager::getStandardList();
+          foreach ($countries as $key => $value) {
+            $countries[$key] = $value->__toString();
+          }
+          $form['sfs_address1'] = array(
+              '#type' => 'textfield',
+              '#default_value' => $sfsdetails['Address1'],
+              '#attributes'=> array('placeholder'=>t('Address 1')),
+          );
+          $form['sfs_address2'] = array(
+              '#type' => 'textfield',
+              '#default_value' => $sfsdetails['Address2'],
+              '#attributes'=> array('placeholder'=>t('Address 2')),
+          );
+
+          if($sfsdetails['Country'] == 'US') {
+            $form['sfs_state'] = array(
+              '#prefix' => '<div id="state-wrapper">',
+              '#suffix' => '</div>',
+              '#type' => 'select',
+              '#options' => getUSAstate(),
+            );
+          } else if($sfsdetails['Country'] == 'CA') {
+            $form['sfs_state'] = array(
+              '#prefix' => '<div id="state-wrapper">',
+              '#suffix' => '</div>',
+              '#type' => 'select',
+              '#options' => getCanadaState(),
+            );
+          } else {
+            $form['sfs_state'] = array(
+              '#prefix' => '<div id="state-wrapper">',
+              '#suffix' => '</div>',
+              '#type' => 'textfield',
+              '#attributes'=> array('placeholder'=>t('State')),
+            );
+          }
+
+          $form['sfs_country'] = array(
+              '#type' => 'select',
+              '#options' => $countries,
+              '#default_value' => $sfsdetails['Country'],
+              '#ajax' => array(
+                  'callback' => 'amAddStatefieldCallback',
+                  'wrapper' => 'state-wrapper',
+                  'effect' => 'fade',
+                  'event' => 'change',
+            ),
+          );
+
+          $form['sfs_zipcode'] = array(
+              '#type' => 'textfield',
+              '#default_value' => $sfsdetails['Zip'],
+              '#attributes'=> array('placeholder'=>t('Zip Code')),
+          );
+          $form['sfs_telephone'] = array(
+              '#type' => 'textfield',
+              '#default_value' => $sfsdetails['Phone'],
+              '#attributes'=> array('placeholder'=>t('Telephone')),
+          );
+          $form['sfs_city'] = array(
+              '#type' => 'textfield',
+              '#default_value' => $sfsdetails['City'],
+              '#attributes'=> array('placeholder'=>t('City')),
+          );
+          $form['sfs_update_contact'] = array(
+              '#type' => 'button',
+              '#value' => t('Update Contact'),
+              '#weight' => 3,
+          );
+        }
+
+        if ($subscription_no == '' && $order_no != '') {
+            $form['sfs_subscrption_level'] = array(
+              '#markup' => '<h4>Subscribing Member</h4>Your subscription is currently is progress.',
+            );
+        }
+
+          $groups = $bsdClient->listConstituentGroups();
+          $activeGroups = array();
+
+          //Set old email in hidden field
+          $form['old_mail'] = array(
+            '#type' => 'hidden',
+            '#value' => $currentUser->get('mail')->value,
+            );
+
+          $form['email_preference'] = array(
+              '#type' => 'checkboxes',
+              '#options' => $groups,
+              '#title' => t('Manage Email Preferences'),
+              '#weight' => 3,
+            );
+          $form['unsubscribe_me'] = array(
+              '#type' => 'checkbox',
+              '#title' => t('Unsubscribe me from all emails'),
+              '#weight' => 3,
+            );
+          $form['update_preference'] = array(
+              '#type' => 'button',
+              '#value' => t('Update Preferences'),
+              '#weight' => 3,
+          );
+
+            $form['actions']['submit']['#submit'][] = 'am_my_account_form_email_preference_submit';
+            $form['#validate'][] = 'am_my_account_form_custom_validate';
+    }
+  }
+ }
+}
+
+/**
+  * Ajax callback for country select box.
+  */
+function amAddStatefieldCallback($form, \Drupal\Core\Form\FormStateInterface &$form_state) {
+    $c_code = $form_state->getValue('sfs_country');
+    if($c_code == 'US') {
+      unset($form['sfs_state']);
+      $form['sfs_state'] = array(
+        '#prefix' => '<div id="state-wrapper">',
+        '#suffix' => '</div>',
+        '#type' => 'select',
+        '#options' => getUSAstate(),
+      );
+    } else if($c_code == 'CA') {
+      unset($form['sfs_state']);
+      $form['sfs_state'] = array(
+        '#prefix' => '<div id="state-wrapper">',
+        '#suffix' => '</div>',
+        '#type' => 'select',
+        '#options' => getCanadaState(),
+      );
+    } else {
+      unset($form['sfs_state']);
+      $form['sfs_state'] = array(
+        '#prefix' => '<div id="state-wrapper">',
+        '#suffix' => '</div>',
+        '#type' => 'textfield',
+        '#attributes'=> array('placeholder'=>t('State')),
+      );
+    }
+
+    return $form['sfs_state'];
+  }
+
+function am_my_account_form_custom_validate($form, \Drupal\Core\Form\FormStateInterface $form_state) {
+      $subscription_number = $form_state->getValue('field_print_subscription_number');
+      $subscription_number = $subscription_number[0]['value'];
+    //$subscription_number = '10261754';
+    // Check subscription number is valid or not.
+    if($subscription_number != '') {
+          $sfsObject = new amSfsIntegrationController();
+          $valid = $sfsObject->getCustomerData($subscription_number);
+          if ($valid['valid'] != 1) {
+            $form_state->setErrorByName('field_print_subscription_number', t('Print subscription number is not valid.'));
+          } 
+    }
+
+}
+
+
+/**
+ * Submit function for email preference.
+ */
+function am_my_account_form_email_preference_submit($form, \Drupal\Core\Form\FormStateInterface $form_state) {
+    $old_email    = $form_state->getValue('old_mail');
+    $new_email    = $form_state->getValue('mail');
+    $cons_id      = $form_state->getValue('field_cons_id');
+    $first_name   = $form_state->getValue('field_first_name');
+    $last_name    = $form_state->getValue('field_last_name');
+    $cons_id      = $cons_id[0]['value'];
+    $first_name   = $first_name[0]['value'];
+    $last_name    = $last_name[0]['value'];
+    // Check current user roles.
+    $user_roles = \Drupal::currentUser()->getRoles();
+    if (!in_array('administrator', $user_roles) || !in_array('editor', $user_roles) || !in_array('site_manager', $user_roles) || !in_array('comments_manager', $user_roles)) {
+      if($old_email != $new_email) {
+        try {
+          $currentUser = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+          $currentUser->set("field_email_verify", $new_email);
+          $currentUser->set("mail", $old_email);
+          $userss = $currentUser->save();
+          $createlink = new CreateLoginLinkController();
+          $createlink->createLoginLink($currentUser,'email_verify');
+          drupal_set_message("We have sent you verfvication email. Please confirm to update email.","status");          
+        } catch (Exception $e) {
+          drupal_set_message("Some error occured","error");
+        }
+      }
+      // If cons ID is not null then set first name and last name in BSD system.
+      if ($cons_id != '') {
+          $xml = '<?xml version="1.0" encoding="utf-8"?>
+                    <api>
+                      <cons id="'.$cons_id.'">
+                        <firstname>'.$first_name.'</firstname>
+                        <lastname>'.$last_name.'</lastname>
+                      </cons>
+                    </api>';
+          try {
+            $bsdClient = new amBSDToolsController();
+            $bsdClient->setConstituentData($xml);          
+          } catch (Exception $e) {
+            drupal_set_message("Some error occured","error");
+          }
+      }
+  }
+}
+
+/**
+ * Implements hook_mail_alter().
+ */
+function am_my_account_mail_alter(&$message) {
+  // Stop sending all email from drupal.
+  $message['send'] = FALSE;
+  if ($message['key'] == 'smtp-test' || $message['key'] == 'am_donation_bsd_error') {
+    $message['send'] = TRUE;
+  }
+  // Check id for contact form.
+  if($message['id'] == 'contact_page_mail') {
+     if($message['params']['contact_message']) {
+        try{
+              // Get Mailing ID.
+              $config = \Drupal::config('am_bsd_tools.bsdtestsettings');
+              // Check pantheon environment is live
+              if(isset($_SERVER['PANTHEON_ENVIRONMENT'])) {
+                if($_SERVER['PANTHEON_ENVIRONMENT'] == 'live') {
+                  $config = \Drupal::config('am_bsd_tools.bsdlivesettings');
+                }
+              }
+              $mailing_id = $config->get('contact_form_message');
+              // Create BSD Object
+              $bsdClient = new amBSDToolsController();
+              $time = time();
+              // Get contatct form submit values
+              $contact_message = $message['params']['contact_message'];
+              $text = $contact_message->get('message')->getString();
+              // Check if field_form_key field exist in the contact message.
+              if($contact_message->field_form_key) {
+                  $name = $contact_message->get('field_form_key')->getString();
+                  if($name == 'america_special_topic_feedback_form' || $name == 'donation_feedback_form' || $name == 'community_feedback') {
+                      $email = $message['to'];
+                      $xml = '<?xml version="1.0" encoding="utf-8"?>
+                                <api>
+                                  <cons>
+                                      <is_banned>0</is_banned>
+                                      <has_account>1</has_account>
+                                      <create_dt>'.$time.'</create_dt>
+                                      <cons_field id="1">
+                                          <value>'.$text.'</value>
+                                      </cons_field>
+                                      <cons_email>
+                                          <email>'.$email.'</email>
+                                          <email_type>work</email_type>
+                                          <is_subscribed>1</is_subscribed>
+                                          <is_primary>1</is_primary>
+                                      </cons_email>
+                                  </cons>
+                                </api>';
+                    // Set message value in BSD system.
+                    $bsdClient->setConstituentData($xml);
+                    // Send mail to user.
+                    $value = $bsdClient->amBSDToolsSendTriggeredMail($email, $mailing_id);            
+                  }
+              }
+
+          } catch (Exception $e) {
+            drupal_set_message($e."Some error occured","error");
+          }
+
+     }
+  }
+}
+
+// Return states for Caneda
+function getCanadaState() {
+  $state = array(
+    'AB' => 'Alberta',
+    'BC' => 'British Columbia',
+    'MB' => 'Manitoba',
+    'NB' => 'New Brunswick',
+    'NL' => 'Newfoundland and Labrador',
+    'NS' => 'Nova Scotia',
+    'ON' => 'Ontario',
+    'PE' => 'Prince Edward Island',
+    'QC' => 'Quebec',
+    'SK' => 'Saskatchewan',
+    'NT' => 'Northwest Territories',
+    'NU' => 'Nunavut',
+    'YT' => 'Yukon',
+  );
+  return $state;
+}
+
+// Return states for USA
+function getUSAstate() {
+  $state = array(
+    'AL' => 'Alabama',
+    'AK' => 'Alaska',
+    'AZ' => 'Arizona',
+    'AR' => 'Arkansas',
+    'CA' => 'California',
+    'CO' => 'Colorado',
+    'CT' => 'Connecticut',
+    'DE' => 'Delaware',
+    'FL' => 'Florida',
+    'GA' => 'Georgia',
+    'HI' => 'Hawaii',
+    'ID' => 'Idaho',
+    'IL' => 'Illinois',
+    'IN' => 'Indiana',
+    'IA' => 'Iowa',
+    'KS' => 'Kansas',
+    'KY' => 'Kentucky',
+    'LA' => 'Louisiana',
+    'ME' => 'Maine',
+    'MD' => 'Maryland',
+    'MA' => 'Massachusetts',
+    'MI' => 'Michigan',
+    'MN' => 'Minnesota',
+    'MS' => 'Mississippi',
+    'MO' => 'Missouri',
+    'MT' => 'Montana',
+    'NE' => 'Nebraska',
+    'NV' => 'Nevada',
+    'NH' => 'New Hampshire',
+    'NJ' => 'New Jersey',
+    'NM' => 'New Mexico',
+    'NY' => 'New York',
+    'NC' => 'North Carolina',
+    'ND' => 'North Dakota',
+    'OH' => 'Ohio',
+    'OK' => 'Oklahoma',
+    'OR' => 'Oregon',
+    'PA' => 'Pennsylvania',
+    'RI' => 'Rhode Island',
+    'SC' => 'South Carolina',
+    'SD' => 'South Dakota',
+    'TN' => 'Tennessee',
+    'TX' => 'Texas',
+    'UT' => 'Utah',
+    'VT' => 'Vermont',
+    'VA' => 'Virginia',
+    'WA' => 'Washington',
+    'WV' => 'West Virginia',
+    'WI' => 'Wisconsin',
+    'WY' => 'Wyoming',
+    'DC' => 'District of Columbia',
+    'AS' => 'American Samoa',
+    'GU' => 'Guam',
+    'MP' => 'Northern Mariana Islands',
+    'PR' => 'Puerto Rico',
+    'UM' => 'United States Minor Outlying Islands',
+    'VI' => 'Virgin Islands, U.S.',
+    );
+  return $state;
+}
+
+/**
+ * Implements hook_user_insert().
+ */
+function am_my_account_user_insert($account) {
+  _am_bsd_account();
+}
+
+/**
+ * Implements hook_user_login().
+ */
+function am_my_account_user_login($account) {
+  _am_bsd_account();
+}
+
+/**
+ * Insert or update user in bsd system.
+ */
+function _am_bsd_account() {
+
+  $first_name = '';
+  $last_name = '';
+
+  try {
+    $bsdClient = new amBSDToolsController();
+
+    if (isset($_SESSION['social_login_social_data']) && $_SESSION['social_login_social_data'] != '') {
+
+          // Restore data.
+        $social_data = @unserialize($_SESSION['social_login_social_data']);
+
+        // Check format.
+        if (is_array($social_data) && isset($social_data['response']) && isset($social_data['response']['request']['status']['code']) && $social_data['response']['request']['status']['code'] == 200) {
+
+            // Convenience variables.
+            $data = $social_data['response']['result']['data'];
+            $identity = $data['user']['identity'];
+            $identity_id = $identity['id'];
+            $provider_name = $identity['source']['name'];
+
+            // Email.
+            $user_email = '';
+            $user_email_is_verified = FALSE;
+            if (isset($identity['emails']) && is_array($identity['emails'])) {
+              while (!$user_email_is_verified && (list (, $email) = each($identity['emails']))) {
+                $user_email = $email['value'];
+                $user_email_is_verified = (!empty($email['is_verified']));
+              }
+            }
+
+            // Set first name
+            if (isset($identity['name']['givenName'])) {
+              $first_name = $identity['name']['givenName'];
+            }
+
+            // Set last name
+            if (isset($identity['name']['familyName'])) {
+              $last_name = $identity['name']['familyName'];
+            }
+
+            // Build XML
+            $xml .= '<?xml version="1.0" encoding="utf-8"?>
+                          <api>
+                           <cons>';
+
+            // Get user info, Firstname/Lastname
+            $user_info = '';
+            $user_info = $bsdClient->getConstituentsInfoByEmail($user_email);
+            // Try to load user by email.
+            $users = user_load_by_mail($user_email);
+            $account = reset($users);
+            if (!empty($account)) {
+                  $user = \Drupal\user\Entity\User::load($account['uid']['x-default']);
+                  $fname = $user->get("field_first_name")->value;
+                  $lname = $user->get("field_last_name")->value;
+                  if ($fname == '') {
+                    $user->set("field_first_name", $first_name);
+                  }
+                  if ($lname == '') {
+                    $user->set("field_last_name", $last_name);
+                  }
+                  $user->save();
+            }
+
+            // Check cons is exist in the BSD system or not.
+            if ($user_info == 0 || $user_info == '0') {
+                  $xml .= '<is_banned>0</is_banned>
+                              <has_account>1</has_account>
+                              <firstname>'.$first_name.'</firstname>
+                              <lastname>'.$last_name.'</lastname>
+                              <cons_group id="15"/>
+                              <cons_email>
+                                  <email>'.$user_email.'</email>
+                                  <email_type>personal</email_type>
+                                  <is_subscribed>1</is_subscribed>
+                                  <is_primary>1</is_primary>
+                              </cons_email>
+                          </cons>
+                        </api>';
+                  $status_code = $bsdClient->setConstituentData($xml);
+            } else {
+
+                    if ($user_info['fn'] == '' && $first_name != '') {
+                      $xml .= '<firstname>'.$first_name.'</firstname>';
+                    }
+
+                    if ($user_info['ln'] == '' && $last_name != '') {
+                      $xml .= '<lastname>'.$last_name.'</lastname>';
+                    }
+
+                    $xml .= '<is_banned>0</is_banned>
+                              <has_account>1</has_account>
+                              <cons_email>
+                                  <email>'.$user_email.'</email>
+                                  <email_type>personal</email_type>
+                                  <is_subscribed>1</is_subscribed>
+                                  <is_primary>1</is_primary>
+                              </cons_email>
+                          </cons>
+                        </api>';
+                    if (($user_info['fn'] == '' && $first_name != '') || ($user_info['ln'] == '' && $last_name != '')) {
+                      $status_code = $bsdClient->setConstituentData($xml);
+                    }
+                    
+            }
+        }
+    }
+
+  } catch (Exception $e) {
+    drupal_set_message("Some error occured","error");
+  }
+} 

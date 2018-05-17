@@ -1,0 +1,61 @@
+<?php
+/**
+ * @File
+ */
+ 
+function am_disable_comment_cron() {
+
+$date = date_create(date("Y-m-d"));
+$date= date_sub($date,date_interval_create_from_date_string("15 days"));
+$date= date_format($date,"Y-m-d");
+$query = \Drupal::database()->select('node_field_data', 'nfd');
+        $query->leftjoin(' node__field_comment_reopen', 'nfcr', 'nfcr.entity_id = nfd.nid');
+		$query->leftjoin(' node__field_publication_date', 'nfpd', 'nfpd.entity_id = nfd.nid');
+		$query->leftjoin(' node__comment', 'nc', 'nc.entity_id = nfd.nid');
+		$query->fields('nfd', ['nid','created','type']);
+		$query->fields('nfcr', ['field_comment_reopen_value']);
+		$query->fields('nfpd', ['field_publication_date_value']);
+		$query->fields('nc', ['comment_status']);
+		$query->condition('comment_status' , '1', '!=');
+		$query->condition('status', '1','=');
+		$group =$query->orConditionGroup() 
+                     ->condition('type','the_word', '=')
+                     ->condition('type','podcast', '=')
+					 ->condition('type','video', '=')
+					 ->condition('type','book_review', '=')
+                     ->condition('type','article', '=');  					 
+                $query->condition($group);
+				$query->condition('field_publication_date_value' , $date, '<=');
+				//$query->range(0, 10);
+			 
+			
+        $z_results = $query->execute()->fetchAll();
+			           
+      foreach ( $z_results as $result) {
+            $nid= $result->nid;
+            $createddate= $result->created;
+            $type= $result->type;
+			$fcrv= $result->field_comment_reopen_value;
+			$fpdv= $result->field_publication_date_value;
+					
+			if ($fcrv != 1 && ($type == 'the_word' || $type == 'article' || $type == 'podcast' || $type == 'video' || $type == 'book_review')) {
+				$upd = \Drupal::database()->update('node__comment');
+				$upd->fields(['comment_status' => 1,]);       
+				$upd->condition('entity_id',$nid,'=');
+				$upd->execute();    
+						
+				}
+		    else if ($fcrv == 1 && ($type == 'the_word' || $type == 'article' || $type == 'podcast' || $type == 'video' || $type == 'book_review')) {
+				$upd = \Drupal::database()->update('node__comment');
+				$upd->fields(['comment_status' => 2,]);       
+				$upd->condition('entity_id',$nid,'=');
+				$upd->execute();    
+						
+				}
+			
+            
+        }
+
+ //drupal_flush_all_caches();
+//Drupal::entityManager()->getViewBuilder('node')->resetCache();
+}

@@ -1,0 +1,26 @@
+global-styling:
+  version: 0.0.1
+  css:
+    theme:
+      css/main.css: {}
+      css/ekko-lightbox.css: {}
+      css/MyFontsWebfontsKit.css: {}
+      css/fonts.css: {}
+      css/bootstrap.css: {}
+      css/smoothDivScroll.css: {}
+      css/ss-symbolicons-block.css: {}
+      css/style.css: {}
+      css/custom-style.css: {}
+
+bootstrap:
+  version: 3.3.5
+  css:
+    component:
+      libraries/bootstrap/css/bootstrap.min.css: { preprocess: false }
+  js:
+    libraries/bootstrap/js/bootstrap.min.js: { preprocess: false }
+    js/custom.js: {}
+    js/ekko-lightbox.js: {}
+    js/jquery.mousewheel.min.js: {}
+    js/jquery.kinetic.min.js: {}
+    js/jquery.smoothdivscroll-1.3-min.js: {}

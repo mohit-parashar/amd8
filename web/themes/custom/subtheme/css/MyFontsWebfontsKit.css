@@ -1,0 +1,70 @@
+/**
+ * @license
+ * MyFonts Webfont Build ID 3309590, 2016-11-16T14:39:31-0500
+ * 
+ * The fonts listed in this notice are subject to the End User License
+ * Agreement(s) entered into by the website owner. All other parties are 
+ * explicitly restricted from using the Licensed Webfonts(s).
+ * 
+ * You may obtain a valid license at the URLs below.
+ * 
+ * Webfont: FF Tisa Web Italic by FontFont
+ * URL: http://www.myfonts.com/fonts/fontfont/tisa/ot-ita/
+ * 
+ * Webfont: FF Tisa Web Bold Italic by FontFont
+ * URL: http://www.myfonts.com/fonts/fontfont/tisa/ot-bold-ita/
+ * 
+ * Webfont: FF Tisa Web Bold by FontFont
+ * URL: http://www.myfonts.com/fonts/fontfont/tisa/ot-bold/
+ * 
+ * Webfont: FF Tisa Web Med Italic by FontFont
+ * URL: http://www.myfonts.com/fonts/fontfont/tisa/ot-medi-ita/
+ * 
+ * Webfont: FF Tisa Web Med by FontFont
+ * URL: http://www.myfonts.com/fonts/fontfont/tisa/ot-medi/
+ * 
+ * Webfont: FF Tisa Web Light Italic by FontFont
+ * URL: http://www.myfonts.com/fonts/fontfont/tisa/ot-light-ita/
+ * 
+ * Webfont: FF Tisa Web by FontFont
+ * URL: http://www.myfonts.com/fonts/fontfont/tisa/ot/
+ * 
+ * Webfont: FF Tisa Web Light by FontFont
+ * URL: http://www.myfonts.com/fonts/fontfont/tisa/ot-light/
+ * 
+ * 
+ * License: http://www.myfonts.com/viewlicense?type=web&buildid=3309590
+ * Licensed pageviews: 5,000,000
+ * Webfonts copyright: 2009 Mitja Miklavcic published by FSI FontShop International GmbH
+ * 
+ * © 2016 MyFonts Inc
+*/
+
+
+/* @import must be at top of file, otherwise CSS will not work 
+@import url("//hello.myfonts.net/count/328016");*/
+
+  
+@font-face {font-family: 'FFTisaWebItalic';src: url('../fonts/328016_0_0.eot');src: url('../fonts/328016_0_0.eot?#iefix') format('embedded-opentype'),url('../fonts/328016_0_0.woff2') format('woff2'),url('../fonts/328016_0_0.woff') format('woff'),url('../fonts/328016_0_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'FFTisaWebBoldItalic';src: url('../fonts/328016_1_0.eot');src: url('../fonts/328016_1_0.eot?#iefix') format('embedded-opentype'),url('../fonts/328016_1_0.woff2') format('woff2'),url('../fonts/328016_1_0.woff') format('woff'),url('../fonts/328016_1_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'FFTisaWebBold';src: url('../fonts/328016_2_0.eot');src: url('../fonts/328016_2_0.eot?#iefix') format('embedded-opentype'),url('../fonts/328016_2_0.woff2') format('woff2'),url('../fonts/328016_2_0.woff') format('woff'),url('../fonts/328016_2_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'FFTisaWebMedItalic';src: url('../fonts/328016_3_0.eot');src: url('../fonts/328016_3_0.eot?#iefix') format('embedded-opentype'),url('../fonts/328016_3_0.woff2') format('woff2'),url('../fonts/328016_3_0.woff') format('woff'),url('../fonts/328016_3_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'FFTisaWebMed';src: url('../fonts/328016_4_0.eot');src: url('../fonts/328016_4_0.eot?#iefix') format('embedded-opentype'),url('../fonts/328016_4_0.woff2') format('woff2'),url('../fonts/328016_4_0.woff') format('woff'),url('../fonts/328016_4_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'FFTisaWebLightItalic';src: url('../fonts/328016_5_0.eot');src: url('../fonts/328016_5_0.eot?#iefix') format('embedded-opentype'),url('../fonts/328016_5_0.woff2') format('woff2'),url('../fonts/328016_5_0.woff') format('woff'),url('../fonts/328016_5_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'FFTisaWeb';src: url('../fonts/328016_6_0.eot');src: url('../fonts/328016_6_0.eot?#iefix') format('embedded-opentype'),url('../fonts/328016_6_0.woff2') format('woff2'),url('../fonts/328016_6_0.woff') format('woff'),url('../fonts/328016_6_0.ttf') format('truetype');}
+ 
+  
+@font-face {font-family: 'FFTisaWebLight';src: url('../fonts/328016_7_0.eot');src: url('../fonts/328016_7_0.eot?#iefix') format('embedded-opentype'),url('../fonts/328016_7_0.woff2') format('woff2'),url('../fonts/328016_7_0.woff') format('woff'),url('../fonts/328016_7_0.ttf') format('truetype');}
+ 

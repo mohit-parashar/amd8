@@ -1,0 +1,20 @@
+uuid: b6792d58-4ee5-4583-b6fa-8971cd8102c0
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_sfs_order_id
+  module:
+    - user
+id: user.user.field_sfs_order_id
+field_name: field_sfs_order_id
+entity_type: user
+bundle: user
+label: 'SFS Order Id'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

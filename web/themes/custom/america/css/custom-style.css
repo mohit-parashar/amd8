@@ -1,0 +1,607 @@
+/*------------------------------------------------------------------
+[Custom Stylesheet]
+
+Project:	America Magazine
+Version:	1.1
+Author(s):	Gaurav Agrawal, Devashish Gurjar
+Primary use:	America Magazine 
+-------------------------------------------------------------------*/
+
+/*------------------------------------------------------------------
+[Global]
+-------------------------------------------------------------------*/
+.inline-block{display: inline-block;}
+.tooltip-inner,.tooltip-arrow{display:none;}
+ 
+/*------------------------------------------------------------------
+[Article]
+-------------------------------------------------------------------*/
+.print-headline{margin-top: 25px;}
+
+audio{display: none;}
+.audiofield > label {
+    display: none;
+}
+
+.field--name-body div.view,
+span.contentTweetBlock{clear:both;}
+.largeHeaderImage img{max-width:100%;}
+
+.page-node-type-article .page-title-hide,
+.page-node-type-book-review .page-title-hide,
+.page-node-type-the-word .page-title-hide,
+.page-node-type-podcast .page-title-hide,
+.page-node-type-video .page-title-hide
+{display: none;}
+
+span.a2a_svg{display:none !important;}
+.newsLetterBox label.control-label{display:none;}
+.newsLetterBox .form-group{margin-bottom: 0px; }
+.searchBoxWrapper.collapse, .searchBoxWrapper.collapsing, .newsLetterWrapper.collapse, .newsLetterWrapper.collapsing {height: 72px; }
+.paddingbetweensection { padding-right:10px; }
+#block-htmlnovember2015section a{color: #fff;}
+.colorbox.cboxElement{position: relative; display: block;}
+/*************************BookMark****************************/
+.soucialLinks .pocket a{color: transparent;}
+.am-bookmarkBlock,
+#block-addtoanybuttons{ display:inline-block; vertical-align: top; height:auto;}
+.soucialLinks{overflow:hidden;}
+/*.soucialLinks .Enabled.pocket {background: #5534A6 url(../images/iconPocketPurple.png) center -35px no-repeat;}*/
+.container-left #block-addtoanybuttons-2{display: inline-block;  vertical-align: middle; height: 35px;}
+/************************* Our voices page****************************/
+.listingTheVoices{ display:table;}
+.listingTheVoices .thumbImage{ border-radius:50%; width:130px; height:130px; overflow:hidden; display:inline-block;}
+.listingTheVoices .thumbImage img{min-width:100%; max-width:none; min-height:100%; max-height:none;}
+.listingTheVoices .title {font-size:25px;  line-height:30px; letter-spacing:0px;font-family: 'karlabold';}
+.listingTheVoices .subTitle{font-family: 'karlaitalic';}
+/*.listingTheVoices .contentTitle,
+.listingTheVoices .contentTitle a{font-family: 'karlabold'; font-size:15px; line-height:24px; letter-spacing:0.3px;}*/
+.listingTheVoices .listImage, .listingTheVoices .listContent{ display:table-cell; float:none; vertical-align:middle;}
+.listingTheVoices, .listingArticle {
+    border-bottom: 1px solid #d8d2cc;
+    display: table;
+    margin-bottom: 25px;
+    padding-bottom: 25px;
+    width: 100%;
+}
+
+
+.paywall-button-wrapper .cornerButten{display:inline-block;}
+.paywall-button-wrapper .cornerButten a{text-decoration:none;}
+.login-message .loginLink, .login-message .forgotPasswordLink, .login-message .loginLink a, .login-message .forgotPasswordLink a{display: inline;margin-right: 0;}
+.paywall-custom-error a{color: #3f0d12;top: -2px; position: relative;font-size: 14px; font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;}
+.paywall-custom-error { line-height: 130%;}
+.paywall-custom-error em.placeholder {
+    font-style: normal;
+}
+
+.align-center {
+  float: none;
+}
+
+@media screen and (max-width:767px){ 
+.listingTheVoices .listImage, .listingTheVoices .listContent {
+    display: inline-block;
+    vertical-align: top;
+}
+
+}
+/************************* EOF Our voices page****************************/
+/*------------------------------------------------------------------
+[Our voices block]
+-------------------------------------------------------------------*/
+.view-our-voices-module .view-content h3{display: none;}
+
+/************************** Pagination ***********************************/
+.pagination{text-align:center; width:100%; margin-bottom:50px;}
+.pagination a{ color: #5534A6;border-bottom: 1px solid #5534a6; font-size:15px;font-family: 'karlabold';}
+.pagination a:hover{ text-decoration:none;}
+.previousBtn {float:left; margin-right: 10px;}
+.pager-last-btn{float: right;}
+.nextBtn{display: inline-block;margin-left: 20px;}
+.pagging{display:inline-block; vertical-align:middle;}
+.pagging a{padding:5px; margin:0px 5px; color: #857e7b; border:none;}
+.pagging a.active{ color:#3f0d12; }
+.pagging a:hover{ text-decoration:none; color:#3f0d12;}
+/************************** EOF Pagination *****************************/
+
+.path-frontpage h2.page-header{display:none;}
+#edit-submit-magazine{display: none;}
+/*------------------------------------------------------------------
+[Comments block]
+-------------------------------------------------------------------*/
+.showCommentHeading a{cursor: pointer;}
+.comment-form .field--name-comment-body.field--widget-text-textarea label{display:none;}
+.showCommentHeading a div.views-element-container{display: inline-block;}
+.field--name-comment-body.field--widget-text-textarea .filter-wrapper.form-inline{display: none;}
+.path-our-voices .filterBtn{display: none;}
+.page-node-type-issue .page-header{display: none;}
+/*for magzine page changes */
+.page-node-type-issue .searchListing.listingArticle .currentTitle{margin-bottom: 25px;}
+.page-node-type-issue .searchListing.listingArticle .currentTitle span{color:#ed5221;display: block;text-align: left; }
+.page-node-type-issue .searchListing.listingArticle .currentIssueContent{margin: 173px 45px 0px 18px;}
+.page-node-type-issue .searchListing.listingArticle .currentIssueContent .currentIssueDate h1{text-align:left; }
+.page-node-type-issue .searchListing.listingArticle .currentIssueContent .currentTitle span{color:#8b8582;}
+.page-node-type-issue .listingArticle .listCategory .issueDate{font-family: 'karlaregular';}
+/*select box magzine page*/
+.form-item-field-iss-date-value .select-wrapper{width:75px;display: block;height: 33px;padding: 0;border: 1px solid #d8d2cc;background: tranparent;border-radius: 0px;box-shadow: none;font-family: 'karlabold';font-size: 13px;text-align: center;line-height: normal;letter-spacing: 1px;box-shadow: none;}
+.form-item-field-iss-date-value #edit-field-iss-date-value:hover{background-color:initial;}
+.form-item-field-iss-date-value #edit-field-iss-date-value{ width: 100%;border: none;padding:9px 12px}
+.form-item-field-iss-date-value .select-wrapper:after{    content: ''; color:#333333;font-size: 9px;margin-top: -6px;}
+.form-item-field-iss-date-value.form-group{ margin-bottom: 0; }
+/*filterlist fixes for fieldset*/
+.filtersList legend, .filtersList .form-item-sort-order > label{width:100%;font-size: 13px;line-height: 24px;letter-spacing: 1px;padding-left:0;color: #3f0d12;font-family: 'karlabold'; margin-bottom: 10px;}
+.filtersList .fieldset-wrapper{ width: 100%;}
+.filtersList .form-item-sort-order .select-wrapper{width:30%;display: block;}
+.filtersList .form-item-sort-order{margin-top: 10px;} 
+#views-exposed-form-our-voices-page-page-1 .filtersList .form-item-sort-order{margin-bottom: 0;}
+.filtersList .form-item-sort-order > label{border-bottom: 1px solid #e5e5e5;} 
+/*.filtersList .fieldset-wrapper .control-label.option{color: #857e7b;font-family: 'karlaregular';font-size: 13px;line-height: 24px;letter-spacing: 1px;padding-left: 20px;}*/
+/*.filtersList .fieldset-wrapper input[type="checkbox"] {vertical-align: middle;margin: 5px 0 0;margin-left: -17px;}*/
+/*.filtersList .fieldset-wrapper .checkbox{margin: 0;display: inline-block;width: 23%;}*/
+.form-item-field-publication-date-value-min{width:30%; float: left; margin-top: 25px; margin-right: 25px;}
+.form-item-field-publication-date-value-min label,.form-item-field-publication-date-value-max label{width:100%;font-size: 13px;line-height: 24px;letter-spacing: 1px;padding-left: 0;color: #3f0d12;font-family: 'karlabold'; margin-bottom: 10px;}
+.form-item-field-publication-date-value-max{width:30%;float: left;margin-top: 25px;}
+.path-taxonomy .feed-icons{display: none;}
+
+/*------------------------------------------------------------------
+[Featured Comments block == CID]
+-------------------------------------------------------------------*/
+.featuredCommentBox .featuredCommentDate{text-transform: none;}
+
+/*------------------------------------------------------------------
+[Login/Register/Forgot block]
+-------------------------------------------------------------------*/
+
+/*#loginModel .modal-dialog{ margin-top:150px; width:645px;}
+.modal-content{padding: 35px 45px; border-radius: 0px; border:1px solid #d8d2cc; min-height:410px;}
+.modal-header {padding:0px 0px; border:none;}
+.modal-header .close{ background:url(../images/menuOpen.png) no-repeat left top;width:20px;  height: 20px; background-size: 100%; position: absolute; right: 10px; top: 10px;}
+.modal-body{ padding:10px 0px;}*/
+/*.whyQue{ font-weight:bold;}*/
+/*.modal-dialog a{ text-decoration:underline; font-size: 13px;}*/
+/*.usePassword{ padding:10px 0px;font-family: 'karlabold';}*/
+
+.loginMsg{ display:none;}
+
+.modal-dialog .relative input.form-control{padding-right: 160px; height:40px;}
+.modal-dialog .relative input[type="submit"]{ height:40px; letter-spacing:0px;padding: 10px;}
+
+.loginPasswordBlock { display:none; position:relative;}
+.loginPasswordBlock input, .loginPasswordBlock input:hover{ height:40px; margin-bottom:10px; margin-right:10px;}
+.loginPasswordBlock input[type="submit"]{ margin-bottom:0px;}
+.loginPasswordBlock input.form-control{width:74%; display:inline-block;}
+.loginPasswordBlock .loginMsg{ position: absolute; bottom: 0px; left: 160px; padding:5px; background:#ffffff;}
+.resetPassword{ display:none; padding-top:20px;}
+.path-registration .region-main-content-left label.control-label,.amlogintitle{font-size:14px;font-weight: bold;line-height: 14px;margin-bottom: 0; font-family:Helvetica, sans-serif }
+.whyContent #whyAnswer.collapse.in {display: inline;}
+.whyContent #whyAnswer, #AMwhyAnswerL{ font-size:12px;}
+#AMwhyAnswerP.collapse.in {display: inline;}
+#AMwhyAnswerP, #whyAnswer{ font-size:14px;}
+.path-registration .region-main-content-left .whyContent, .path-registration .AMloginBlock .whyContent,.path-registration .AMloginPasswordBlock .whyContent{ min-height:45px;}
+.amlogintitle{ margin-bottom:5px;}
+#am_login_submit{display:inline-block;}
+#am_login_submit .btn {height:40px;}
+.path-registration .AMloginBlock #user-login-form .js-form-wrapper{ display:inline-block;}
+.path-registration .registration-info-wrapper { position:relative; margin-bottom:0;}
+
+.path-registration .region-main-content-left .div-border .usePassword{ padding:0;}
+.path-registration .region-main-content-left .div-border .usePassword a{ font-size:12px; text-decoration:underline;}
+.user-login-form .form-type-email label.control-label{display: none;}
+.AMloginBlock, .AMloginPasswordBlock{display: none;}
+ 
+.AMloginBlock#block-userlogin ul{display:none;}
+.am-password-reset p{margin-bottom:5px;}
+.am-password-reset .contentArea{padding-bottom:45px;}
+/*alert*/
+.alert-success {background-color: #872425;border-color: #d8d2cc;color: #fff;}
+.alert-success .close{font-size:30px;color:#fff;}
+/*form page*/
+.am-profile-edit-page #user-form{ margin-bottom:45px;}
+/*.am-profile-edit-page .col-md-12{ width:60%;}*/
+.select-wrapper:after{z-index:2;}
+/*.user-pass .usePassword{ display:inline-block;}*/
+.loginLink .forgotPasswordLink{font-size: 12px;text-decoration: underline;}
+.path-registration .pageContent > div.row{display: none;}
+.whyContent .collapse.in {display: inline;}
+
+.path-registration .contentArea {min-height: calc(100vh - 410px);}
+.path-registration .footer {height: 228px;}
+
+/*13-1-17 Input box css*/
+#edit-search-api-fulltext:focus{
+	border:none;
+	box-shadow: none;
+}
+/*****************Arvind Kinja 14-jan-2017 CSS**************************/
+.listContent .byAuthor a {margin-right: 0px; }
+.views-exposed-form .form-actions{display: none;}
+/*****************Arvind Kinja 14-jan-2017 CSS END**********************/
+
+.statistics-counter {
+
+    display:none !important;
+}
+
+.path-voices section#block-dfptaglistingrightrailatf {
+    margin: 20px 0;
+}
+
+section#block-views-block-magazine-block-1 .currentIssueWrapper a, 
+section#block-views-block-issue-module-block-1 .currentIssueWrapper a {
+    color: #fff;
+}
+/*****************Arvind Kinja 2-mar-2017 CSS**************************/
+
+.video-play-icon a{
+    position:relative;
+    display: block;
+}
+.video-play-icon a:after {
+    content: '';
+    background: url(http://www.americamagazine.org/themes/america/images/audioThumbImage.png) no-repeat;
+    position: relative;
+    z-index: 9;
+    display: block;
+    width: 34px;
+    height: 34px;
+    background-size: 100%;
+    position: absolute;
+    z-index: 9;
+    top: 50%;
+    left: 50%;
+    margin-top: -17px;
+    margin-left: -17px;
+}
+#views-exposed-form-our-voices-page-page-1 .form-item-field-is-featured-value,
+#views-exposed-form-our-voices-page-page-1 .form-item-sort-by{display: none;}
+/*****************Arvind Kinja 2-mar-2017 CSS END**********************/
+/*search filter for date css*/
+.date-filter-wrap{
+    display: inline-block;
+    width: 240px;
+    border: 1px solid #d8d2cc;  
+    vertical-align: middle; 
+    position: relative;
+    margin-right: 10px;
+}
+.date-filter-wrap > input {
+    width: 50%;
+    display: inline-block;
+    float: left;
+    margin-bottom: 0;
+    height: 28px;
+    outline: none;
+    border: none;
+    height: 28px;
+    padding: 1px 15px;
+    color:#857e7b;
+}
+.date-filter-wrap > input{
+    cursor: pointer;
+}
+.date-filter-wrap:after { 
+    content: "";
+    background: url(../images/dateFilter-icon.png) center center no-repeat;
+    width: 16px;
+    height: 10px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    background-size: 100%;
+    margin-top: -5px;
+    margin-left: -8px; 
+}
+.date-filter-wrap input:first-child{ padding-right: 15px; }
+.date-filter-wrap input:last-child{ padding-left: 20px; } 
+/*.search-form-submit, .search-form-submit:hover, .search-form-submit:active{width: auto;padding: 3px 20px;background: #83322e;
+color: #fff;border:0;}*/
+
+
+.search-form-submit, .search-form-submit:hover, .search-form-submit:active{width: auto;
+    padding: 4px 15px 4px;background: #83322e;
+    color: #fff;border: 0;margin-top: 1.1rem;height: auto; letter-spacing: 0px;font-size:14px;}
+.btn.search-term-form-submit{margin-left:10px;}
+/*.search-form-submit:hover{width: auto; padding:3px 20px; }*/
+.filterBlock .searchTabs { margin-right: 10px; }
+@media screen and (max-width:767px){ 
+    button.btn.search-form-submit {
+        width:100%;
+    }
+    .btn.search-term-form-submit {margin-left: 0;width: 100%;padding: 7px;height: 38px;margin-top: 20px;}
+}
+/*****************Arvind Kinja 2-mar-2017 CSS END**********************/
+
+/*****************Mohit Parashar 24-Aug-2017 CSS Start ***************/
+.trimUserComment,
+.trimUserComment p,
+.trimLastUserComment p:first-child { display: inline;}
+.trimLastUserComment p {
+    display: block;
+    margin-top: 5px;
+}
+
+.userComment {
+    font-size: 15px;
+    line-height: 23px;
+    letter-spacing: 0.3px;
+    font-family: 'karlaregular';
+    color: #3f0d12;
+}
+
+.show-more-comment {
+    padding-top:2px;
+    line-height: 24px;
+    letter-spacing: 0;
+    font-family: 'karlabold';
+    display: inline-block;
+    vertical-align: middle;
+    cursor: pointer;
+    margin-right: 15px;
+}
+
+.show-more-comment:hover {
+    text-decoration:underline;
+}
+
+/*****************Mohit Parashar 24-Aug-2017 CSS End ***************/
+#user-form .form-group {
+    position: relative;
+}
+
+#user-form .form-group .tip {
+    right: 35px;
+    top: 16px;
+}
+#user-form .form-group .popover {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+}
+#user-form .form-group .popover .popover-content {
+    padding: 0;
+}
+@media (max-width: 991px) {
+    #user-form .form-group .popover-content span.tip-image {
+    background: url(../images/AMTooltip-mob.png) no-repeat center center;
+        width: 280px;
+    height: 157px;
+    background-size: 100%;
+}
+#user-form .form-group .popover {
+    border: none;
+    box-shadow: none;
+    padding: 0;
+    top: 35px !important;
+    left: 50% !important;
+    margin-left: -138px;
+    background: transparent;
+}
+}
+/*media query for search filter*/
+@media (max-width: 1024px){
+.search-form-submit{display: inline-block;}
+}
+@media (max-width: 767px){
+.filtersList .form-item-sort-order .select-wrapper{width:100%;}
+.date-filter-wrap{width: 100%; margin:10px 0 20px 0;}
+.date-filter-wrap > input{ text-align: center; }
+.search-form-submit{ margin-right: 0; margin: 1rem 0 0 0; width:100%;}
+#user-form .form-group .tip {
+    right: 15px;
+    top: 48px;
+}
+#user-form .form-group .popover {
+    top: 65px !important;
+}
+}
+
+
+#success_message .alert-dismissable .close, .alert-dismissible .close{right: 0;}
+#success_message .alert .message{margin-left: 0;}
+
+section#block-dfptagarticlemobile300x2501,
+section#block-dfptagarticlemobile300x2502 {
+    display: none;
+}
+
+.ca-mad-text-center {
+    text-align: center;
+    display: none;
+}
+
+@media screen and (max-width:991px) {
+
+    section#block-dfptagarticlemobile300x2501 iframe,
+    section#block-dfptagarticlemobile300x2502 iframe {
+        width: auto !important;
+    }
+    section#block-dfptagarticlemobile300x2501,
+    section#block-dfptagarticlemobile300x2502 {
+        display: block;
+        padding-top: 15px;
+        padding-bottom: 15px;
+        border-top: 1px solid #d8d2cc;
+        border-bottom: 1px solid #d8d2cc;
+        margin-bottom: 25px;
+        text-align: center;
+    }
+
+    .ca-mad-text-center {
+        text-align: center;
+        display: block;
+        font-family: 'karlaregular',sans-serif;
+        font-size: 10px;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        color: #857E7B; 
+    }
+}
+/* Remove pading from article between the headline and the photo */
+.page-node-type-article .container.author {
+    margin-bottom: 0px !important;
+}
+
+.#myIframe2, #myIframe1{
+    width: 100% !important;
+}
+.subscribe-m{
+    margin-top: 35px;
+}
+
+#block-views-block-america-magazine-marketplace-block-1 .view-footer {
+    float: right;
+    margin-top: 10px;
+}
+@media (max-width: 480px){
+.relatedStory .byAuthor{display: none;}
+.relatedStory .listingContent{vertical-align: top;}
+}
+/*priyesh css*/
+.layout--threecol-25-50-25 .layout__region--top,  .layout--threecol-33-34-33 .layout__region--top {
+    margin-bottom: 20px;
+}
+
+.layout--threecol-25-50-25 .layout__region--second, .layout--threecol-33-34-33 .layout__region--second{
+    padding: 0 50px;
+}
+/*a.nav-item.nav-link.active {
+background: #5534a6;
+}
+a.nav-item.nav-link {
+    background: #3f0d12;
+    color: #fff;
+    margin-right: 10px;
+    padding: 2px 7px;
+}
+a.nav-item.nav-link {
+    background: #872425;
+    padding: 12px 20px;
+    margin-top: 10px;
+    display: inline-block;
+    line-height: 100%;
+    color: #ffffff;
+    text-transform: none;
+    overflow: visible;
+    min-width: 180px;
+    position: relative;
+    text-align: center;
+    font-family: 'karlabold';
+}*/
+
+
+.mytabs {
+    margin-top: 30px;
+    border: 0;
+    margin-bottom: 5px;
+}
+.mytabs.nav-tabs > li > a {
+    background-color: #872425;
+    border: none;
+    color: #fff;
+    border-radius: 0;
+    margin: 0;
+    padding: 10px 40px;
+    margin-right: 5px;
+    font-family: 'karlabold';
+    cursor: pointer;
+}
+.mytabs.nav-tabs > li > a:hover {
+    color: #fff;
+    background-color: #5534a6;
+    border: none;
+}
+.mytabs.nav-tabs > li.active > a {
+    color: #fff;
+    background-color: #5534a6;
+    border: none;
+    
+}
+
+.myaccordian .panel-default > .panel-heading {
+    background-color: #872425;
+    border-color: #dddddd;
+    color: #fff;
+        padding: 0px 15px;
+}
+.myaccordian .panel-default > .panel-heading a {
+    color: #fff;
+    font-family: 'karlabold';
+    text-decoration: none!Important;
+}
+.page-node-type-site-page .pageContent {
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+.page-node-type-modular-page-bricks .pageContent .container{
+    font-family: 'FFTisaWeb';
+    font-size: 18px;
+    color: #4a4a4a;
+    line-height: 32px;
+    letter-spacing: 0.2px;
+}
+
+/*******************************************************/
+.view-america-magazine-marketplace .view-footer {
+    float: right;
+    margin-top: 10px;
+}
+
+.view-america-magazine-marketplace .listingImage img {
+    display: block;
+    max-width: 140px;
+    max-height: 100px;
+    width: 100%;
+}
+
+.amComment .rm-link{
+    line-height: 24px;
+    color: #857e7b;
+    letter-spacing: 0px;
+    font-family: 'karlabold';
+    display: inline-block;
+    vertical-align: middle;
+    font-size: 13px;
+}
+
+.view-america-magazine-marketplace .view-header .headingBarWrapper {
+  margin: 3px 0px 10px;
+}
+
+.view-america-magazine-marketplace  .listingContent .byAuthor {
+    font-size: 13px;
+    line-height: 22px;
+    letter-spacing: 0.5px;
+    font-family: 'karlabold';
+}
+
+.view-america-magazine-marketplace .blockHeading h2 a {
+    color: #3f0d12;
+}
+
+.view-america-magazine-marketplace .byAuthor a{
+    color: #872425;
+}
+
+.view-america-magazine-marketplace  .view-content .views-row:first-child .lsitingRow{
+  padding-top: 0;
+}
+
+.view-america-magazine-marketplace  .view-footer a {
+    color: #5534a6;
+    font-family: 'karlabold';
+    font-size: 13px;
+    letter-spacing: 0.05px;
+    line-height: 24px;
+    position: relative;
+    text-decoration: none!important;
+}
+
+.view-america-magazine-marketplace  .view-footer a:after {
+    content: "";
+    border-bottom: 1px solid #5534a6;
+    display: block;
+    margin-top: -4px;
+}
+/*******************************************************/

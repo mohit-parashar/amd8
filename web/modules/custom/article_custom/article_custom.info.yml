@@ -1,0 +1,10 @@
+name: Article custom
+type: module
+description: Alter existing form using Drupal Form API.
+package: Example modules
+version: '8.x-1.x'
+core: '8.x'
+project: 'custom'
+
+libraries:
+  - 'article_custom/global-js'

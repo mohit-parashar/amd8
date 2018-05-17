@@ -1,0 +1,23 @@
+uuid: 839b9fd2-a8de-4c03-a5f8-0f63a582e1b9
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.block_reference
+    - field.field.brick.block_reference.field_block
+id: brick.block_reference.default
+targetEntityType: brick
+bundle: block_reference
+mode: default
+content:
+  field_block:
+    weight: 0
+    label: hidden
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden:
+  title: true

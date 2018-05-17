@@ -1,0 +1,6 @@
+name: AM Email Registration
+description: A registration form to use user email address to register.
+core: 8.x
+package: Custom
+type: module
+configure: am_registration.settings_form

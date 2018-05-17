@@ -1,0 +1,78 @@
+am_bsd_tools.get_constituents_by_id:
+  path: '/am_bsd_tools/get_constituents_by_id'
+  defaults:
+    _controller: '\Drupal\am_bsd_tools\Controller\amBSDToolsController::getConstituentsByIdAjax'
+  requirements:
+    _permission: 'access content'
+am_bsd_tools.remove_cons_ids_from_group:
+  path: '/am_bsd_tools/remove_cons_ids_from_group'
+  defaults:
+    _controller: '\Drupal\am_bsd_tools\Controller\amBSDToolsController::removeConsIdsFromGroupAjax'
+  requirements:
+    _permission: 'access content'
+am_bsd_tools.list_constituent_groups:
+  path: '/am_bsd_tools/list_constituent_groups'
+  defaults:
+    _controller: '\Drupal\am_bsd_tools\Controller\amBSDToolsController::listConstituentGroups'
+  requirements:
+    _permission: 'access content'
+am_bsd_tools.get_constituents_by_email:
+  path: '/am_bsd_tools/get_constituents_by_email'
+  defaults:
+    _controller: '\Drupal\am_bsd_tools\Controller\amBSDToolsController::getConstituentsByEmail'
+  requirements:
+    _permission: 'access content'
+am_bsd_tools.set_constituent_data:
+  path: '/am_bsd_tools/set_constituent_data'
+  defaults:
+    _controller: '\Drupal\am_bsd_tools\Controller\amBSDToolsController::setConstituentDataAjax'
+  requirements:
+    _permission: 'access content'
+am_bsd_tools.email_register:
+  path: '/am_bsd_tools/email_register'
+  defaults:
+    _controller: '\Drupal\am_bsd_tools\Controller\amBSDToolsController::emailRegister'
+  requirements:
+    _permission: 'access content'
+am_bsd_tools.email_register_ajax:
+  path: '/am_bsd_tools/email_register_ajax'
+  defaults:
+    _controller: '\Drupal\am_bsd_tools\Controller\amBSDToolsController::emailRegisterAjax'
+  requirements:
+    _permission: 'access content'
+am_bsd_tools.charge_ajax:
+  path: '/am_bsd_tools/charge_ajax'
+  defaults:
+    _controller: '\Drupal\am_bsd_tools\Controller\amBSDToolsController::donationChargeAjax'
+  requirements:
+    _permission: 'access content'
+am_bsd_tools.email_delete:
+  path: '/am_bsd_tools/email_delete'
+  defaults:
+    _controller: '\Drupal\am_bsd_tools\Controller\amBSDToolsController::emailDelete'
+  requirements:
+    _permission: 'access content'
+am_bsd_tools.bsdlivesettings_form:
+  path: '/admin/config/bsdsettings_live'
+  defaults:
+    _form: '\Drupal\am_bsd_tools\Form\BSDAPI\BSDAPILiveSettingsForm'
+    _title: 'BSD API Live Settings'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+am_bsd_tools.bsdtestsettings_form:
+  path: '/admin/config/bsdsettings_test'
+  defaults:
+    _form: '\Drupal\am_bsd_tools\Form\BSDAPI\BSDAPITestSettingsForm'
+    _title: 'BSD API Test Settings'
+  requirements:
+    _permission: 'access administration pages'
+  options:
+    _admin_route: TRUE
+am_bsd_tools.get_by_token:
+  path: '/am_bsd_tools/get_by_token'
+  defaults:
+    _controller: '\Drupal\am_bsd_tools\Controller\amBSDToolsController::getRecurringContribution'
+  requirements:
+    _permission: 'access content'

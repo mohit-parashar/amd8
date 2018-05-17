@@ -1,0 +1,12 @@
+name: Modular page views
+description: 'Import modular page and basic site page configuration settings.'
+core: 8.x
+package: Custom
+type: module
+dependencies:
+  - bootstrap_kit
+  - bricks
+  - bricks_default
+  - eck
+  - inline_entity_form
+  - viewfield

@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.paragraph_reference
+    - field.field.brick.paragraph_reference.field_paragraph
+id: brick.paragraph_reference.default
+targetEntityType: brick
+bundle: paragraph_reference
+mode: default
+content: {  }
+hidden:
+  field_paragraph: true
+  title: true

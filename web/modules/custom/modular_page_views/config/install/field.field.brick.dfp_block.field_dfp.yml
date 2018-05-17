@@ -1,0 +1,23 @@
+uuid: 725731be-bcd6-422d-8698-fb4b445d0d6d
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.dfp_block
+    - field.storage.brick.field_dfp
+id: brick.dfp_block.field_dfp
+field_name: field_dfp
+entity_type: brick
+bundle: dfp_block
+label: DFP
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:dfp_tag'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

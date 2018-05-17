@@ -1,0 +1,23 @@
+uuid: 058597ed-6611-4abf-b2fb-ac55b00e1833
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.block_reference
+    - field.storage.brick.field_block
+id: brick.block_reference.field_block
+field_name: field_block
+entity_type: brick
+bundle: block_reference
+label: Block
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:block'
+  handler_settings:
+    target_bundles: null
+    auto_create: false
+field_type: entity_reference

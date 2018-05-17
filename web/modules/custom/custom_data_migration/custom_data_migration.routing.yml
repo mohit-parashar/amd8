@@ -1,0 +1,132 @@
+custom_data_migration:
+    path: /migration
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::migration
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_user:
+    path: /migration/user-data
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::user_migration
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_taxonomy:
+    path: /migration/taxonomy-data
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::taxonomy_migration
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_node_profile:
+    path: /migration/node-profile
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_profile
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_node_basicpage:
+    path: /migration/node-basicpage
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_basicpage
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_node_book:
+    path: /migration/node-book
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_book
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_node_issue:
+    path: /migration/node-issue
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_issue
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_node_podcast:
+    path: /migration/node-podcast
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_podcast
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_node_bookreview:
+    path: /migration/node-bookreview
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_bookreview
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_node_article:
+    path: /migration/node-article
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_article
+    requirements:
+        _permission: 'access content'
+
+custom_data_migration_blog_post_article:
+    path: /migration/node-blog-post-article
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_blog_post_article
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_node_video:
+    path: /migration/node-video
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_video
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_node_theword:
+    path: /migration/node-theword
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_theword
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_comments:
+    path: /migration/comments
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::comments_migration
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_node_photo_gallery:
+    path: /migration/photo-gallery
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::node_migration_photo_gallery
+    requirements:
+        _permission: 'access content'
+
+
+custom_data_migration_deeptemp:
+    path: /migration/deeptemp
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::deeptemp_work
+    requirements:
+        _permission: 'access content'
+
+custom_data_migration_theword_bodytoken:
+    path: /migration/theword-bodytoken
+    defaults:
+        _controller: Drupal\custom_data_migration\Controller\CustomDataMigrationController::theword_bodytoken
+    requirements:
+        _permission: 'access content'

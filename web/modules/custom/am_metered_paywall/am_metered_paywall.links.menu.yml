@@ -1,0 +1,6 @@
+am_metered_paywall.settings_form:
+  title: 'Metered Paywall'
+  route_name: am_metered_paywall.settings_form
+  description: 'Settings for Metered Paywall'
+  parent: system.admin_config_system
+  weight: 99

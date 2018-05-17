@@ -1,0 +1,28 @@
+bsd_api_key_value: 'b37f038f038d38df26beb42afd9b49368163fe1e'
+
+get_constituents_by_id: 'http://diasparktest.cp.bsd.net/page/api/cons/get_constituents_by_id'
+get_constituents_by_email: 'http://diasparktest.cp.bsd.net/page/api/cons/get_constituents_by_email'
+merge_constituents_by_email: 'http://diasparktest.cp.bsd.net/page/api/cons/merge_constituents_by_email'
+set_constituent_data: 'http://diasparktest.cp.bsd.net/page/api/cons/set_constituent_data'
+
+list_constituent_groups: 'http://diasparktest.cp.bsd.net/page/api/cons_group/list_constituent_groups'
+remove_cons_ids_from_group: 'http://diasparktest.cp.bsd.net/page/api/cons_group/remove_cons_ids_from_group'
+
+get_deferred_results: 'http://diasparktest.cp.bsd.net/page/api/get_deferred_results'
+loe: 'https://diasparktest.bsd.net/page/graph/loe'
+
+email_register: 'http://diasparktest.cp.bsd.net/page/api/cons/email_register'
+email_delete: 'http://diasparktest.cp.bsd.net/page/api/cons/email_delete'
+send_triggered_email: 'http://diasparktest.cp.bsd.net/page/api/mailer/send_triggered_email'
+
+Charge: 'https://diasparktest.cp.bsd.net/page/cde/Api/Charge/v1'
+get_by_token: 'https://diasparktest.cp.bsd.net /page/api/contribution_recurring/get_by_token'
+
+donation_email: 'UA'
+one_time_login_link: 'VA'
+email_address_update: 'UQ'
+newslatter_subscribe: 'Vg'
+contact_form_message: 'Vw'
+donation_error: 'VFI'
+
+donation_error_email: 'webmaster@americamedia.org'

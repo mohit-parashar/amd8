@@ -1,0 +1,88 @@
+<?php
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+
+function am_metered_paywall_page_attachments_alter(&$page) {
+
+  $config = \Drupal::config('am_metered_paywall.settings');
+  $metered_node_types = array();
+  $metered_node_types = $config->get('metered_node_types');
+
+  if (empty($metered_node_types)) {
+    return false;
+  }
+  $is_set = false;
+  foreach ($metered_node_types as $key => $value) {
+   if ($value != '0') {
+     $is_set = true;
+     break;
+    }
+  }
+
+  if ($is_set == false) {
+    return false;
+  }
+
+  $metered_limit = $config->get('content_paywall_metered_limit');
+  $metered_limit_email = $config->get('content_paywall_metered_limit_email');
+  $metered_limit_auth = $config->get('content_paywall_metered_limit_auth');
+
+  $metered_authenticate_paywall_status = $config->get('metered_authenticate_paywall_status');
+
+  $metered_anonymous_paywall_status = $config->get('metered_anonymous_paywall_status');
+
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    $content_type = $node->bundle();
+    $nid  = $node->id();
+    $page['#attached']['drupalSettings']['paywall']['current_content_type'] = $content_type;
+    $page['#attached']['drupalSettings']['paywall']['current_nid'] = $nid;
+  }else{
+    return false;
+  }
+
+  $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+
+    //Anonymous or authenticated
+  if($user->isAnonymous()){
+      $variables['current_user_state'] = 0;
+      $page['#attached']['drupalSettings']['paywall']['current_user_state'] = 0;
+      $page['#attached']['drupalSettings']['paywall']['is_norSubscriber_norDonor'] = 1;
+    }else{
+      $userRoles = $user->getRoles();
+      // echo "<pre>"; print_r($userRoles); die();
+      if (!in_array("administrator", $userRoles) && !in_array("editor", $userRoles) && !in_array("comments_manager", $userRoles) && !in_array("site_manager", $userRoles)) {
+
+        if (!in_array("donor", $userRoles) && !in_array("subscriber", $userRoles)) {
+          // user is nor donor and nor subscriber.
+          $page['#attached']['drupalSettings']['paywall']['is_norSubscriber_norDonor'] = 1;
+        }else{
+          // user is either donor or subscriber.
+          $page['#attached']['drupalSettings']['paywall']['is_norSubscriber_norDonor'] = 0;
+        }
+
+    }
+
+      $page['#attached']['drupalSettings']['paywall']['current_user_state'] = 1;
+    }
+
+  $page['#attached']['library'][] = 'am_metered_paywall/am_paywall';
+  $page['#attached']['drupalSettings']['paywall']['metered_node_types'] = $metered_node_types;
+  $page['#attached']['drupalSettings']['paywall']['metered_limit_auth'] = $metered_limit_auth;
+
+  $page['#attached']['drupalSettings']['paywall']['metered_limit'] = $metered_limit;
+  $page['#attached']['drupalSettings']['paywall']['metered_limit_email'] = $metered_limit_email;
+
+  $page['#attached']['drupalSettings']['paywall']['metered_authenticate_paywall_status'] = $metered_authenticate_paywall_status;
+  $page['#attached']['drupalSettings']['paywall']['metered_anonymous_paywall_status'] = $metered_anonymous_paywall_status;
+
+  if(isset($_SERVER['PANTHEON_ENVIRONMENT'])){
+    if($_SERVER['PANTHEON_ENVIRONMENT'] == 'live') {
+      $page['#attached']['drupalSettings']['paywall']['env'] = 'live';
+    }
+    else {
+      $page['#attached']['drupalSettings']['paywall']['env'] = 'dev';
+    }
+  }
+}

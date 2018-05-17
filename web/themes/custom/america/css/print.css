@@ -1,0 +1,17 @@
+@media print{
+  a:link:after { content: " (" attr(href) ") "; display:none; }
+  header{display:none;}
+  .page-header{padding: 10px 0px 10px 0px !important;}
+  .breadcrumb{margin-bottom:0;}
+  .container-right,.author .container-right{display:none;}
+  span.contentTweetBlock  .iconQuote{display: none;}
+  span.contentTweetBlock{ font-style:italic; padding:0; font-size:15px; line-height:24px;}
+  .contentTweetBlock .tweetlLink{display:none;}
+  .videoBlock {display: none;}
+  .contentTweetBlock .twitter{float:left;}
+  .relatedStory {display: none;}
+  p {margin-bottom: 15px;}
+  .bottomSociaLinks,.commentBox , .latestFromAmericaHeading,.latestListing, .contentArea>.region-full-content-1>section>#js-dfp-tag-homepage_728_90, .contentArea>.region-full-content-1>section>#js-dfp-tag-homepage_970_90, .contentArea>.region-full-content-1>section>#js-dfp-tag-article_728_90, .contentArea>.region-full-content-1>section>#js-dfp-tag-article_970_90, .contentArea>.region-full-content-1>section>#js-dfp-tag-channel_front_970_90, .contentArea>.region-full-content-1>section>#js-dfp-tag-channel_front_728_90, .contentArea>.region-full-content-1>section>#js-dfp-tag-listing_728_90, .contentArea>.region-full-content-1>section>#js-dfp-tag-listing_970_90, .all-page-listing-leaderboard-btf #js-dfp-tag-listing_leaderboard_btf_728x90_970x90_, .all-page-articles-leaderboard-btf #js-dfp-tag-article_leaderboard_btf_728x90_970x90, footer, .copyright, .contentBoxSmall.relatedStory , .authorBlockBottom, .view-article-image, .authorThumb{display: none !important;}
+  .col-md-8 .signUpNewsLetterHomeWrapper{display:none;}
+
+}

@@ -1,0 +1,20 @@
+uuid: 50258200-385e-4aa4-9a19-8bc66a1400f0
+langcode: en
+status: true
+dependencies:
+  module:
+    - dfp
+    - eck
+id: brick.field_dfp
+field_name: field_dfp
+entity_type: brick
+type: entity_reference
+settings:
+  target_type: dfp_tag
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

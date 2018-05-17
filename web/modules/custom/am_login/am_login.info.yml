@@ -1,0 +1,5 @@
+name: AM Login
+description: Alter Login, register page.
+core: 8.x
+package: Custom
+type: module

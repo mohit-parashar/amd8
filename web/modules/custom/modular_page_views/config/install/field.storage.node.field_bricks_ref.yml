@@ -1,0 +1,21 @@
+uuid: 5c9eee7d-bb5b-423d-a694-547715be0d4b
+langcode: en
+status: true
+dependencies:
+  module:
+    - bricks
+    - eck
+    - node
+id: node.field_bricks_ref
+field_name: field_bricks_ref
+entity_type: node
+type: bricks
+settings:
+  target_type: brick
+module: bricks
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

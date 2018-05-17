@@ -1,0 +1,75 @@
+{#
+/**
+ * @file
+ * Default theme implementation of a creditcard composite webform element.
+ *
+ * Available variables:
+ * - content: The creditcard webform element to be output.
+ * - flexbox: Determines if Flexbox layout should be applied to the composite
+ *   element.
+ *
+ * @see template_preprocess_webform_creditcard()
+ *
+ * @ingroup themeable
+ */
+#}
+{{ attach_library('webform/webform.element.composite') }}
+{% if flexbox %}
+
+  {{  content.warning }}
+
+  {% if content.name %}
+    <div class="webform-flexbox">
+      <div class="webform-flex webform-flex--1"><div class="webform-flex--container">{{ content.name }}</div></div>
+    </div>
+  {% endif %}
+
+  <div class="webform-flexbox">
+    {% if content.type %}
+      <div class="webform-flex webform-flex--1"><div class="webform-flex--container">{{ content.type }}</div></div>
+    {% endif %}
+    <div class="webform-flex webform-flex--2"><div class="webform-flex--container">{{ content.number }}</div></div>
+    <div class="webform-flex webform-flex--1"><div class="webform-flex--container">{{ content.civ }}</div></div>
+  </div>
+
+  <div class="webform-flexbox">
+    <div class="webform-flex webform-flex--1"><div class="webform-flex--container">
+      {{ content.expiration }}
+      {{ content.expiration_month }}
+      {{ content.expiration_year }}
+    </div></div>
+  </div>
+
+{% else %}
+
+{% if content.name %}
+  <div class="row">
+   <div class="col-md-8 col-sm-8 col-xs-12">
+      {{ content.name }}
+   </div>
+</div>
+{% endif %}
+
+  <div class="row four-column">
+     <div class="col-md-7 col-sm-7 col-xs-12 two-block">
+        <div class="col-md-7 col-sm-7 col-xs-12">
+           {{ content.number }}
+        </div>
+        <div class="col-md-5 col-sm-5 col-xs-12">
+             {{ content.expiration_month }}
+        </div>
+     </div>
+   </div>
+     <div class="col-md-5 col-sm-5 col-xs-12">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+             {{ content.expiration_year }}
+        
+        <div class="col-md-6 col-sm-6 col-xs-12">
+           <div class="credit-cvv">
+              {{ content.civ }}
+              <span class="tip d-cvv" data-tip="d-cvv" data-original-title="" title=""></span><div id="d-cvv" class="tip-content hide"><span class="tip-image"></span></div>
+           </div>
+        </div>
+     </div>
+  </div>
+{% endif %}

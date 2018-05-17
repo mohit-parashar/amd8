@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * Implements hook_user_login().
+ */
+function am_social_login_user_login($account) {
+  $name = $account->getUsername();
+  if (user_is_blocked($name)) {
+    drupal_set_message(t('Your account is blocked.'), 'error');
+  }
+}

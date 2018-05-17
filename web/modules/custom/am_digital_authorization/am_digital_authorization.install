@@ -1,0 +1,39 @@
+<?php
+
+/**
+ * Implements hook_schema().
+ *
+ * Defines the database tables used by this module.
+ *
+ * @see hook_schema()
+ *
+ */
+function am_digital_authorization_schema() {
+  $schema['am_digital_authorization'] = [
+    'description' => 'Stores digital authorization entries for authenticate purposes.',
+    'fields' => [
+      'uid' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => "Creator user's {users}.uid",
+      ],
+      'hash' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'Login hash of the user.',
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Unix timestamp of created row.',
+      ],
+    ],
+    'primary key' => ['uid'],
+  ];
+
+  return $schema;
+}

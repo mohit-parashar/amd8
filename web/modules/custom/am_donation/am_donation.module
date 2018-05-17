@@ -1,0 +1,229 @@
+<?php
+
+use Drupal\Core\Url;
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use \Drupal\Core\Session\AccountInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+use Drupal\am_donation\Controller\RetrieveCustomerNumber;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\HtmlCommand;
+use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Ajax\ReplaceCommand;
+use Drupal\Core\Mail\MailManagerInterface;
+use Drupal\Component\Utility\SafeMarkup;
+use Drupal\Component\Utility\Html;
+
+/**
+ * Implements hook_form_alter().
+ */
+function am_donation_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+
+  if ($form_id == 'webform_submission_donation_add_form' || $form_id == 'webform_submission_tuesday_donation_add_form' | $form_id == 'webform_submission_anniversary_challenge_add_form') {
+    unset($form['actions']['submit']);
+  }
+
+  if ($form['#form_id'] == 'contact_message_donation_feedback_form') {
+
+    unset($form['message']['widget']['0']['value']['#title']);
+    // $form['message']['widget']['0']['#field_prefix'] = "<div class = designate-gift-textbox>";
+    // $form['message']['widget']['0']['#field_suffix'] = "</div>";
+    $form['message']['widget']['0']['#prefix'] = "<div id='error-msg' class='form-group'></div><div class = 'designate-gift-textbox'>";
+    $form['message']['widget']['0']['#suffix'] = "</div>";
+    $form['actions']['submit']['#prefix'] = "<div class='cornerButtenWrapper btn-subscribe-submit'><div class='buttenWrapperInner redBg'>";
+
+    $ajax_array = array(
+        'callback' => '_am_donation_form_submit_handler',
+        'event' => 'click',
+        'progress' => array(
+          'type' => 'baryy',
+          'message' => 'Processing...',
+        ),
+      );
+    $form['actions']['submit']['#ajax'] = $ajax_array;
+  }
+}
+
+
+function am_donation_page_attachments_alter(&$page) {
+
+  $current_path = \Drupal::service('path.current')->getPath();
+  $current_uri = \Drupal::service('path.alias_manager')->getAliasByPath($current_path);
+  if ($current_uri === "/form/donation" || $current_uri === "/donation") {
+    $page['#attached']['library'][] = 'am_donation/donation_form';
+  } else if ($current_uri === "/giving-tuesday") {
+    $page['#attached']['library'][] = 'am_donation/tuesday_donation';
+  } else if ($current_uri === "/anniversary-challenge") {
+    $page['#attached']['library'][] = 'am_donation/anniversary_challenge';
+  } else {
+    return;
+  }
+
+  if (!(\Drupal::currentUser()->isAnonymous())) {
+      // Logged in user...
+      // Get PSN if any and auto fill the PSN field.
+      $user = \Drupal\user\Entity\User::load(\Drupal::currentUser()->id());
+      $first_name = $user->field_first_name->value;
+      $last_name = $user->field_last_name->value;
+      $mail = $user->mail->value;
+    $PSN = $user->field_print_subscription_number->value;
+    $page['#attached']['drupalSettings']['am_donation']['first_name'] = $first_name;
+    $page['#attached']['drupalSettings']['am_donation']['last_name'] = $last_name;
+    $page['#attached']['drupalSettings']['am_donation']['mail'] = $mail;
+    $page['#attached']['drupalSettings']['am_donation']['psn'] = $PSN;
+    $page['#attached']['drupalSettings']['am_donation']['logged_in'] = true;
+  }else{
+    $page['#attached']['drupalSettings']['am_donation']['logged_in'] = false;
+  }
+}
+
+
+function am_donation_user_login($account) {
+
+  $RetrieveCustomerNumber = new RetrieveCustomerNumber;
+  $RetrieveCustomerNumber->retrieve_customer_number($account);
+  // return;
+}
+
+
+/**
+ * Implements hook_views_data().
+ */
+function am_donation_views_data() {
+  $data = [];
+  // Base data.
+  $data['webform_submission_data']['table']['group'] = t('Webform submission data');
+  $data['webform_submission_data']['table']['base'] = [
+    'title' => t('Webform submission data'),
+    'help' => t('Webform submission data.'),
+  ];
+
+  // Fields.
+  $data['webform_submission_data']['webform_id'] = [
+    'title' => t('Webform Id'),
+    'help' => t('Webform Id.'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['webform_submission_data']['sid'] = [
+    'title' => t('Submission Id'),
+    'help' => t('Submission Id of the donation'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'string',
+    ],
+
+    'relationship' => [
+      'base' => 'webform_submission', // The name of the table to join with
+      'field' => 'sid', // The name of the field to join with
+      'id' => 'standard',
+      'label' => t('Example node'),
+    ],
+  ];
+
+  $data['webform_submission_data']['name'] = [
+    'title' => t('Name'),
+    'help' => t('Webform submission name.'),
+    'field' => [
+      'id' => 'standard',
+      'handler' => 'views_handler_filter_string',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+  $data['webform_submission_data']['value'] = [
+    'title' => t('Value'),
+    'help' => t('Webform submission value.'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ],
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  // $data['webform_submission']['table']['join'] = array(
+  //   // Index this array by the table name to which this table refers.
+  //   // 'left_field' is the primary key in the referenced table.
+  //   // 'field' is the foreign key in this table.
+  //   'webform_submission_data' => array(
+  //     'left_field' => 'sid',
+  //     'field' => 'sid',
+  //   ),
+  // );
+
+  return $data;
+}
+
+function _am_donation_form_submit_handler(&$form, FormStateInterface $form_state, $form_id) {
+  $ajax_response = new AjaxResponse();
+
+  // Get message
+  $text = $form_state->getValue('message');
+  $message = $text['0']['value'];
+
+  // Validate message
+  if ($message == '') {
+    $ajax_response->addCommand(new HtmlCommand('#error-msg', ''));
+    $ajax_response->addCommand(new HtmlCommand('#error-msg', 'Please enter your message.'));
+
+    return $ajax_response;
+  }else{
+    // Thank you message.
+    $alert = '<div class="alert alert-dismissable fade in welcome-alert">
+    <div class="container">
+      <a href="" class="close" data-dismiss="alert" aria-label="close">×</a>
+       <span class="message">
+           Thanks for your feedback.
+       </span>
+     </div>
+    </div>';
+
+  $ajax_response->addCommand(new HtmlCommand('#block-donationfeedbackform', $alert));
+  $ajax_response->addCommand(new ReplaceCommand('.container-fluid.bgColor.question-wrap', $alert));
+  return $ajax_response;
+  }
+
+}
+
+/**
+ * Implements hook_mail().
+ */
+function am_donation_mail($key, &$message, $params) {
+  $options = array(
+    'langcode' => $message['langcode'],
+  );
+  switch ($key) {
+    case 'am_donation_bsd_error':
+      $message['from'] = 'webmaster@americamedia.org';
+      $message['subject'] = t('@title', array('@title' => $params['title']), $options);
+      $message['body'][] = $params['message'];
+      $message['headers'] = array(
+        'content-type' => 'text/html',
+        'MIME-Version' => '1.0',
+        'reply-to' => 'webmaster@americamedia.org',
+        'from' => 'webmaster@americamedia.org'
+      );
+      break;
+  }
+}

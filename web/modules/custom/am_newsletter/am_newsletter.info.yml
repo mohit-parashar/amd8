@@ -1,0 +1,8 @@
+name: AM Newsletter
+type: module
+description: Perform Newsletter related task in the BSD system.
+dependencies:
+  - am_bsd_tools
+package: Newsletter
+version: '8.x-1.x'
+core: '8.x'

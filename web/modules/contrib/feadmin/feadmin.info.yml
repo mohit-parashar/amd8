@@ -1,0 +1,11 @@
+name: Front-End Administration
+type: module
+description: 'This module aims to explore new way to administer your Drupal site from frontend.'
+package: Experimental
+# core: 8.x
+configure: 'feadmin.settings'
+# Information added by Drupal.org packaging script on 2016-03-11
+version: '8.x-1.0-rc5'
+core: '8.x'
+project: 'feadmin'
+datestamp: 1457680445

@@ -1,0 +1,20 @@
+uuid: 948b3677-d13d-404c-8e97-1bf1ddc6866d
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.user.field_print_subscription_number
+  module:
+    - user
+id: user.user.field_print_subscription_number
+field_name: field_print_subscription_number
+entity_type: user
+bundle: user
+label: 'Print subscription number'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

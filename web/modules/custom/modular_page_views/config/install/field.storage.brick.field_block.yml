@@ -1,0 +1,20 @@
+uuid: b316e88b-e555-4da9-92c2-acbd22516c45
+langcode: en
+status: true
+dependencies:
+  module:
+    - block
+    - eck
+id: brick.field_block
+field_name: field_block
+entity_type: brick
+type: entity_reference
+settings:
+  target_type: block
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

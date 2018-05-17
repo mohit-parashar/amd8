@@ -1,0 +1,154 @@
+<?php
+
+/**
+ * Implements hook_page_attachments_alter().
+ */
+function am_subscription_page_attachments_alter(&$page) {
+
+  $current_uri = \Drupal::request()->getRequestUri();
+  if ($node = \Drupal::routeMatch()->getParameter('node')) {
+    $type = $node->getType();
+    if ($current_uri === "/subscribe" || $type == 'subscription_offer') {
+      $page['#attached']['library'][] = 'am_subscription/subscription_form';
+    }
+  }
+}
+
+/**
+ * Implements hook_views_data().
+ */
+function am_subscription_views_data() {
+  $data = [];
+  // Base data.
+  $data['am_subscription']['table']['group'] = t('Subscription Statistics');
+  $data['am_subscription']['table']['base'] = [
+    'title' => t('Subscription Statistics'),
+    'help' => t('Subscription Statistics.'),
+  ];
+
+  // Fields.
+  $data['am_subscription']['id'] = [
+    'title' => t('Id'),
+    'help' => t('Id.'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['am_subscription']['uid'] = [
+    'title' => t('Subscriber User Id'),
+    'help' => t('UID of the user who subscribed. User can be anonymous or authenticated.'),
+    'field' => [
+      'id' => 'numeric',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+
+  ];
+
+  $data['am_subscription']['custid'] = [
+    'title' => t('Subscriber Customer Id'),
+    'help' => t('Customer Id of the subscription.'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+
+  ];
+
+  $data['am_subscription']['email'] = [
+    'title' => t('Subscriber Email'),
+    'help' => t('Email id of the subscriber.'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['am_subscription']['orderid'] = [
+    'title' => t('Subscriber Order Id'),
+    'help' => t('Order Id of the subscription.'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['am_subscription']['sfs_response'] = [
+    'title' => t('SFS response'),
+    'help' => t('Subscription SFS response.'),
+    'field' => [
+      'id' => 'standard',
+    ],
+    'sort' => [
+      'id' => 'standard',
+    ], 
+    'filter' => [
+      'id' => 'string',
+    ],
+  ];
+
+  $data['am_subscription']['created'] = [
+    'title' => t('Subscription submission date'),
+    'help' => t('Subscription submission date.'),
+    'field' => [
+      'id' => 'date',
+    ],
+    'sort' => [
+      'id' => 'date',
+    ], 
+    'filter' => [
+      'id' => 'date',
+    ],
+  ];
+  // $data['webform_submission']['table']['join'] = array(
+  //   // Index this array by the table name to which this table refers.
+  //   // 'left_field' is the primary key in the referenced table.
+  //   // 'field' is the foreign key in this table.
+  //   'webform_submission_data' => array(
+  //     'left_field' => 'sid', 
+  //     'field' => 'sid',
+  //   ),
+  // );
+
+  return $data;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function am_subscription_preprocess_page(&$variables) {
+  // Get current path.
+  $current_path = \Drupal::service('path.current')->getPath();
+  $path_alias = \Drupal::service('path.alias_manager')->getAliasByPath($current_path);
+  // Clear cache only for specific page
+  if ($path_alias == '/subscribe') {
+    // Reset cache.
+    Drupal::entityManager()->getViewBuilder('node')->resetCache();
+  }
+}

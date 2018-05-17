@@ -1,0 +1,62 @@
+{% for row in rows %}
+	<link>{{ base_url }}</link>
+		   <pubDate>{{ row.content }}</pubDate>
+					<item>
+					  <title>America Magazine - Cover</title>
+						<link>{{ base_url }}/kindle/Section_Cover.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Of Many Things</title>
+						<link>{{ base_url }}/kindle/Section_OfManyThings.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Your Take</title>
+						<link>{{ base_url }}/kindle/Section_YourTake.xml</link>
+					</item>					
+					<item>
+					  <title>America Magazine - Editorials</title>
+						<link>{{ base_url }}/kindle/Section_Editorial.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Short Take</title>
+						<link>{{ base_url }}/kindle/Section_ShortTake.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Dispatches</title>
+						<link>{{ base_url }}/kindle/Section_Dispatches.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Features</title>
+						<link>{{ base_url }}/kindle/Section_Feature.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Faith in Focus</title>
+						<link>{{ base_url }}/kindle/Section_FaithInFocus.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Vantage Point</title>
+						<link>{{ base_url }}/kindle/Section_VantagePoint.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Culture</title>
+						<link>{{ base_url }}/kindle/Section_Culture.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Books</title>
+						<link>{{ base_url }}/kindle/Section_Books.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Poem</title>
+						<link>{{ base_url }}/kindle/Section_Poem.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - The World</title>
+						<link>{{ base_url }}/kindle/Section_TheWord.xml</link>
+					</item>
+					<item>
+					  <title>America Magazine - Last Take</title>
+						<link>{{ base_url }}/kindle/Section_LastTake.xml</link>
+					</item>
+		<description>America Magazine: {{ row.content }}</description>
+
+{% endfor %}

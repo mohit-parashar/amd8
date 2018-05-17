@@ -1,0 +1,109 @@
+<?php
+
+use Drupal\Core\Url;
+//use Drupal\Core\Ajax\AjaxResponse;
+//use Drupal\Core\Ajax\ChangedCommand;
+//use Drupal\Core\Ajax\CssCommand;
+//use Drupal\Core\Ajax\HtmlCommand;
+//use Drupal\Core\Ajax\InvokeCommand;
+use Drupal\Core\Form\FormBase;
+use Drupal\Core\Form\FormStateInterface;
+use \Drupal\Core\Session\AccountInterface;
+use Symfony\Component\HttpFoundation\RedirectResponse;
+
+/**
+ * Implementation of hook_form_alter()
+ */
+function am_login_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  global $base_url;
+
+  if ($form_id == 'user_login_form') {  	
+    $form['#prefix'] = '<div id="loginModel">';
+    $form['#suffix'] = '</div>';
+	/*	
+	$form['description'] = array(
+	    '#prefix'=>"<div class='whyContent'>",
+	    '#type' => 'item',
+	    '#weight' => -100,
+	    '#attributes' => array('class' => array('reg-account-description')),
+	    '#description' => t('<a href="#AMwhyAnswerL" data-toggle="collapse" aria-expanded="false" aria-controls="AMwhyAnswerL" class="whyQue collapsed">Why am I being asked to log in?</a> <span id="AMwhyAnswerL" class="collapse" aria-expanded="false" style="height: 0px;">
+	                      if you are trying to comment, you must log in or set up a new account. this helps us promote a safe and accountable online community, and allows us to update you when other commenters reply to your posts. <a href="/privacy-policy" class="readPolicies"> Read more about our policies</a> | <a href="#whyAnswer" data-toggle="collapse" aria-expanded="false" aria-controls="whyAnswer" class="closeMsg collapsed">Close this message</a></span>'),
+	    '#suffix'=>	"</div>",
+    ); 
+	 */   
+  $form['#title'] = t('Log in to your account');
+  $form['name']['#title_display'] = 'invisible';
+	$form['mail'] = array(        
+        '#markup' => t('<div class="amlogintitle">Enter your email address and password</div>'),
+        '#weight' => -99,        
+      );	
+	$form['pass']['#title_display'] = 'invisible';	
+	$form['name']['#attributes'] = array('placeholder' => t('Email address'),'class' => array('form-control'));
+	$form['pass']['#attributes'] = array('placeholder' => t('password'),'class' => array('form-control'));	
+    $form['actions']['submit']['#prefix'] = '<div id="am_login_submit">';
+	$form['actions']['submit']['#suffix'] = '</div>';	
+    $items = array();        
+    $form['user_links'] = array(      
+      '#markup' => t('<div class="loginLink"><a href="#">Send me a log in link</a></div><div class="forgotPasswordLink"><a href="#">Forgot my password</a></div>'),
+      '#weight' => 100,
+    );
+	
+ }
+elseif($form_id == 'user_pass'){
+	/*	
+	$form['description'] = array(
+	    '#prefix'=>"<div class='whyContent'>",
+	    '#type' => 'item',
+	    '#weight' => -100,
+	    '#attributes' => array('class' => array('sa-account-description')),
+	    '#description' => t('<a href="#AMwhyAnswerP" data-toggle="collapse" aria-expanded="false" aria-controls="AMwhyAnswerP" class="whyQue collapsed">
+	    Why am I being asked to log in?</a> <span id="AMwhyAnswerP" class="collapse" aria-expanded="false" style="height: 0px;">if you are trying to comment, you must log in or set up a new account. this helps us promote a safe and accountable online community, and allows us to update you when other commenters reply to your posts. 
+	    <a href="/privacy-policy" class="readPolicies"> Read more about our policies</a> | <a href="#whyAnswer" data-toggle="collapse" aria-expanded="false" aria-controls="whyAnswer" class="closeMsg collapsed">Close this message</a></span>'),
+	    '#suffix'=>	"</div>",
+    );	
+	 */
+	$form['name']['#attributes'] = array('placeholder' => t('Email address'),'class' => array('form-control'));
+	$items = array();    
+    $items['create_account'] = \Drupal::l(t('I want to use my password'), new Url('user.login', array(), array('attributes' => array('title' => t('Login with username and password.')))));
+    $form['user_links'] = array(      
+      '#markup' => t('<div class="usePassword"><a href="#">I want to use my password</a></div>'),
+      '#weight' => 100,
+    );	
+}	
+}
+/**
+ * Implements hook_user_login().
+ */
+function am_login_user_login(AccountInterface $account) {
+  //$response = new RedirectResponse('/');
+  //$response->send();
+}
+
+/*function usernameValidateCallback(array &$form, FormStateInterface $form_state) {
+    // Instantiate an AjaxResponse Object to return.
+    $ajax_response = new AjaxResponse();
+    
+    // Check if Username exists and is not Anonymous User (''). 
+    // Check Email by function user_load_by_mail
+    if (user_load_by_name($form_state->getValue('name')) && $form_state->getValue('name') != false) {
+      $text = 'User Found';
+      $color = 'green';
+    } else {
+      $text = 'Not recognized';
+      $color = 'red';
+    }
+    
+    // Add a command to execute on form, jQuery .html() replaces content between tags.
+    // In this case, we replace the desription with wheter the username was found or not.
+    $ajax_response->addCommand(new HtmlCommand('.whyContent', $text));
+    
+    // CssCommand did not work.
+    //$ajax_response->addCommand(new CssCommand('#edit-user-name--description', array('color', $color)));
+    
+    // Add a command, InvokeCommand, which allows for custom jQuery commands.
+    // In this case, we alter the color of the description.
+    $ajax_response->addCommand(new InvokeCommand('.whyContent', 'css', array('color', $color)));
+    
+    // Return the AjaxResponse Object.
+    return $ajax_response;
+  }*/

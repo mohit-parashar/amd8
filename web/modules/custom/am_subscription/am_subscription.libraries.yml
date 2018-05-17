@@ -1,0 +1,7 @@
+subscription_form:
+  version: 1.x
+  js:
+    js/am_subscribe.js: {preprocess: true, minified: true}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

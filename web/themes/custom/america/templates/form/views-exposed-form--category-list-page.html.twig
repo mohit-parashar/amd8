@@ -1,0 +1,42 @@
+{#
+/**
+ * @file
+ * Default theme implementation of a views exposed form.
+ *
+ * Available variables:
+ * - form: A render element representing the form.
+ *
+ * @ingroup templates
+ *
+ * @see template_preprocess_views_exposed_form()
+ */
+#}
+{% if q is not empty %}
+  {#
+    This ensures that, if clean URLs are off, the 'q' is added first,
+    as a hidden form element, so that it shows up first in the POST URL.
+  #}
+  {{ q }}
+{% endif %}
+<div class="filterBlock">
+    <div class="date-filter-wrap">
+      {% if startDate == 'Jan 01, 1900' %} 
+        {% set startDate = 'Start Date' %}
+      {% endif %}      
+      <input type="text" class="start_date" value="{{ startDate }}">
+      <input type="text" class="end_date" value="{{ endDate }}">
+    </div>
+    <div class="btn filterBtn collapsed" data-target="#filtersList" data-toggle="collapse" aria-expanded="false">Show filters</div>
+    <button class="btn search-term-form-submit">Search</button>
+    <div class="clearFilter"><a href="javaScript:clearTermFilter()">Clear filter</a></div>
+    <div class="filtersListWrapper collapse" id="filtersList" aria-expanded="false">
+        <div class="filtersList">
+          {{ form.type }}
+          <div style="display:none">
+            {{ form.field_start_date }} 
+            {{ form.field_end_date }}
+          </div>
+      {# {{ form }} #}
+    </div>
+  </div>
+</div>

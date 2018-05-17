@@ -1,0 +1,12 @@
+name: AM Donation Import
+type: module
+description: Import donation forms in site.
+package: Custom
+version: '8.x-1.x'
+core: '8.x'
+dependencies:
+  - webform
+  - webform_templates
+  - webform_ui
+  - am_sfs_integration
+  - am_bsd_tools

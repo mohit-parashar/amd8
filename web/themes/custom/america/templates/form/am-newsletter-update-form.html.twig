@@ -1,0 +1,24 @@
+<h3>America Email Newsletter Subscriptions</h3>
+<div id="success_message"></div>
+{% if form.field_cons_id_0_value %}
+	{{ form.field_cons_id_0_value }}
+{% endif %}
+
+{{ form.form_token }}
+{{ form.form_id }}
+{{ form.form_build_id }}
+{{ form.cannotspam }}
+<div id="email_preference_wrap" style="display:none;">
+{% if form.email_preference %}
+  	{{ form.email_preference }}
+{% endif %}
+{% if form.unsubscribe_me %}
+	{{ form.unsubscribe_me }}
+{% endif %}
+{% if form.update_preference %}
+	<div class="cornerButtenWrapper btn-subscribe-submit">
+		<div class="buttenWrapperInner"> {{ form.update_preference }} </div>
+	</div>
+{% endif %}
+</div>
+<div id="loading" class="form-overlay" style="display:block;">processing ...</div>

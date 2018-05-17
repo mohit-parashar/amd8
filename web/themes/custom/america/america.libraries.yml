@@ -1,0 +1,67 @@
+global-styling:
+  css:
+    theme:
+      css/ekko-lightbox.css: {preprocess: true, minified: true}
+      css/MyFontsWebfontsKit.css: {preprocess: true, minified: true}
+      css/fonts.css: {preprocess: true, minified: true}
+      css/bootstrap.css: {preprocess: true, minified: true}
+      css/smoothDivScroll.css: {preprocess: true, minified: true}
+      css/ss-symbolicons-block.css: {preprocess: true, minified: true}
+      css/style.css: {preprocess: true, minified: true}
+      css/custom-style.css: {preprocess: true, minified: true}
+      css/print.css: {preprocess: true, minified: true}
+
+  js:
+    js/custom.js: {preprocess: true, minified: true}
+    js/ekko-lightbox.js: {preprocess: true, minified: true}
+    js/jquery-ui-1.10.3.custom.min.js: {}
+    js/jquery.mousewheel.min.js: {}
+    js/jquery.kinetic.min.js: {}
+    js/jquery.smoothdivscroll-1.3-min.js: {}
+  dependencies:
+    - core/jquery
+    - core/jquery.cookie
+
+tweet-it:
+  js:
+    js/tweet-it.js: {preprocess: true, minified: true}
+  dependencies:
+    - core/jquery
+
+readmore:
+  header: true
+  js:
+    js/readmore.js: {preprocess: true, minified: true}
+  dependencies:
+    - core/jquery
+    - core/jquery.ui
+    - core/jquery.ui.datepicker
+
+# Element.
+
+webform.element.buttons:
+  version: VERSION
+  js:
+    js/webform.element.buttons.js: {}
+  dependencies:
+    - core/jquery.ui.button
+    - webform/jquery.common_ancestor
+
+# jQuery libraries.
+
+jquery.common_ancestor:
+  version: VERSION
+  js:
+    js/jquery.common_ancestor.js:  {}
+
+# Core jQuery libraries.
+
+jquery.ui.button:
+  version: VERSION
+  js:
+    js/button-min.js: { minified: true }
+  css:
+    component:
+      css/webform-custom.css: {}
+  dependencies:
+    - core/jquery.ui

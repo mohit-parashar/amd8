@@ -1,0 +1,267 @@
+<?php
+
+/**
+ * @file
+ * Install file for america_legacy module
+ *
+ * @author Ken Ficara <ken@harmoni.ca>
+ * @copyright Copyright (c) 2016 Harmonica LLC
+ *
+ */
+
+function america_legacy_paths() {
+  $legacy_paths = array (
+    'issue/content/article.cfm'               => 'article',
+    'content/article.cfm'                     => 'article',
+    'content/catholic-book-club.cfm'          => 'culture',
+    'blog/entry.cfm'                          => 'blog',
+    'blog/blog.cfm'                           => 'blogcategory',
+    'issue/blog/blog.cfm'                     => 'blogcategory',
+    'content/signs.cfm'                       => 'signs',
+    'content/culture.cfm'                     => 'culture',
+    'issue/content/culture.cfm'               => 'culture',
+    'content/podcast/podcast-index.cfm'       => 'podcast',
+    'issue/content/podcast/podcast-index.cfm' => 'podcast',
+  );
+  return $legacy_paths;
+}
+
+/**
+ * Implements hook_schema
+ */
+function america_legacy_schema() {
+  $schema = array ();
+
+  $schema['am_legacy_article'] = array(
+    'description' => 'Maps ColdFusion article IDs to Drupal NIDs',
+    'fields' => array(
+      'source' => array(
+        'description' => 'ID in old system',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'target' => array(
+        'description' => 'NID in Drupal',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('source'),
+  );
+
+  $schema['am_legacy_blog'] = array(
+    'description' => 'Maps ColdFusion blog IDs to Drupal NIDs',
+    'fields' => array(
+      'source' => array(
+        'description' => 'ID in old system',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'target' => array(
+        'description' => 'NID in Drupal',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('source'),
+  );
+
+  $schema['am_legacy_culture'] = array(
+    'description' => 'Maps ColdFusion culture IDs to Drupal NIDs',
+    'fields' => array(
+      'source' => array(
+        'description' => 'ID in old system',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'target' => array(
+        'description' => 'NID in Drupal',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('source'),
+  );
+
+  $schema['am_legacy_podcast'] = array(
+    'description' => 'Maps ColdFusion podcast IDs to Drupal NIDs',
+    'fields' => array(
+      'source' => array(
+        'description' => 'ID in old system',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'target' => array(
+        'description' => 'NID in Drupal',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('source'),
+  );
+
+  $schema['am_legacy_signs'] = array(
+    'description' => 'Maps ColdFusion SOT IDs to Drupal NIDs',
+    'fields' => array(
+      'source' => array(
+        'description' => 'ID in old system',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'target' => array(
+        'description' => 'NID in Drupal',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('source'),
+  );
+
+  $schema['am_legacy_blogcategory'] = array(
+    'description' => 'Maps ColdFusion blog IDs to Drupal blog names',
+    'fields' => array(
+      'source' => array(
+        'description' => 'ID in old system',
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'target' => array(
+        'description' => 'Drupal blog name',
+        'type' => 'varchar',
+        'length' => '25',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('source'),
+  );
+
+  $schema['am_legacy_blogentry'] = array(
+    'description' => 'Maps ColdFusion hex blog entry IDs to Drupal NIDs',
+    'fields' => array(
+      'source' => array(
+        'description' => 'ID in old system',
+        'type' => 'varchar',
+        'length' => '64',
+        'not null' => TRUE,
+        'default' => 0,
+      ),
+      'target' => array(
+        'description' => 'Drupal blog NID',
+        'type' => 'int',
+        'not null' => TRUE,
+      ),
+    ),
+    'primary key' => array('source'),
+  );
+
+  return ($schema);
+}
+
+/*
+ * Implements hook_install
+ *
+ * Loads database tables and installs aliases
+ */
+function america_legacy_install() {
+  $legacy_paths = america_legacy_paths();
+  $dir = drupal_get_path('module', 'america_legacy');
+  $maps = array_unique(array_values($legacy_paths));
+  array_push($maps, 'blogentry');
+  foreach ($maps as $map) {
+    if ($rows = file ("$dir/maps/$map.map", FILE_IGNORE_NEW_LINES)) {
+      $table ="am_legacy_$map";
+      if (db_table_exists($table)) {
+        $insert = db_insert($table)->fields(array('source','target'));
+        foreach ($rows as $r) {
+          $row = split("\t", $r);
+          $insert->values( array(
+            'source' => $row[0],
+            'target' => $row[1]
+          ));
+        }
+        $insert->execute();
+      }
+      else {
+        \Drupal::logger('america_legacy')->error("Missing table %t", array ('%t' => $table));
+      }
+    }
+    else {
+      \Drupal::logger('america_legacy')->error("Cannot load %map map", array ('%map' => $map));
+    }
+  }
+
+  // Install aliases for map tables
+  $legacy_paths = america_legacy_paths();
+  foreach ($legacy_paths as $p => $map) {
+    $path = \Drupal::service('path.alias_storage')->load(['alias'=>"/$p"]);
+    if (empty($path)) {
+      $path = \Drupal::service('path.alias_storage')->save("/legacy/$map", "/$p");
+    }
+  }
+  // Add special redirect for emailpost, which uses blog map.
+  $path = \Drupal::service('path.alias_storage')->load(['source'=>'/legacy/blog/emailpost']);
+  if (empty($path)) {
+    $path = \Drupal::service('path.alias_storage')->save('/legacy/blog/emailpost', '/blog/emailpost.cfm');
+  }
+
+  // Install static aliases
+  $dir = drupal_get_path('module', 'america_legacy');
+  if ($rows = file ("$dir/maps/static.map", FILE_IGNORE_NEW_LINES)) {
+    foreach ($rows as $r) {
+      $row = split("\t", $r);
+      $p = '/legacy/static/' . str_replace('/', ':', $row[1]);
+      $a = '/' . $row[0];
+      $path = \Drupal::service('path.alias_storage')->load(['alias'=>$a]);
+      if (empty($path)) {
+        $path = \Drupal::service('path.alias_storage')->save($p, $a);
+      }
+      else {
+        // Some map URLs are entered into static map by mistake. Warn when this happens.
+        $msg = 'Ignoring static mapping %a. Already aliased.';
+        $vars = ['%a' => $a];
+        \Drupal::logger('america_legacy')->warning($msg, $vars);
+        drupal_set_message(t($msg, $vars), 'warning');
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_uninstall.
+ *
+ * Remove legacy path aliases.
+ */
+function america_legacy_uninstall() {
+  // Delete path aliases for map functions
+  $legacy_paths = america_legacy_paths();
+  foreach ($legacy_paths as $p => $map) {
+    $path = \Drupal::service('path.alias_storage')->load(['alias'=>"/$p"]);
+    if (! empty($path)) {
+       \Drupal::service('path.alias_storage')->delete(array('pid' => $path['pid']));
+    }
+  }
+
+  // Delete emailpost path
+  $path = \Drupal::service('path.alias_storage')->load(['alias'=>'/blog/emailpost.cfm']);
+  if (! empty($path)) {
+    \Drupal::service('path.alias_storage')->delete(array('pid' => $path['pid']));
+  }
+
+  // Delete static path aliases
+  $dir = drupal_get_path('module', 'america_legacy');
+  if ($rows = file ("$dir/maps/static.map", FILE_IGNORE_NEW_LINES)) {
+    foreach ($rows as $r) {
+      $row = split("\t", $r);
+      $path = \Drupal::service('path.alias_storage')->load(['alias'=> '/'. $row[0]]);
+      if (! empty($path)) {
+        \Drupal::service('path.alias_storage')->delete(array('pid' => $path['pid']));
+      }
+    }
+  }
+}

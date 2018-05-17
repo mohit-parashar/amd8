@@ -1,0 +1,11 @@
+<?php
+
+/**
+ * @file
+ * This module provides rewrite logic to convert old ColdFusion URLs into Drupal URLs.
+ * It is based on logic from the Global Redirect module, but adds logic to use the
+ * query string in the processing rather than passing it on intact. Meanwhile we
+ * remove the unnecessary logic for clean URLs, etc, and do not provide for any
+ * other modules to process the URLs we handle.
+ */
+

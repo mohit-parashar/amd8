@@ -1,0 +1,6 @@
+name: BSD Tools API
+type: module
+description: Use BSD tools api to process payment and synchronize user information between BSD and drupal.
+package: BSD Tools
+version: '8.x-1.x'
+core: '8.x'

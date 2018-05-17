@@ -1,0 +1,6 @@
+global-js:
+  version: 1
+  js:
+    js/article_custom.js: {preprocess: true, minified: true}
+  dependencies:
+      - core/jquery

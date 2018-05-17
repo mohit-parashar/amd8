@@ -1,0 +1,9 @@
+uuid: aef21c10-e512-4c18-8eae-030367b24981
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.brick
+name: 'Full HTML'
+type: full_html
+description: ''

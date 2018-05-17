@@ -1,0 +1,10 @@
+{% if content %}
+  {% if content.col1 and content.col2 %}
+    <div class="row">
+      <div class="col-md-8">{{ content.col1 }}</div>
+      <div class="col-md-4">{{ content.col2 }}</div>
+    </div>
+  {% else %}
+    <div class="col-md-12">{{ content.col1 }}{{ content.col2 }}</div>
+  {% endif %}
+{% endif %}

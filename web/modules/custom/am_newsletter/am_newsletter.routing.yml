@@ -1,0 +1,6 @@
+am_newsletter.am_newsletter_update_form:
+  path: '/am_newsletter/am_newsletter_update_preference'
+  defaults:
+    _form: '\Drupal\am_newsletter\Form\AMNewsletter\AMNewsletterUpdateForm'
+  requirements:
+    _permission: 'access content'

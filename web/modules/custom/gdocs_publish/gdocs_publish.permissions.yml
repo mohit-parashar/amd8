@@ -1,0 +1,6 @@
+'publish from google':
+  title: 'Publish From Google'
+  description: 'Create nodes via export of Google Document files'
+'administer gdocs publish':
+  title: 'Administer GDocs Publish'
+  description: 'Manage GDocs publish settings and view published nodes'

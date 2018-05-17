@@ -1,0 +1,13 @@
+{% if node.body.value %}
+{% if node.field_print_headline.value|length %}
+<h1>{{ node.field_print_headline.value }}</h1>
+{% else %}
+<h1>{{ node.label }}</h1>
+{% endif %}
+{{ kindleNodeBody|raw }}
+<hr>
+{{ node.field_author_bio.value|raw }}
+{% else %}
+{{ page.RSS_Feed_Section }}
+{% endif %}
+

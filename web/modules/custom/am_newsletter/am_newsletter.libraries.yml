@@ -1,0 +1,7 @@
+email_preference:
+  version: 1.x
+  js:
+    js/am_email_preference.js: {preprocess: true, minified: true}
+  dependencies:
+    - core/jquery
+    - core/drupalSettings

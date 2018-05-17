@@ -1,0 +1,8 @@
+langcode: en
+status: true
+dependencies: {  }
+id: subscriber
+label: Subscriber
+weight: 8
+is_admin: null
+permissions: {  }

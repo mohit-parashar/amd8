@@ -1,0 +1,6 @@
+article_custom_author_bio:
+  path: 'article_custom_author_bio/{first}'
+  defaults:
+    _controller: '\Drupal\article_custom\Controller\articleCustomAuhorBioController::article_custom_author_bio'
+  requirements:
+    _permission: 'access content'

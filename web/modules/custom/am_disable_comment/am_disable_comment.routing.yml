@@ -1,0 +1,7 @@
+example.my_page:
+  path: '/mypage/page'
+  defaults:
+    _controller: '\Drupal\am_disable_comment\Controller\DisableCommentController::myPage'
+    _title: 'AM test page in Drupal8 for comment disable'
+  requirements: 
+    _permission: 'access content'

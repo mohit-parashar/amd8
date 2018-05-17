@@ -1,0 +1,23 @@
+uuid: 1863479c-52d1-4e53-9381-4fab05ca3259
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.dfp_block
+    - field.field.brick.dfp_block.field_dfp
+id: brick.dfp_block.default
+targetEntityType: brick
+bundle: dfp_block
+mode: default
+content:
+  field_dfp:
+    weight: 0
+    label: hidden
+    settings:
+      link: true
+      view_mode: default
+    third_party_settings: {  }
+    type: entity_reference_entity_view
+    region: content
+hidden:
+  title: true

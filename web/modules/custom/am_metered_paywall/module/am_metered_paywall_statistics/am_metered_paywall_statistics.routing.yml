@@ -1,0 +1,13 @@
+# am_metered_paywall_statistics.statistics_insert:
+#   path: '/paywall/statistics/insert_record/ajax'
+#   defaults:
+#     _controller: '\Drupal\am_metered_paywall_statistics\Controller\StatisticsController::insert_record'
+#   requirements:
+#     _permission: 'access content'
+
+am_metered_paywall_statistics.paywall_statistics:
+  path: '/paywall/statistics/record/ajax'
+  defaults:
+    _controller: '\Drupal\am_metered_paywall_statistics\Controller\StatisticsController::record'
+  requirements:
+    _permission: 'access content'

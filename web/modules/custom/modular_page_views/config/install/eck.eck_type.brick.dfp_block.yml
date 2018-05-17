@@ -1,0 +1,9 @@
+uuid: c7bbfaac-438d-4f86-9e79-97fdfaf45623
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_entity_type.brick
+name: 'DFP block'
+type: dfp_block
+description: ''

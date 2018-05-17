@@ -1,0 +1,112 @@
+<div class="col-md-6 col-md-offset-3">
+		<div class="my-account-form-wrap">
+			<h3>My Account</h3>
+			<h5>Account details</h5>
+			<div class="form-group"> 
+					{{ form.field_first_name }}
+			</div>
+			<div class="form-group"> 
+					 {{ form.field_last_name }}
+			</div>
+			<div class="form-group"> 
+					 {{ form.account.mail }}
+			</div>
+			<div class="form-group"> 
+					
+					<div class=" email-pref">
+					<label class="text">You are subscribed to one or more America email newsletters. <a href="javascript:void(0)">Manage email preferences</a></label>
+					<div class="email-pref-wrap"> <span class="close" ></span> {{ form.email_preference }}
+						{{ form.unsubscribe_me }}
+						<div class="cornerButtenWrapper donateBtn">
+							<div class="buttenWrapperInner"> {{ form.update_preference }} </div>
+						</div>
+						<div id="loading" style="display:none">processing ...</div>
+						<div id="success_tic" style="display:none">
+							<svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52"><circle class="checkmark__circle" cx="26" cy="26" r="25" fill="none"/><path class="checkmark__check" fill="none" d="M14.1 27.2l7.1 7.2 16.7-16.8"/></svg>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="form-group form-myAccount-password"> 
+					{{ form.account.pass }} 
+			</div>
+			<div class="form-group" style="display:none"> {{ form.field_cons_id }} </div>
+			<div class="form-group"> {{ form.field_print_subscription_number }}
+					<span class='tip' data-tip='tip-class'></span>
+                    <div id='tip-class' class='tip-content hide'>
+                    	<span class='tip-image'></span>
+                    </div>
+			</div>
+			<div class="form-group"> {{ form.form_build_id }} </div>
+			<div class="form-group">
+					{{ form.form_token }}
+					{{ form.form_id }}
+					{{ form.old_mail }}
+			</div>
+			<div class="form-group text-center">
+					<div class="cornerButtenWrapper subscribeBtn">
+						<div class="buttenWrapperInner"> {{ form.actions }} </div>
+					</div>
+					{{ form.cannotspam }}
+				</div>
+			</div>
+		<h5>Membership</h5>
+		<div class="my-account-membership">
+				<div class="form-group">
+					<label>Level</label>
+					{% if form.sfs_subscrption_level is empty  %}
+						<label class="text red right"><h4>Not a member</h4>Learn about all the great benefits of 
+                <a href="/membership">Becoming a member</a> and <a href="/subscribe">Subscribing to Magazine</a></label>
+					{% else %}
+						<label class="text red right">{{ form.sfs_subscrption_level }}</label>
+					{% endif %}
+				</div>
+
+				{% if form.sfs_address1 %}
+					<div class="form-group">
+						<label>Subscription details</label>
+						<label class="text red right">{{ form.sfs_subscrption_no }}</label>
+					</div>
+					<div class="form-group">
+						<label>Contact Information</label>
+						<div class="contact-detail-wrap">
+							<label class="text red right">{{ form.sfs_address_details1 }}</label>
+							<label class="text purple right">Change</label>
+						</div>
+						<div class="contact-wrap"> 
+							{{ form.sfs_address1 }}
+							{{ form.sfs_address2 }}
+							{{ form.sfs_city }}
+							{{ form.sfs_state }}
+							{{ form.sfs_country }}
+							{{ form.sfs_zipcode }}
+							{{ form.sfs_telephone }}
+							<div class="cornerButtenWrapper subscribeBtn">
+								<div class="buttenWrapperInner">
+									<div> {{ form.sfs_update_contact }} </div>
+								</div>
+							</div>
+							<label class="contact-wrap-toggle">Cancel</label>
+							<div id="loading-member" style="display:none">processing ...</div>
+						</div>
+					</div>
+					{% if form.sfs_subscrption_gifts %}
+						<div class="form-group">
+							<label>Gift Subscriptions</label>
+							<label class="text red right">You have {{ form.sfs_subscrption_gifts }} gift subscriptions. Manage your gift subscription by <a href="{{ url('<front>') }}">Contacting Us</a></label>
+						</div>
+					{% endif %}
+				{% endif %}
+
+				{% if form.last_donation_date %}
+					<div class="form-group">
+						<label>Support details</label>
+						<label class="text red right">{{ form.last_donation_date }}</label>
+					</div>
+				{% endif %}
+				
+				<div class="form-group">
+					<label class="text red right">Questions? Contact America's <a href="/about-america-media">Customer service Team</a></label>
+				</div>	
+		</div>
+</div>

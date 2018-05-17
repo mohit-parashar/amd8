@@ -1,0 +1,48 @@
+{# {% if content %}
+{% set id = random() %}
+<div {{ attributes.addClass('mb-4').removeAttribute('id') }} id="accordion-{{ id }}">
+  {% for region in layout.getRegionNames if content[region] %}
+  <div class="card">
+
+    <a class="card-header h5" data-toggle="collapse" data-parent="#accordion-{{ id }}" href="#accordion-{{ id }}-{{ region }}">
+      {{ content[region]['#label'] }}
+    </a>
+
+    <div class="collapse {{ loop.first ? 'show' }}" id="accordion-{{ id }}-{{ region }}">
+      <div class="card-block">
+        {{ content[region] }}
+      </div>
+    </div>
+
+  </div>
+
+
+  {% endfor %}
+</div>
+{% endif %} #}
+ 
+
+
+
+{% if content %}
+<div class="panel-group myaccordian" id="accordion" role="tablist" aria-multiselectable="true">
+  {% for region in layout.getRegionNames if content[region] %}
+
+  <div class="panel panel-default">
+    <div class="panel-heading" role="tab" id="headingOne">
+      <a role="button" data-toggle="collapse" data-parent="#accordion-{{ id }}" href="#accordion-{{ id }}-{{ region }}" aria-expanded="true" aria-controls="collapseOne">
+        <h4 class="panel-title">
+            {{ content[region]['#label'] }} 
+        </h4>
+      </a>
+    </div>
+    <div id="accordion-{{ id }}-{{ region }}" class="panel-collapse collapse {{ loop.first ? 'in' }}" role="tabpanel" aria-labelledby="headingOne">
+      <div class="panel-body">
+        {{ content[region] }}
+      </div>
+    </div>
+  </div>
+ 
+{% endfor %}
+</div>
+{% endif %}

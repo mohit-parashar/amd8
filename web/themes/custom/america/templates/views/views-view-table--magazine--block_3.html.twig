@@ -1,0 +1,102 @@
+{#
+/**
+ * @file
+ * Default theme implementation for displaying a view as a table.
+ *
+ * Available variables:
+ * - attributes: Remaining HTML attributes for the element.
+ *   - class: HTML classes that can be used to style contextually through CSS.
+ * - title : The title of this group of rows.
+ * - header: The table header columns.
+ *   - attributes: Remaining HTML attributes for the element.
+ *   - content: HTML classes to apply to each header cell, indexed by
+ *   the header's key.
+ *   - default_classes: A flag indicating whether default classes should be
+ *     used.
+ * - caption_needed: Is the caption tag needed.
+ * - caption: The caption for this table.
+ * - accessibility_description: Extended description for the table details.
+ * - accessibility_summary: Summary for the table details.
+ * - rows: Table row items. Rows are keyed by row number.
+ *   - attributes: HTML classes to apply to each row.
+ *   - columns: Row column items. Columns are keyed by column number.
+ *     - attributes: HTML classes to apply to each column.
+ *     - content: The column content.
+ *   - default_classes: A flag indicating whether default classes should be
+ *     used.
+ * - responsive: A flag indicating whether table is responsive.
+ * - sticky: A flag indicating whether table header is sticky.
+ *
+ * @see template_preprocess_views_view_table()
+ *
+ * @ingroup themeable
+ */
+#} 
+<div class="magazineListing">
+{% for row in rows %}
+  <div class="container">
+    <div class="row sectionInner magazineDetails">
+      <div class="col-md-3 col-sm-4 currentIssueImage">
+        {{ row.columns.field_iss_cover }}
+      </div>
+      <div class="col-md-9 col-sm-8 currentIssueContent">
+      <div class="currentIssueDate"><h1>{{ row.columns.title }}</h1></div>
+        <div class="currentTitle titleKarlaBold">
+          <span>Vol.{{ row.columns.field_iss_vol }} / No.{{ row.columns.field_iss_num }}</span>
+        </div>
+        <div class="cornerButten redLinewhiteBg">
+          <a href="/subscribe">Subscribe</a>
+        </div>
+        {% if pagepro_digital_edition_id %}
+          <div class="cornerButten redLinewhiteBg">
+            {% if is_subscriber and auth_id %}
+              <form action="http://digitaledition.americamagazine.org/publication/logincheck.php" method="post" target="_blank" onclick="jQuery(this).attr('data-drupal-form-submit-last', '');">
+                <input type="hidden" name="reader_login" value="{{ auth_id }}" />
+                <input type="hidden" name="reader_password" value="{{ auth_hash }}" />
+                <input type="hidden" name="pub_id" value="{{ publisher_id }}" />
+                <input type="hidden" name="m" value="{{ publication_id }}" />
+                <input type="hidden" name="i" value="{{ pagepro_digital_edition_id }}" /> 
+                <button type="submit" class="access-digital-edition">View Digital Edition</button>
+              </form>
+            {% else %}
+             <a class="access-digital-edition" data-toggle="modal" data-target="#access-digital-edition-popup" href="javascript:void(0);">View Digital Edition</a>
+            {% endif %}
+          </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endfor %}
+
+<div class="modal fade" id="access-digital-edition-popup">
+  <div class="vertical-alignment-helper">
+    <div class="modal-dialog modal-md vertical-align-center">
+       <div class="modal-content"><div class="close-button">
+          <button type="button" class="close" data-dismiss="modal">×</button></div>
+          <div class="modal-body">
+             <div class="region region-modal-login">
+                {{ help_text|raw }}
+                <div class="paywall-button-wrapper">
+                  <div class="container-fluid">
+                    <div class="row">
+                      <div class="cornerButten redLinewhiteBg col-md-4">
+                        <a href="http://digitaledition.americamagazine.org/publication/?i={{ pagepro_digital_edition_id }}&p=&m={{ publication_id }}&ver=&view= " target="_blank">Preview Digital Edition</a>
+                      </div>
+                      <div class="cornerButten redLinewhiteBg col-md-4"><a href="/subscribe">Subscribe</a></div>
+                      {% if auth_id %}
+                        <div class="cornerButten redLinewhiteBg col-md-4"><a href="/user/{{ auth_id }}/edit?pns=msg">I already have a subscription</a></div>
+                      {% else %}
+                        <div class="cornerButten redLinewhiteBg col-md-4"><a class="login-access" data-dismiss="modal" data-toggle="modal" data-target="#loginModal">Log in for access</a></div>
+                      {% endif %}
+                    </div>
+                  </div>
+                </div>
+             </div>
+          </div>
+       </div>
+    </div>
+  </div>
+</div>
+
+</div>
+

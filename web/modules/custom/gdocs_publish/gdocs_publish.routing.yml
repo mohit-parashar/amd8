@@ -1,0 +1,34 @@
+gdocs_publish.about:
+  path: /gdp
+  defaults:
+    _controller: '\Drupal\gdocs_publish\Controller\PageController::gdocs_publish_about'
+  requirements:
+    _permission: 'publish from google'
+gdocs_publish.publish:
+  path: /gdp/publish
+  defaults:
+    _controller: '\Drupal\gdocs_publish\Controller\PageController::gdocs_publish_publish'
+  requirements:
+    _permission: 'publish from google'
+gdocs_publish.about_help:
+  path: /gdp/help
+  defaults:
+    page: help
+    _controller: '\Drupal\gdocs_publish\Controller\PageController::gdocs_publish_about'
+    _title: 'GDocs Publish Help'
+  requirements:
+    _permission: 'publish from google'
+gdocs_publish.admin:
+ path: /admin/gdp
+ defaults:
+   _title: 'GDocs Administration'
+   _controller: '\Drupal\gdocs_publish\Controller\PageController::gdocs_publish_settings'
+ requirements:
+   _permission: 'administer gdocs publish'
+gdocs_publish.list:
+ path: /admin/gdp/list
+ defaults:
+   _title: 'View Google Docs Imports'
+   _form: '\Drupal\gdocs_publish\Form\ListForm'
+ requirements:
+   _permission: 'publish from google'

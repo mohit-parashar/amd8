@@ -1,0 +1,10 @@
+america_legacy.handler:
+  path: '/legacy/{map}/{key}'
+  defaults:
+    _controller: '\Drupal\america_legacy\Controller\DefaultController::america_legacy_handler'
+    map: 'none'
+    key: 'none'
+  requirements:
+    _permission: 'access content'
+    map: '[a-z]+'
+    key: '[a-zA-Z0-9\.:_-]+'

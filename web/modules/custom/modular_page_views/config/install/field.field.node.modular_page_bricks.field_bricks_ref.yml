@@ -1,0 +1,49 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - eck.eck_type.brick.block_reference
+    - eck.eck_type.brick.contact_form_reference
+    - eck.eck_type.brick.dfp_block
+    - eck.eck_type.brick.full_html
+    - eck.eck_type.brick.image
+    - eck.eck_type.brick.layout
+    - eck.eck_type.brick.paragraph_reference
+    - eck.eck_type.brick.simplenews_block
+    - eck.eck_type.brick.text
+    - eck.eck_type.brick.views_reference
+    - eck.eck_type.brick.wrapper
+    - field.storage.node.field_bricks_ref
+    - node.type.modular_page_bricks
+  module:
+    - bricks
+id: node.modular_page_bricks.field_bricks_ref
+field_name: field_bricks_ref
+entity_type: node
+bundle: modular_page_bricks
+label: 'Bricks Ref'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:brick'
+  handler_settings:
+    target_bundles:
+      block_reference: block_reference
+      contact_form_reference: contact_form_reference
+      dfp_block: dfp_block
+      full_html: full_html
+      image: image
+      layout: layout
+      paragraph_reference: paragraph_reference
+      simplenews_block: simplenews_block
+      text: text
+      views_reference: views_reference
+      wrapper: wrapper
+    sort:
+      field: _none
+    auto_create: 0
+    auto_create_bundle: image
+field_type: bricks
